@@ -12,7 +12,7 @@
                 android:gradientRadius="22"
                 android:type="radial">
                 <item
-                    android:color="#ffffffff"
+                    android:color="#33ffffff"
                     android:offset="0.0" />
                 <item
                     android:color="#00ffffff"
@@ -28,7 +28,7 @@
                 android:gradientRadius="22"
                 android:type="radial">
                 <item
-                    android:color="#66000000"
+                    android:color="#ff000000"
                     android:offset="0.0" />
                 <item
                     android:color="#00000000"
@@ -39,7 +39,7 @@
     <path
         android:pathData="M54,54m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0"
         android:strokeWidth="1"
-        android:strokeColor="#33FFFFFF">
+        android:strokeColor="#33000000">
         <aapt:attr name="android:fillColor">
             <gradient
                 android:endX="74"
@@ -48,10 +48,10 @@
                 android:startY="34"
                 android:type="linear">
                 <item
-                    android:color="#ffffff"
+                    android:color="#000000"
                     android:offset="0.0" />
                 <item
-                    android:color="#efeeee"
+                    android:color="#19191e"
                     android:offset="0.8" />
             </gradient>
         </aapt:attr>
