@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="button_size">180dp</dimen>
+    <dimen name="shadow_size">200dp</dimen>
+    <dimen name="corner_radius">24dp</dimen>
+    <dimen name="pressed_shadow_size">206dp</dimen>
+    <!-- elevation -->
+    <dimen name="translation_light">-6dp</dimen>
+    <dimen name="translation_dark">6dp</dimen>
+    <dimen name="pressed_shadow_stroke_width">6dp</dimen>
+</resources>
