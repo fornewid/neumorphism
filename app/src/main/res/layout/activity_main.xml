@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/headline"
         style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,39 +19,75 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:layout_width="54dp"
-        android:layout_height="54dp"
-        android:background="@drawable/shadow_white"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/oval_shadow_light"
         android:translationX="-4dp"
         android:translationY="-4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/oval_button"
+        app:layout_constraintEnd_toEndOf="@id/oval_button"
+        app:layout_constraintStart_toStartOf="@id/oval_button"
+        app:layout_constraintTop_toTopOf="@id/oval_button" />
 
     <View
-        android:layout_width="54dp"
-        android:layout_height="54dp"
-        android:background="@drawable/shadow_black"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/oval_shadow_dark"
         android:scaleType="centerInside"
         android:translationX="4dp"
         android:translationY="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/oval_button"
+        app:layout_constraintEnd_toEndOf="@id/oval_button"
+        app:layout_constraintStart_toStartOf="@id/oval_button"
+        app:layout_constraintTop_toTopOf="@id/oval_button" />
 
     <ImageView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="?selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
+        android:id="@+id/oval_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/oval_button"
         android:scaleType="centerInside"
-        android:src="@drawable/button"
+        android:src="@drawable/ic_filter"
+        app:layout_constraintBottom_toTopOf="@id/card_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headline"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/rectangle_shadow_light"
+        android:translationX="-4dp"
+        android:translationY="-4dp"
+        app:layout_constraintBottom_toBottomOf="@id/card_button"
+        app:layout_constraintEnd_toEndOf="@id/card_button"
+        app:layout_constraintStart_toStartOf="@id/card_button"
+        app:layout_constraintTop_toTopOf="@id/card_button" />
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/rectangle_shadow_dark"
+        android:scaleType="centerInside"
+        android:translationX="4dp"
+        android:translationY="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/card_button"
+        app:layout_constraintEnd_toEndOf="@id/card_button"
+        app:layout_constraintStart_toStartOf="@id/card_button"
+        app:layout_constraintTop_toTopOf="@id/card_button" />
+
+    <ImageView
+        android:id="@+id/card_button"
+        android:layout_width="192dp"
+        android:layout_height="192dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/rectangle_button"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/oval_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
