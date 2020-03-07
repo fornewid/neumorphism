@@ -51,6 +51,17 @@ class MainActivity : AppCompatActivity() {
                 blurred(sampling = 2)
             }
         }
+
+        findViewById<ImageView>(R.id.fab_light_shadow).run {
+            doOnPreDraw {
+                blurred()
+            }
+        }
+        findViewById<ImageView>(R.id.fab_dark_shadow).run {
+            doOnPreDraw {
+                blurred()
+            }
+        }
     }
 
     private fun ImageView.blurred(radius: Int? = null, sampling: Int? = null) {

@@ -4,7 +4,7 @@
     <corners android:radius="@dimen/corner_radius" />
     <stroke
         android:width="@dimen/pressed_shadow_stroke_width"
-        android:color="#ffffff" />
+        android:color="@color/shadow_light" />
     <size
         android:width="@dimen/pressed_shadow_size"
         android:height="@dimen/pressed_shadow_size" />
