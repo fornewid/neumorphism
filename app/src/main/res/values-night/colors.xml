@@ -2,5 +2,6 @@
 <resources>
     <color name="colorAccent">#FFFFFF</color>
     <color name="background">#19191E</color>
-    <!--    <color name="background">#323C41</color>-->
+    <color name="shadow_light">#2C2C2C</color>
+    <color name="shadow_dark">#111111</color>
 </resources>

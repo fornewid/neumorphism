@@ -6,17 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/headline"
-        style="@style/TextAppearance.AppCompat.Headline"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:alpha="0.8"
-        android:text="Neumorphism"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/headline_light_shadow"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Neumorphism"
+            android:textColor="@color/shadow_light"
+            android:textStyle="bold"
+            android:translationX="-2dp"
+            android:translationY="-2dp" />
+
+        <TextView
+            android:id="@+id/headline_dark_shadow"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Neumorphism"
+            android:textColor="@color/shadow_dark"
+            android:textStyle="bold"
+            android:translationX="2dp"
+            android:translationY="2dp" />
+
+        <TextView
+            android:id="@+id/headline"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Neumorphism"
+            android:textColor="@color/background"
+            android:textStyle="bold" />
+
+    </FrameLayout>
 
     <ImageView
         android:id="@+id/card_light_shadow"
@@ -61,7 +90,6 @@
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_marginTop="48dp"
-        android:background="@drawable/hole_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
