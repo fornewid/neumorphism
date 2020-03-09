@@ -4,48 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     tools:context=".MainActivity">
 
-    <FrameLayout
+    <soup.neumorphism.NeumorphTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
+        android:text="Neumorphism"
+        android:textColor="@color/background"
+        android:textSize="40sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/headline_light_shadow"
-            style="@style/TextAppearance.AppCompat.Display1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Neumorphism"
-            android:textColor="@color/shadow_light"
-            android:textStyle="bold"
-            android:translationX="-2dp"
-            android:translationY="-2dp" />
-
-        <TextView
-            android:id="@+id/headline_dark_shadow"
-            style="@style/TextAppearance.AppCompat.Display1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Neumorphism"
-            android:textColor="@color/shadow_dark"
-            android:textStyle="bold"
-            android:translationX="2dp"
-            android:translationY="2dp" />
-
-        <TextView
-            android:id="@+id/headline"
-            style="@style/TextAppearance.AppCompat.Display1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Neumorphism"
-            android:textColor="@color/background"
-            android:textStyle="bold" />
-
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:neumorph_shadowColorDark="@color/shadow_dark"
+        app:neumorph_shadowColorLight="@color/shadow_light"
+        app:neumorph_shadowElevation="2dp" />
 
     <ImageView
         android:id="@+id/card_light_shadow"
