@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="neumorph_shadowElevation" format="dimension|reference" />
+    <attr name="neumorph_shadowColorLight" format="color|reference" />
+    <attr name="neumorph_shadowColorDark" format="color|reference" />
+
     <declare-styleable name="NeumorphTextView">
-        <attr name="neumorph_shadowElevation" format="dimension|reference" />
-        <attr name="neumorph_shadowColorLight" format="color|reference" />
-        <attr name="neumorph_shadowColorDark" format="color|reference" />
+        <attr name="neumorph_shadowElevation" />
+        <attr name="neumorph_shadowColorLight" />
+        <attr name="neumorph_shadowColorDark" />
     </declare-styleable>
 </resources>

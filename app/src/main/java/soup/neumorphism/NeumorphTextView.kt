@@ -9,7 +9,6 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.use
 import androidx.core.view.ViewCompat
 import kotlin.math.max
 
@@ -20,27 +19,26 @@ class NeumorphTextView @JvmOverloads constructor(
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
     private val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
-    private var shadowElevation: Float = 5f
-    private var shadowColorLight: Int = ContextCompat.getColor(context, R.color.shadow_light)
-    private var shadowColorDark: Int = ContextCompat.getColor(context, R.color.shadow_dark)
+    private val shadowElevation: Float
+    private val shadowColorLight: Int
+    private val shadowColorDark: Int
 
     private var lastTextCache: Bitmap? = null
     private var lastShadowLight: Bitmap? = null
     private var lastShadowDark: Bitmap? = null
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.NeumorphTextView).use {
-            shadowElevation = it.getDimension(
-                R.styleable.NeumorphTextView_neumorph_shadowElevation,
-                shadowElevation
-            )
-            shadowColorLight = it.getColor(
-                R.styleable.NeumorphTextView_neumorph_shadowColorLight,
-                shadowColorLight
-            )
-            shadowColorDark =
-                it.getColor(R.styleable.NeumorphTextView_neumorph_shadowColorDark, shadowColorDark)
-        }
+        val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphTextView)
+        shadowElevation = a.getDimension(R.styleable.NeumorphTextView_neumorph_shadowElevation, 5f)
+        shadowColorLight = a.getColor(
+            R.styleable.NeumorphTextView_neumorph_shadowColorLight,
+            ContextCompat.getColor(context, R.color.shadow_light)
+        )
+        shadowColorDark = a.getColor(
+            R.styleable.NeumorphTextView_neumorph_shadowColorDark,
+            ContextCompat.getColor(context, R.color.shadow_dark)
+        )
+        a.recycle()
     }
 
     override fun onDraw(canvas: Canvas) {
