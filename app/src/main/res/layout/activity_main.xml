@@ -54,42 +54,23 @@
         android:layout_height="@dimen/button_size"
         android:background="@drawable/card_button"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toTopOf="@id/hole_button"
+        app:layout_constraintBottom_toTopOf="@id/valley"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <FrameLayout
-        android:id="@+id/hole_button"
+    <soup.neumorphism.NeumorphValleyView
+        android:id="@+id/valley"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_marginTop="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_button">
-
-        <ImageView
-            android:id="@+id/hole_light_shadow"
-            android:layout_width="@dimen/pressed_shadow_size"
-            android:layout_height="@dimen/pressed_shadow_size"
-            android:layout_gravity="bottom|end"
-            android:scaleType="centerInside"
-            android:src="@drawable/hole_shadow_light" />
-
-        <ImageView
-            android:id="@+id/hole_dark_shadow"
-            android:layout_width="@dimen/pressed_shadow_size"
-            android:layout_height="@dimen/pressed_shadow_size"
-            android:layout_gravity="start|top"
-            android:scaleType="centerInside"
-            android:src="@drawable/hole_shadow_dark"
-            app:layout_constraintBottom_toBottomOf="@id/card_button"
-            app:layout_constraintEnd_toEndOf="@id/card_button"
-            app:layout_constraintStart_toStartOf="@id/card_button"
-            app:layout_constraintTop_toTopOf="@id/card_button" />
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@id/card_button"
+        app:neumorph_cornerRadius="@dimen/corner_radius"
+        app:neumorph_shadowElevation="@dimen/pressed_shadow_stroke_width" />
 
     <ImageView
         android:id="@+id/fab_light_shadow"
