@@ -18,8 +18,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:neumorph_shadowColorDark="@color/shadow_dark"
-        app:neumorph_shadowColorLight="@color/shadow_light"
         app:neumorph_shadowElevation="2dp" />
 
     <soup.neumorphism.NeumorphCardView
@@ -36,6 +34,7 @@
         app:neumorph_cornerRadius="@dimen/corner_radius"
         app:neumorph_shadowElevation="@dimen/pressed_shadow_stroke_width" />
 
+
     <soup.neumorphism.NeumorphValleyView
         android:id="@+id/valley"
         android:layout_width="@dimen/button_size"
@@ -48,33 +47,7 @@
         app:neumorph_cornerRadius="@dimen/corner_radius"
         app:neumorph_shadowElevation="@dimen/pressed_shadow_stroke_width" />
 
-    <ImageView
-        android:id="@+id/fab_light_shadow"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/fab_shadow_light"
-        android:translationX="@dimen/translation_light"
-        android:translationY="@dimen/translation_light"
-        app:layout_constraintBottom_toBottomOf="@id/fab"
-        app:layout_constraintEnd_toEndOf="@id/fab"
-        app:layout_constraintStart_toStartOf="@id/fab"
-        app:layout_constraintTop_toTopOf="@id/fab" />
-
-    <ImageView
-        android:id="@+id/fab_dark_shadow"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/fab_shadow_dark"
-        android:translationX="@dimen/translation_dark"
-        android:translationY="@dimen/translation_dark"
-        app:layout_constraintBottom_toBottomOf="@id/fab"
-        app:layout_constraintEnd_toEndOf="@id/fab"
-        app:layout_constraintStart_toStartOf="@id/fab"
-        app:layout_constraintTop_toTopOf="@id/fab" />
-
-    <ImageView
+    <soup.neumorphism.NeumorphFloatingActionButton
         android:id="@+id/fab"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -83,6 +56,7 @@
         android:scaleType="centerInside"
         android:src="@drawable/ic_filter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:neumorph_shadowElevation="@dimen/pressed_shadow_stroke_width" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

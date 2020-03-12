@@ -5,18 +5,17 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
-import android.widget.FrameLayout
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.withTranslation
 import androidx.core.view.ViewCompat
 
-class NeumorphCardView @JvmOverloads constructor(
+class NeumorphFloatingActionButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : AppCompatImageButton(context, attrs, defStyleAttr) {
 
-    private val roundCornerRadius: Float
     private val shadowElevation: Int
     private val shadowColorLight: Int
     private val shadowColorDark: Int
@@ -26,33 +25,28 @@ class NeumorphCardView @JvmOverloads constructor(
     private val darkShadowDrawable: GradientDrawable
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphCardView)
-        roundCornerRadius = a.getDimension(R.styleable.NeumorphCardView_neumorph_cornerRadius, 0f)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphFloatingActionButton)
         shadowElevation = a.getDimensionPixelSize(
-            R.styleable.NeumorphCardView_neumorph_shadowElevation, 0
+            R.styleable.NeumorphFloatingActionButton_neumorph_shadowElevation, 0
         )
         shadowColorLight = a.getColor(
-            R.styleable.NeumorphCardView_neumorph_shadowColorLight,
+            R.styleable.NeumorphFloatingActionButton_neumorph_shadowColorLight,
             ContextCompat.getColor(context, R.color.default_shadow_light)
         )
         shadowColorDark = a.getColor(
-            R.styleable.NeumorphCardView_neumorph_shadowColorDark,
+            R.styleable.NeumorphFloatingActionButton_neumorph_shadowColorDark,
             ContextCompat.getColor(context, R.color.default_shadow_dark)
         )
         a.recycle()
 
         lightShadowDrawable = GradientDrawable().apply {
             setSize(measuredWidth, measuredHeight)
-            cornerRadii = roundCornerRadius.let {
-                floatArrayOf(it, it, it, it, it, it, it, it)
-            }
+            shape = GradientDrawable.OVAL
             setColor(shadowColorLight)
         }
         darkShadowDrawable = GradientDrawable().apply {
             setSize(measuredWidth, measuredHeight)
-            cornerRadii = roundCornerRadius.let {
-                floatArrayOf(it, it, it, it, it, it, it, it)
-            }
+            shape = GradientDrawable.OVAL
             setColor(shadowColorDark)
         }
     }

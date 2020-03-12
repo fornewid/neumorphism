@@ -33,11 +33,11 @@ class NeumorphValleyView @JvmOverloads constructor(
         )
         shadowColorLight = a.getColor(
             R.styleable.NeumorphValleyView_neumorph_shadowColorLight,
-            ContextCompat.getColor(context, R.color.shadow_light)
+            ContextCompat.getColor(context, R.color.default_shadow_light)
         )
         shadowColorDark = a.getColor(
             R.styleable.NeumorphValleyView_neumorph_shadowColorDark,
-            ContextCompat.getColor(context, R.color.shadow_dark)
+            ContextCompat.getColor(context, R.color.default_shadow_dark)
         )
         a.recycle()
 
