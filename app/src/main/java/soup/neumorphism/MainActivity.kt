@@ -11,17 +11,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<ImageView>(R.id.card_light_shadow).run {
-            doOnPreDraw {
-                blurred()
-            }
-        }
-        findViewById<ImageView>(R.id.card_dark_shadow).run {
-            doOnPreDraw {
-                blurred()
-            }
-        }
-
         findViewById<ImageView>(R.id.fab_light_shadow).run {
             doOnPreDraw {
                 blurred()
