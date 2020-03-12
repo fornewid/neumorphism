@@ -29,7 +29,10 @@ class NeumorphTextView @JvmOverloads constructor(
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphTextView)
-        shadowElevation = a.getDimension(R.styleable.NeumorphTextView_neumorph_shadowElevation, 5f)
+        shadowElevation = a.getDimension(
+            R.styleable.NeumorphTextView_neumorph_shadowElevation,
+            resources.getDimension(R.dimen.default_shadow_elevation_text)
+        )
         shadowColorLight = a.getColor(
             R.styleable.NeumorphTextView_neumorph_shadowColorLight,
             ContextCompat.getColor(context, R.color.default_shadow_light)

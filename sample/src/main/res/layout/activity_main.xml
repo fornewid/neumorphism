@@ -17,35 +17,30 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:neumorph_shadowElevation="2dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <soup.neumorphism.NeumorphCardView
         android:id="@+id/card"
-        android:layout_width="@dimen/button_size"
-        android:layout_height="@dimen/button_size"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_marginBottom="50dp"
         android:background="@drawable/card_button"
         app:layout_constraintBottom_toTopOf="@id/valley"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:neumorph_cornerRadius="@dimen/corner_radius"
-        app:neumorph_shadowElevation="@dimen/pressed_shadow_stroke_width" />
+        app:layout_constraintVertical_chainStyle="packed" />
 
 
     <soup.neumorphism.NeumorphValleyView
         android:id="@+id/valley"
-        android:layout_width="@dimen/button_size"
-        android:layout_height="@dimen/button_size"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:layout_marginTop="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card"
-        app:neumorph_cornerRadius="@dimen/corner_radius"
-        app:neumorph_shadowElevation="@dimen/pressed_shadow_stroke_width" />
+        app:layout_constraintTop_toBottomOf="@id/card" />
 
     <soup.neumorphism.NeumorphFloatingActionButton
         android:id="@+id/fab"
@@ -56,7 +51,6 @@
         android:scaleType="centerInside"
         android:src="@drawable/ic_filter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:neumorph_shadowElevation="@dimen/pressed_shadow_stroke_width" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

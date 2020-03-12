@@ -27,7 +27,8 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphFloatingActionButton)
         shadowElevation = a.getDimensionPixelSize(
-            R.styleable.NeumorphFloatingActionButton_neumorph_shadowElevation, 0
+            R.styleable.NeumorphFloatingActionButton_neumorph_shadowElevation,
+            resources.getDimensionPixelSize(R.dimen.default_shadow_elevation)
         )
         shadowColorLight = a.getColor(
             R.styleable.NeumorphFloatingActionButton_neumorph_shadowColorLight,

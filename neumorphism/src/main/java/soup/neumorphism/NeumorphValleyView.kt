@@ -3,6 +3,7 @@ package soup.neumorphism
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Path
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
@@ -25,11 +26,17 @@ class NeumorphValleyView @JvmOverloads constructor(
     private val lightShadowDrawable: GradientDrawable
     private val darkShadowDrawable: GradientDrawable
 
+    private val outlinePath = Path()
+
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphValleyView)
-        roundCornerRadius = a.getDimension(R.styleable.NeumorphValleyView_neumorph_cornerRadius, 0f)
+        roundCornerRadius = a.getDimension(
+            R.styleable.NeumorphValleyView_neumorph_cornerRadius,
+            resources.getDimension(R.dimen.default_corner_radius)
+        )
         shadowElevation = a.getDimensionPixelSize(
-            R.styleable.NeumorphValleyView_neumorph_shadowElevation, 0
+            R.styleable.NeumorphValleyView_neumorph_shadowElevation,
+            resources.getDimensionPixelSize(R.dimen.default_shadow_elevation)
         )
         shadowColorLight = a.getColor(
             R.styleable.NeumorphValleyView_neumorph_shadowColorLight,
@@ -43,18 +50,34 @@ class NeumorphValleyView @JvmOverloads constructor(
 
         lightShadowDrawable = GradientDrawable().apply {
             setSize(measuredWidth + shadowElevation, measuredHeight + shadowElevation)
-            cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, roundCornerRadius, roundCornerRadius, 0f, 0f)
             setStroke(shadowElevation, shadowColorLight)
+            cornerRadii = roundCornerRadius.let {
+                floatArrayOf(0f, 0f, 0f, 0f, it, it, 0f, 0f)
+            }
         }
         darkShadowDrawable = GradientDrawable().apply {
             setSize(measuredWidth + shadowElevation, measuredHeight + shadowElevation)
-            cornerRadii = floatArrayOf(roundCornerRadius, roundCornerRadius, 0f, 0f, 0f, 0f, 0f, 0f)
             setStroke(shadowElevation, shadowColorDark)
+            cornerRadii = roundCornerRadius.let {
+                floatArrayOf(it, it, 0f, 0f, 0f, 0f, 0f, 0f)
+            }
         }
-        setClipToRoundRect(roundCornerRadius)
     }
 
-    override fun onDraw(canvas: Canvas) {
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        outlinePath.apply {
+            reset()
+            addRoundRect(
+                0f, 0f, w.toFloat(), h.toFloat(),
+                roundCornerRadius, roundCornerRadius,
+                Path.Direction.CW
+            )
+            close()
+        }
+    }
+
+    override fun draw(canvas: Canvas) {
         if (ViewCompat.isLaidOut(this)) {
             val w = measuredWidth + shadowElevation
             val h = measuredHeight + shadowElevation
@@ -65,7 +88,8 @@ class NeumorphValleyView @JvmOverloads constructor(
 
             lastShadowCache = generateBitmapShadowCache()
         }
-        super.onDraw(canvas)
+        canvas.clipPath(outlinePath)
+        super.draw(canvas)
         lastShadowCache?.let {
             canvas.drawBitmap(it, 0f, 0f, null)
         }

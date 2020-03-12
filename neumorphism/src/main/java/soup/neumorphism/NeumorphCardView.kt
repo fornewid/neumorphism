@@ -27,9 +27,13 @@ class NeumorphCardView @JvmOverloads constructor(
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphCardView)
-        roundCornerRadius = a.getDimension(R.styleable.NeumorphCardView_neumorph_cornerRadius, 0f)
+        roundCornerRadius = a.getDimension(
+            R.styleable.NeumorphCardView_neumorph_cornerRadius,
+            resources.getDimension(R.dimen.default_corner_radius)
+        )
         shadowElevation = a.getDimensionPixelSize(
-            R.styleable.NeumorphCardView_neumorph_shadowElevation, 0
+            R.styleable.NeumorphCardView_neumorph_shadowElevation,
+            resources.getDimensionPixelSize(R.dimen.default_shadow_elevation)
         )
         shadowColorLight = a.getColor(
             R.styleable.NeumorphCardView_neumorph_shadowColorLight,
