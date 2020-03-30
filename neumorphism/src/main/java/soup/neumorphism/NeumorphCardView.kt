@@ -8,7 +8,6 @@ import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import soup.neumorphism.internal.blurred
 import soup.neumorphism.internal.withClip
 import soup.neumorphism.internal.withClipOut
@@ -78,20 +77,16 @@ class NeumorphCardView @JvmOverloads constructor(
             )
             close()
         }
+
+        lightShadowDrawable.setSize(w, h)
+        lightShadowDrawable.setBounds(0, 0, w, h)
+        darkShadowDrawable.setSize(w, h)
+        darkShadowDrawable.setBounds(0, 0, w, h)
+        lastShadowCache = generateBitmapShadowCache(w, h)
     }
 
     override fun draw(canvas: Canvas) {
         canvas.withClipOut(outlinePath) {
-            if (ViewCompat.isLaidOut(this@NeumorphCardView)) {
-                val w = measuredWidth
-                val h = measuredHeight
-                lightShadowDrawable.setSize(w, h)
-                lightShadowDrawable.setBounds(0, 0, w, h)
-                darkShadowDrawable.setSize(w, h)
-                darkShadowDrawable.setBounds(0, 0, w, h)
-
-                lastShadowCache = generateBitmapShadowCache()
-            }
             lastShadowCache?.let {
                 val offset = (shadowElevation * 2).toFloat().unaryMinus()
                 canvas.drawBitmap(it, offset, offset, null)
@@ -102,9 +97,9 @@ class NeumorphCardView @JvmOverloads constructor(
         }
     }
 
-    private fun generateBitmapShadowCache(): Bitmap? {
-        val width: Int = measuredWidth + shadowElevation * 4
-        val height: Int = measuredHeight + shadowElevation * 4
+    private fun generateBitmapShadowCache(w: Int, h: Int): Bitmap? {
+        val width: Int = w + shadowElevation * 4
+        val height: Int = h + shadowElevation * 4
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.withTranslation(shadowElevation.toFloat(), shadowElevation.toFloat()) {

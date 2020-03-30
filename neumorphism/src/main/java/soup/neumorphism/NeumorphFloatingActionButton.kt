@@ -8,7 +8,6 @@ import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import soup.neumorphism.internal.blurred
 import soup.neumorphism.internal.withClip
 import soup.neumorphism.internal.withClipOut
@@ -65,19 +64,15 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
             addOval(0f, 0f, w.toFloat(), h.toFloat(), Path.Direction.CW)
             close()
         }
+
+        lightShadowDrawable.setSize(w, h)
+        lightShadowDrawable.setBounds(0, 0, w, h)
+        darkShadowDrawable.setSize(w, h)
+        darkShadowDrawable.setBounds(0, 0, w, h)
+        lastShadowCache = generateBitmapShadowCache(w, h)
     }
 
     override fun draw(canvas: Canvas) {
-        if (ViewCompat.isLaidOut(this@NeumorphFloatingActionButton)) {
-            val w = measuredWidth
-            val h = measuredHeight
-            lightShadowDrawable.setSize(w, h)
-            lightShadowDrawable.setBounds(0, 0, w, h)
-            darkShadowDrawable.setSize(w, h)
-            darkShadowDrawable.setBounds(0, 0, w, h)
-
-            lastShadowCache = generateBitmapShadowCache()
-        }
         canvas.withClipOut(outlinePath) {
             lastShadowCache?.let {
                 val offset = (shadowElevation * 2).toFloat().unaryMinus()
@@ -89,9 +84,9 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
         }
     }
 
-    private fun generateBitmapShadowCache(): Bitmap? {
-        val width: Int = measuredWidth + shadowElevation * 4
-        val height: Int = measuredHeight + shadowElevation * 4
+    private fun generateBitmapShadowCache(w: Int, h: Int): Bitmap? {
+        val width: Int = w + shadowElevation * 4
+        val height: Int = h + shadowElevation * 4
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.withTranslation(shadowElevation.toFloat(), shadowElevation.toFloat()) {

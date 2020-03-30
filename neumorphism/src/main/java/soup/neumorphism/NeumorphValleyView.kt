@@ -8,7 +8,6 @@ import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import soup.neumorphism.internal.blurred
 import soup.neumorphism.internal.withClip
 import soup.neumorphism.internal.withTranslation
@@ -77,20 +76,18 @@ class NeumorphValleyView @JvmOverloads constructor(
             )
             close()
         }
+        val width = w + shadowElevation
+        val height = h + shadowElevation
+        lightShadowDrawable.setSize(width, height)
+        lightShadowDrawable.setBounds(0, 0, width, height)
+        darkShadowDrawable.setSize(width, height)
+        darkShadowDrawable.setBounds(0, 0, width, height)
+
+        lastShadowCache = generateBitmapShadowCache(w, h)
     }
 
     override fun draw(canvas: Canvas) {
         canvas.withClip(outlinePath) {
-            if (ViewCompat.isLaidOut(this@NeumorphValleyView)) {
-                val w = measuredWidth + shadowElevation
-                val h = measuredHeight + shadowElevation
-                lightShadowDrawable.setSize(w, h)
-                lightShadowDrawable.setBounds(0, 0, w, h)
-                darkShadowDrawable.setSize(w, h)
-                darkShadowDrawable.setBounds(0, 0, w, h)
-
-                lastShadowCache = generateBitmapShadowCache()
-            }
             lastShadowCache?.let {
                 canvas.drawBitmap(it, 0f, 0f, null)
             }
@@ -98,10 +95,8 @@ class NeumorphValleyView @JvmOverloads constructor(
         }
     }
 
-    private fun generateBitmapShadowCache(): Bitmap? {
-        val width: Int = measuredWidth
-        val height: Int = measuredHeight
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    private fun generateBitmapShadowCache(w: Int, h: Int): Bitmap? {
+        val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.withTranslation(-shadowElevation.toFloat(), -shadowElevation.toFloat()) {
             lightShadowDrawable.draw(this)
