@@ -3,11 +3,11 @@ package soup.neumorphism
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Path
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.content.ContextCompat
 import soup.neumorphism.internal.blurred
 import soup.neumorphism.internal.withClip
 import soup.neumorphism.internal.withClipOut
@@ -16,7 +16,8 @@ import soup.neumorphism.internal.withTranslation
 class NeumorphFloatingActionButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
+    defStyleRes: Int = R.style.defaultNeumorphFloatingActionButton
 ) : AppCompatImageButton(context, attrs, defStyleAttr) {
 
     private val shadowElevation: Int
@@ -27,23 +28,27 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
     private val lightShadowDrawable: GradientDrawable
     private val darkShadowDrawable: GradientDrawable
 
+    private val shapeAppearanceModel: NeumorphShapeAppearanceModel
     private val outlinePath = Path()
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphFloatingActionButton)
+        val a = context.obtainStyledAttributes(
+            attrs, R.styleable.NeumorphFloatingActionButton, defStyleAttr, defStyleRes
+        )
         shadowElevation = a.getDimensionPixelSize(
-            R.styleable.NeumorphFloatingActionButton_neumorph_shadowElevation,
-            resources.getDimensionPixelSize(R.dimen.default_shadow_elevation)
+            R.styleable.NeumorphFloatingActionButton_neumorph_shadowElevation, 0
         )
         shadowColorLight = a.getColor(
-            R.styleable.NeumorphFloatingActionButton_neumorph_shadowColorLight,
-            ContextCompat.getColor(context, R.color.default_shadow_light)
+            R.styleable.NeumorphFloatingActionButton_neumorph_shadowColorLight, Color.WHITE
         )
         shadowColorDark = a.getColor(
-            R.styleable.NeumorphFloatingActionButton_neumorph_shadowColorDark,
-            ContextCompat.getColor(context, R.color.default_shadow_dark)
+            R.styleable.NeumorphFloatingActionButton_neumorph_shadowColorDark, Color.BLACK
         )
         a.recycle()
+
+        shapeAppearanceModel = NeumorphShapeAppearanceModel
+            .builder(context, attrs, defStyleAttr, defStyleRes)
+            .build()
 
         lightShadowDrawable = GradientDrawable().apply {
             setSize(measuredWidth, measuredHeight)
@@ -64,7 +69,6 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
             addOval(0f, 0f, w.toFloat(), h.toFloat(), Path.Direction.CW)
             close()
         }
-
         lightShadowDrawable.setSize(w, h)
         lightShadowDrawable.setBounds(0, 0, w, h)
         darkShadowDrawable.setSize(w, h)

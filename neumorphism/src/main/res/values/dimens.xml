@@ -1,5 +1,0 @@
-<resources>
-    <dimen name="default_corner_radius">24dp</dimen>
-    <dimen name="default_shadow_elevation">6dp</dimen>
-    <dimen name="default_shadow_elevation_text">2dp</dimen>
-</resources>

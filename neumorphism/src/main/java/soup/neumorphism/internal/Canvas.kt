@@ -1,9 +1,14 @@
 package soup.neumorphism.internal
 
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Path
-import android.graphics.Region
-import android.os.Build
+
+internal inline fun Bitmap.onCanvas(
+    block: Canvas.() -> Unit
+): Bitmap = also {
+    Canvas(it).run(block)
+}
 
 internal inline fun Canvas.withTranslation(
     x: Float = 0f,
@@ -37,11 +42,7 @@ internal inline fun Canvas.withClipOut(
     block: Canvas.() -> Unit
 ) {
     val checkpoint = save()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        clipOutPath(clipPath)
-    } else {
-        clipPath(clipPath, Region.Op.DIFFERENCE)
-    }
+    CanvasCompat.clipOutPath(this, clipPath)
     try {
         block()
     } finally {

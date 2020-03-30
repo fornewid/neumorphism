@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="NeumorphView">
+        <item name="neumorph_shadowElevation">6dp</item>
+        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
+        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
+    </style>
+
+    <style name="defaultNeumorphCardView" parent="NeumorphView">
+        <item name="neumorph_shapeType">flat</item>
+        <item name="neumorph_shapeAppearance">@style/NeumorphShape.Rounded</item>
+    </style>
+
+    <style name="defaultNeumorphFloatingActionButton" parent="NeumorphView">
+        <item name="neumorph_shapeAppearance">@style/NeumorphShape.Oval</item>
+    </style>
+
+    <style name="defaultNeumorphTextView" parent="NeumorphView">
+        <item name="neumorph_shadowElevation">2dp</item>
+    </style>
+
+    <style name="NeumorphShape" />
+
+    <style name="NeumorphShape.Rounded">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">24dp</item>
+    </style>
+
+    <style name="NeumorphShape.Oval">
+        <item name="neumorph_cornerFamily">oval</item>
+    </style>
+
+</resources>

@@ -27,14 +27,14 @@
         android:background="?selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintBottom_toTopOf="@id/valley"
+        app:layout_constraintBottom_toTopOf="@id/pressed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <soup.neumorphism.NeumorphValleyView
-        android:id="@+id/valley"
+    <soup.neumorphism.NeumorphCardView
+        android:id="@+id/pressed"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_marginTop="48dp"
@@ -44,7 +44,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card" />
+        app:layout_constraintTop_toBottomOf="@id/card"
+        app:neumorph_shapeType="pressed" />
 
     <soup.neumorphism.NeumorphFloatingActionButton
         android:id="@+id/fab"

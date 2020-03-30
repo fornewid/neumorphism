@@ -3,26 +3,26 @@ package soup.neumorphism
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Path
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
-import soup.neumorphism.internal.blurred
-import soup.neumorphism.internal.withClip
-import soup.neumorphism.internal.withClipOut
-import soup.neumorphism.internal.withTranslation
+import soup.neumorphism.internal.*
 
 class NeumorphCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+    defStyleAttr: Int = 0,
+    defStyleRes: Int = R.style.defaultNeumorphCardView
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    private val roundCornerRadius: Float
+    @ShapeType
+    private val shapeType: Int
     private val shadowElevation: Int
     private val shadowColorLight: Int
     private val shadowColorDark: Int
+    private val shapeAppearanceModel: NeumorphShapeAppearanceModel
 
     private var lastShadowCache: Bitmap? = null
     private val lightShadowDrawable: GradientDrawable
@@ -31,65 +31,113 @@ class NeumorphCardView @JvmOverloads constructor(
     private val outlinePath = Path()
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphCardView)
-        roundCornerRadius = a.getDimension(
-            R.styleable.NeumorphCardView_neumorph_cornerSize,
-            resources.getDimension(R.dimen.default_corner_radius)
+        val a = context.obtainStyledAttributes(
+            attrs, R.styleable.NeumorphCardView, defStyleAttr, defStyleRes
         )
+        shapeType = a.getInt(R.styleable.NeumorphCardView_neumorph_shapeType, ShapeType.FLAT)
         shadowElevation = a.getDimensionPixelSize(
-            R.styleable.NeumorphCardView_neumorph_shadowElevation,
-            resources.getDimensionPixelSize(R.dimen.default_shadow_elevation)
+            R.styleable.NeumorphCardView_neumorph_shadowElevation, 0
         )
         shadowColorLight = a.getColor(
-            R.styleable.NeumorphCardView_neumorph_shadowColorLight,
-            ContextCompat.getColor(context, R.color.default_shadow_light)
+            R.styleable.NeumorphCardView_neumorph_shadowColorLight, Color.WHITE
         )
         shadowColorDark = a.getColor(
-            R.styleable.NeumorphCardView_neumorph_shadowColorDark,
-            ContextCompat.getColor(context, R.color.default_shadow_dark)
+            R.styleable.NeumorphCardView_neumorph_shadowColorDark, Color.BLACK
         )
         a.recycle()
 
-        lightShadowDrawable = GradientDrawable().apply {
-            setSize(measuredWidth, measuredHeight)
-            cornerRadii = roundCornerRadius.let {
-                floatArrayOf(it, it, it, it, it, it, it, it)
+        shapeAppearanceModel = NeumorphShapeAppearanceModel
+            .builder(context, attrs, defStyleAttr, defStyleRes)
+            .build()
+
+        when (shapeType) {
+            ShapeType.PRESSED -> {
+                lightShadowDrawable = GradientDrawable().apply {
+                    setSize(measuredWidth + shadowElevation, measuredHeight + shadowElevation)
+                    setStroke(shadowElevation, shadowColorLight)
+                    cornerRadii = shapeAppearanceModel.getCornerSize().let {
+                        floatArrayOf(0f, 0f, 0f, 0f, it, it, 0f, 0f)
+                    }
+                }
+                darkShadowDrawable = GradientDrawable().apply {
+                    setSize(measuredWidth + shadowElevation, measuredHeight + shadowElevation)
+                    setStroke(shadowElevation, shadowColorDark)
+                    cornerRadii = shapeAppearanceModel.getCornerSize().let {
+                        floatArrayOf(it, it, 0f, 0f, 0f, 0f, 0f, 0f)
+                    }
+                }
             }
-            setColor(shadowColorLight)
-        }
-        darkShadowDrawable = GradientDrawable().apply {
-            setSize(measuredWidth, measuredHeight)
-            cornerRadii = roundCornerRadius.let {
-                floatArrayOf(it, it, it, it, it, it, it, it)
+            // ShapeType.FLAT
+            else -> {
+                lightShadowDrawable = GradientDrawable().apply {
+                    setSize(measuredWidth, measuredHeight)
+                    cornerRadii = shapeAppearanceModel.getCornerSize().let {
+                        floatArrayOf(it, it, it, it, it, it, it, it)
+                    }
+                    setColor(shadowColorLight)
+                }
+                darkShadowDrawable = GradientDrawable().apply {
+                    setSize(measuredWidth, measuredHeight)
+                    cornerRadii = shapeAppearanceModel.getCornerSize().let {
+                        floatArrayOf(it, it, it, it, it, it, it, it)
+                    }
+                    setColor(shadowColorDark)
+                }
             }
-            setColor(shadowColorDark)
         }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
+        val cornerSize = shapeAppearanceModel.getCornerSize()
         outlinePath.apply {
             reset()
             addRoundRect(
                 0f, 0f, w.toFloat(), h.toFloat(),
-                roundCornerRadius, roundCornerRadius,
+                cornerSize, cornerSize,
                 Path.Direction.CW
             )
             close()
         }
-
-        lightShadowDrawable.setSize(w, h)
-        lightShadowDrawable.setBounds(0, 0, w, h)
-        darkShadowDrawable.setSize(w, h)
-        darkShadowDrawable.setBounds(0, 0, w, h)
-        lastShadowCache = generateBitmapShadowCache(w, h)
+        when (shapeType) {
+            ShapeType.PRESSED -> {
+                val width = w + shadowElevation
+                val height = h + shadowElevation
+                lightShadowDrawable.setSize(width, height)
+                lightShadowDrawable.setBounds(0, 0, width, height)
+                darkShadowDrawable.setSize(width, height)
+                darkShadowDrawable.setBounds(0, 0, width, height)
+                lastShadowCache = generateBitmapShadowCache(w, h)
+            }
+            // ShapeType.FLAT
+            else -> {
+                lightShadowDrawable.setSize(w, h)
+                lightShadowDrawable.setBounds(0, 0, w, h)
+                darkShadowDrawable.setSize(w, h)
+                darkShadowDrawable.setBounds(0, 0, w, h)
+                lastShadowCache = generateBitmapShadowCache(w, h)
+            }
+        }
     }
 
     override fun draw(canvas: Canvas) {
-        canvas.withClipOut(outlinePath) {
-            lastShadowCache?.let {
-                val offset = (shadowElevation * 2).toFloat().unaryMinus()
-                canvas.drawBitmap(it, offset, offset, null)
+        when (shapeType) {
+            ShapeType.PRESSED -> {
+                canvas.withClip(outlinePath) {
+                    lastShadowCache?.let {
+                        canvas.drawBitmap(it, 0f, 0f, null)
+                    }
+                }
+            }
+            // ShapeType.FLAT
+            else -> {
+                canvas.withClipOut(outlinePath) {
+                    lastShadowCache?.let {
+                        val offset = (shadowElevation * 2).toFloat().unaryMinus()
+                        canvas.drawBitmap(it, offset, offset, null)
+
+                    }
+                }
             }
         }
         canvas.withClip(outlinePath) {
@@ -97,17 +145,33 @@ class NeumorphCardView @JvmOverloads constructor(
         }
     }
 
-    private fun generateBitmapShadowCache(w: Int, h: Int): Bitmap? {
-        val width: Int = w + shadowElevation * 4
-        val height: Int = h + shadowElevation * 4
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        canvas.withTranslation(shadowElevation.toFloat(), shadowElevation.toFloat()) {
-            lightShadowDrawable.draw(this)
+    private fun generateBitmapShadowCache(w: Int, h: Int): Bitmap {
+        val shadowElevationF = shadowElevation.toFloat()
+        when (shapeType) {
+            ShapeType.PRESSED -> {
+                return Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+                    .onCanvas {
+                        withTranslation(-shadowElevationF, -shadowElevationF) {
+                            lightShadowDrawable.draw(this)
+                        }
+                        darkShadowDrawable.draw(this)
+                    }
+                    .blurred(context, radius = 25, sampling = 2)
+            }
+            else -> {
+                val width: Int = w + shadowElevation * 4
+                val height: Int = h + shadowElevation * 4
+                return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                    .onCanvas {
+                        withTranslation(shadowElevationF, shadowElevationF) {
+                            lightShadowDrawable.draw(this)
+                        }
+                        withTranslation(shadowElevationF * 3, shadowElevationF * 3) {
+                            darkShadowDrawable.draw(this)
+                        }
+                    }
+                    .blurred(context)
+            }
         }
-        canvas.withTranslation(shadowElevation.toFloat() * 3, shadowElevation.toFloat() * 3) {
-            darkShadowDrawable.draw(this)
-        }
-        return bitmap.blurred(context)
     }
 }

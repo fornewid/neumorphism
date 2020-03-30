@@ -8,18 +8,18 @@ import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import kotlin.math.max
 
 class NeumorphTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
+    defStyleRes: Int = R.style.defaultNeumorphTextView
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
     private val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
-    private val shadowElevation: Float
+    private val shadowElevation: Int
     private val shadowColorLight: Int
     private val shadowColorDark: Int
 
@@ -28,18 +28,17 @@ class NeumorphTextView @JvmOverloads constructor(
     private var lastShadowDark: Bitmap? = null
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphTextView)
-        shadowElevation = a.getDimension(
-            R.styleable.NeumorphTextView_neumorph_shadowElevation,
-            resources.getDimension(R.dimen.default_shadow_elevation_text)
+        val a = context.obtainStyledAttributes(
+            attrs, R.styleable.NeumorphTextView, defStyleAttr, defStyleRes
+        )
+        shadowElevation = a.getDimensionPixelSize(
+            R.styleable.NeumorphTextView_neumorph_shadowElevation, 0
         )
         shadowColorLight = a.getColor(
-            R.styleable.NeumorphTextView_neumorph_shadowColorLight,
-            ContextCompat.getColor(context, R.color.default_shadow_light)
+            R.styleable.NeumorphTextView_neumorph_shadowColorLight, Color.WHITE
         )
         shadowColorDark = a.getColor(
-            R.styleable.NeumorphTextView_neumorph_shadowColorDark,
-            ContextCompat.getColor(context, R.color.default_shadow_dark)
+            R.styleable.NeumorphTextView_neumorph_shadowColorDark, Color.BLACK
         )
         a.recycle()
     }
@@ -54,11 +53,12 @@ class NeumorphTextView @JvmOverloads constructor(
                     lastShadowDark = generateBitmapShadowCache(origin, shadowColorDark)
                 }
             }
+            val elevation = shadowElevation.toFloat()
             lastShadowLight?.let {
-                canvas.drawBitmap(it, -shadowElevation, -shadowElevation, shadowPaint)
+                canvas.drawBitmap(it, -elevation, -elevation, shadowPaint)
             }
             lastShadowDark?.let {
-                canvas.drawBitmap(it, shadowElevation, shadowElevation, shadowPaint)
+                canvas.drawBitmap(it, elevation, elevation, shadowPaint)
             }
         }
         super.onDraw(canvas)
