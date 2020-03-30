@@ -3,12 +3,16 @@ package soup.neumorphism
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Path
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.withTranslation
 import androidx.core.view.ViewCompat
+import soup.neumorphism.internal.blurred
+import soup.neumorphism.internal.withClip
+import soup.neumorphism.internal.withClipOut
+import soup.neumorphism.internal.withTranslation
 
 class NeumorphFloatingActionButton @JvmOverloads constructor(
     context: Context,
@@ -23,6 +27,8 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
     private var lastShadowCache: Bitmap? = null
     private val lightShadowDrawable: GradientDrawable
     private val darkShadowDrawable: GradientDrawable
+
+    private val outlinePath = Path()
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphFloatingActionButton)
@@ -52,8 +58,17 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
         }
     }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        outlinePath.apply {
+            reset()
+            addOval(0f, 0f, w.toFloat(), h.toFloat(), Path.Direction.CW)
+            close()
+        }
+    }
+
     override fun draw(canvas: Canvas) {
-        if (ViewCompat.isLaidOut(this)) {
+        if (ViewCompat.isLaidOut(this@NeumorphFloatingActionButton)) {
             val w = measuredWidth
             val h = measuredHeight
             lightShadowDrawable.setSize(w, h)
@@ -63,11 +78,15 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
 
             lastShadowCache = generateBitmapShadowCache()
         }
-        lastShadowCache?.let {
-            val offset = (shadowElevation * 2).toFloat().unaryMinus()
-            canvas.drawBitmap(it, offset, offset, null)
+        canvas.withClipOut(outlinePath) {
+            lastShadowCache?.let {
+                val offset = (shadowElevation * 2).toFloat().unaryMinus()
+                canvas.drawBitmap(it, offset, offset, null)
+            }
         }
-        super.draw(canvas)
+        canvas.withClip(outlinePath) {
+            super.draw(canvas)
+        }
     }
 
     private fun generateBitmapShadowCache(): Bitmap? {

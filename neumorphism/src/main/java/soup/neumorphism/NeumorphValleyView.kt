@@ -6,16 +6,18 @@ import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatImageView
+import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.withTranslation
 import androidx.core.view.ViewCompat
+import soup.neumorphism.internal.blurred
+import soup.neumorphism.internal.withClip
+import soup.neumorphism.internal.withTranslation
 
 class NeumorphValleyView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : AppCompatImageView(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
 
     private val roundCornerRadius: Float
     private val shadowElevation: Int
@@ -78,20 +80,21 @@ class NeumorphValleyView @JvmOverloads constructor(
     }
 
     override fun draw(canvas: Canvas) {
-        if (ViewCompat.isLaidOut(this)) {
-            val w = measuredWidth + shadowElevation
-            val h = measuredHeight + shadowElevation
-            lightShadowDrawable.setSize(w, h)
-            lightShadowDrawable.setBounds(0, 0, w, h)
-            darkShadowDrawable.setSize(w, h)
-            darkShadowDrawable.setBounds(0, 0, w, h)
+        canvas.withClip(outlinePath) {
+            if (ViewCompat.isLaidOut(this@NeumorphValleyView)) {
+                val w = measuredWidth + shadowElevation
+                val h = measuredHeight + shadowElevation
+                lightShadowDrawable.setSize(w, h)
+                lightShadowDrawable.setBounds(0, 0, w, h)
+                darkShadowDrawable.setSize(w, h)
+                darkShadowDrawable.setBounds(0, 0, w, h)
 
-            lastShadowCache = generateBitmapShadowCache()
-        }
-        canvas.clipPath(outlinePath)
-        super.draw(canvas)
-        lastShadowCache?.let {
-            canvas.drawBitmap(it, 0f, 0f, null)
+                lastShadowCache = generateBitmapShadowCache()
+            }
+            lastShadowCache?.let {
+                canvas.drawBitmap(it, 0f, 0f, null)
+            }
+            super.draw(this)
         }
     }
 

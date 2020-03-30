@@ -3,12 +3,16 @@ package soup.neumorphism
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Path
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.withTranslation
 import androidx.core.view.ViewCompat
+import soup.neumorphism.internal.blurred
+import soup.neumorphism.internal.withClip
+import soup.neumorphism.internal.withClipOut
+import soup.neumorphism.internal.withTranslation
 
 class NeumorphCardView @JvmOverloads constructor(
     context: Context,
@@ -24,6 +28,8 @@ class NeumorphCardView @JvmOverloads constructor(
     private var lastShadowCache: Bitmap? = null
     private val lightShadowDrawable: GradientDrawable
     private val darkShadowDrawable: GradientDrawable
+
+    private val outlinePath = Path()
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphCardView)
@@ -61,22 +67,39 @@ class NeumorphCardView @JvmOverloads constructor(
         }
     }
 
-    override fun draw(canvas: Canvas) {
-        if (ViewCompat.isLaidOut(this)) {
-            val w = measuredWidth
-            val h = measuredHeight
-            lightShadowDrawable.setSize(w, h)
-            lightShadowDrawable.setBounds(0, 0, w, h)
-            darkShadowDrawable.setSize(w, h)
-            darkShadowDrawable.setBounds(0, 0, w, h)
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        outlinePath.apply {
+            reset()
+            addRoundRect(
+                0f, 0f, w.toFloat(), h.toFloat(),
+                roundCornerRadius, roundCornerRadius,
+                Path.Direction.CW
+            )
+            close()
+        }
+    }
 
-            lastShadowCache = generateBitmapShadowCache()
+    override fun draw(canvas: Canvas) {
+        canvas.withClipOut(outlinePath) {
+            if (ViewCompat.isLaidOut(this@NeumorphCardView)) {
+                val w = measuredWidth
+                val h = measuredHeight
+                lightShadowDrawable.setSize(w, h)
+                lightShadowDrawable.setBounds(0, 0, w, h)
+                darkShadowDrawable.setSize(w, h)
+                darkShadowDrawable.setBounds(0, 0, w, h)
+
+                lastShadowCache = generateBitmapShadowCache()
+            }
+            lastShadowCache?.let {
+                val offset = (shadowElevation * 2).toFloat().unaryMinus()
+                canvas.drawBitmap(it, offset, offset, null)
+            }
         }
-        lastShadowCache?.let {
-            val offset = (shadowElevation * 2).toFloat().unaryMinus()
-            canvas.drawBitmap(it, offset, offset, null)
+        canvas.withClip(outlinePath) {
+            super.draw(this)
         }
-        super.draw(canvas)
     }
 
     private fun generateBitmapShadowCache(): Bitmap? {
