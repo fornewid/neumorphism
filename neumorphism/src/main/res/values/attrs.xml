@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="neumorph_cornerRadius" format="dimension|reference" />
-    <attr name="neumorph_shadowElevation" format="dimension|reference" />
-    <attr name="neumorph_shadowColorLight" format="color|reference" />
-    <attr name="neumorph_shadowColorDark" format="color|reference" />
+    <attr name="neumorph_cornerSize" format="dimension" />
+    <attr name="neumorph_shadowElevation" format="dimension" />
+    <attr name="neumorph_shadowColorLight" format="color" />
+    <attr name="neumorph_shadowColorDark" format="color" />
 
     <declare-styleable name="NeumorphCardView">
-        <attr name="neumorph_cornerRadius" />
+        <attr name="neumorph_cornerSize" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
     </declare-styleable>
 
     <declare-styleable name="NeumorphValleyView">
-        <attr name="neumorph_cornerRadius" />
+        <attr name="neumorph_cornerSize" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
     </declare-styleable>
 
     <declare-styleable name="NeumorphFloatingActionButton">
+        <attr name="neumorph_cornerSize" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />

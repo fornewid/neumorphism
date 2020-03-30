@@ -32,7 +32,7 @@ class NeumorphValleyView @JvmOverloads constructor(
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.NeumorphValleyView)
         roundCornerRadius = a.getDimension(
-            R.styleable.NeumorphValleyView_neumorph_cornerRadius,
+            R.styleable.NeumorphValleyView_neumorph_cornerSize,
             resources.getDimension(R.dimen.default_corner_radius)
         )
         shadowElevation = a.getDimensionPixelSize(
