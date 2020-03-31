@@ -8,7 +8,6 @@ import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.view.ViewCompat
 import kotlin.math.max
 
 class NeumorphTextView @JvmOverloads constructor(
@@ -18,11 +17,11 @@ class NeumorphTextView @JvmOverloads constructor(
     defStyleRes: Int = R.style.defaultNeumorphTextView
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
-    private val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
-    private val shadowElevation: Int
+    private val shadowElevation: Float
     private val shadowColorLight: Int
     private val shadowColorDark: Int
 
+    private val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
     private var lastTextCache: Bitmap? = null
     private var lastShadowLight: Bitmap? = null
     private var lastShadowDark: Bitmap? = null
@@ -33,7 +32,7 @@ class NeumorphTextView @JvmOverloads constructor(
         )
         shadowElevation = a.getDimensionPixelSize(
             R.styleable.NeumorphTextView_neumorph_shadowElevation, 0
-        )
+        ).toFloat()
         shadowColorLight = a.getColor(
             R.styleable.NeumorphTextView_neumorph_shadowColorLight, Color.WHITE
         )
@@ -43,29 +42,30 @@ class NeumorphTextView @JvmOverloads constructor(
         a.recycle()
     }
 
-    override fun onDraw(canvas: Canvas) {
-        if (ViewCompat.isLaidOut(this)) {
-            lastTextCache = buildTextCache().also { origin ->
-                if (lastShadowLight == null) {
-                    lastShadowLight = generateBitmapShadowCache(origin, shadowColorLight)
-                }
-                if (lastShadowDark == null) {
-                    lastShadowDark = generateBitmapShadowCache(origin, shadowColorDark)
-                }
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        lastTextCache = buildTextCache(w, h).also { origin ->
+            if (lastShadowLight == null) {
+                lastShadowLight = origin.generateBitmapShadowCache(w, h, shadowColorLight)
             }
-            val elevation = shadowElevation.toFloat()
-            lastShadowLight?.let {
-                canvas.drawBitmap(it, -elevation, -elevation, shadowPaint)
-            }
-            lastShadowDark?.let {
-                canvas.drawBitmap(it, elevation, elevation, shadowPaint)
+            if (lastShadowDark == null) {
+                lastShadowDark = origin.generateBitmapShadowCache(w, h, shadowColorDark)
             }
         }
-        super.onDraw(canvas)
     }
 
-    private fun buildTextCache(): Bitmap {
-        return Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888).apply {
+    override fun draw(canvas: Canvas) {
+        lastShadowLight?.let {
+            canvas.drawBitmap(it, -shadowElevation, -shadowElevation, shadowPaint)
+        }
+        lastShadowDark?.let {
+            canvas.drawBitmap(it, shadowElevation, shadowElevation, shadowPaint)
+        }
+        super.draw(canvas)
+    }
+
+    private fun buildTextCache(w: Int, h: Int): Bitmap {
+        return Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888).apply {
             val tp = TextPaint(TextPaint.ANTI_ALIAS_FLAG)
             tp.color = Color.BLACK
             tp.textSize = textSize
@@ -74,15 +74,28 @@ class NeumorphTextView @JvmOverloads constructor(
         }
     }
 
-    private fun generateBitmapShadowCache(cache: Bitmap, color: Int, radius: Float = 5f): Bitmap? {
-        val width: Int = measuredWidth
-        val height: Int = measuredHeight
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    private fun staticLayout(text: CharSequence, textPaint: TextPaint): StaticLayout {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            StaticLayout.Builder
+                .obtain(text, 0, text.length, textPaint, Int.MAX_VALUE)
+                .build()
+        } else {
+            StaticLayout(
+                text, textPaint, Int.MAX_VALUE,
+                Layout.Alignment.ALIGN_NORMAL, 1f, 0f, false
+            )
+        }
+    }
+
+    private fun Bitmap.generateBitmapShadowCache(
+        w: Int, h: Int, color: Int, radius: Float = 5f
+    ): Bitmap? {
+        val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
 
         // Call mutate, so that the pixel allocation by the underlying vector drawable is cleared.
         canvas.save()
-        canvas.drawBitmap(cache, 0f, 0f, null)
+        canvas.drawBitmap(this, 0f, 0f, null)
         canvas.restore()
 
         // Draws the shadow from original drawable
@@ -95,18 +108,5 @@ class NeumorphTextView @JvmOverloads constructor(
         bitmap.eraseColor(Color.TRANSPARENT)
         canvas.drawBitmap(shadow, offset[0].toFloat(), offset[1].toFloat(), paint)
         return bitmap
-    }
-
-    private fun staticLayout(text: CharSequence, textPaint: TextPaint): StaticLayout {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            StaticLayout.Builder
-                .obtain(text, 0, text.length, textPaint, Int.MAX_VALUE)
-                .build()
-        } else {
-            StaticLayout(
-                text, textPaint, Int.MAX_VALUE,
-                Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false
-            )
-        }
     }
 }
