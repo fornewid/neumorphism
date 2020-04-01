@@ -55,15 +55,35 @@ class NeumorphCardView @JvmOverloads constructor(
                 lightShadowDrawable = GradientDrawable().apply {
                     setSize(measuredWidth + shadowElevation, measuredHeight + shadowElevation)
                     setStroke(shadowElevation, shadowColorLight)
-                    cornerRadii = shapeAppearanceModel.getCornerSize().let {
-                        floatArrayOf(0f, 0f, 0f, 0f, it, it, 0f, 0f)
+
+                    when (shapeAppearanceModel.getCorner()) {
+                        CornerFamily.OVAL -> {
+                            shape = GradientDrawable.OVAL
+                        }
+                        // CornerFamily.ROUNDED
+                        else -> {
+                            shape = GradientDrawable.RECTANGLE
+                            cornerRadii = shapeAppearanceModel.getCornerSize().let {
+                                floatArrayOf(0f, 0f, 0f, 0f, it, it, 0f, 0f)
+                            }
+                        }
                     }
                 }
                 darkShadowDrawable = GradientDrawable().apply {
                     setSize(measuredWidth + shadowElevation, measuredHeight + shadowElevation)
                     setStroke(shadowElevation, shadowColorDark)
-                    cornerRadii = shapeAppearanceModel.getCornerSize().let {
-                        floatArrayOf(it, it, 0f, 0f, 0f, 0f, 0f, 0f)
+
+                    when (shapeAppearanceModel.getCorner()) {
+                        CornerFamily.OVAL -> {
+                            shape = GradientDrawable.OVAL
+                        }
+                        // CornerFamily.ROUNDED
+                        else -> {
+                            shape = GradientDrawable.RECTANGLE
+                            cornerRadii = shapeAppearanceModel.getCornerSize().let {
+                                floatArrayOf(it, it, 0f, 0f, 0f, 0f, 0f, 0f)
+                            }
+                        }
                     }
                 }
             }
@@ -71,17 +91,37 @@ class NeumorphCardView @JvmOverloads constructor(
             else -> {
                 lightShadowDrawable = GradientDrawable().apply {
                     setSize(measuredWidth, measuredHeight)
-                    cornerRadii = shapeAppearanceModel.getCornerSize().let {
-                        floatArrayOf(it, it, it, it, it, it, it, it)
-                    }
                     setColor(shadowColorLight)
+
+                    when (shapeAppearanceModel.getCorner()) {
+                        CornerFamily.OVAL -> {
+                            shape = GradientDrawable.OVAL
+                        }
+                        // CornerFamily.ROUNDED
+                        else -> {
+                            shape = GradientDrawable.RECTANGLE
+                            cornerRadii = shapeAppearanceModel.getCornerSize().let {
+                                floatArrayOf(it, it, it, it, it, it, it, it)
+                            }
+                        }
+                    }
                 }
                 darkShadowDrawable = GradientDrawable().apply {
                     setSize(measuredWidth, measuredHeight)
-                    cornerRadii = shapeAppearanceModel.getCornerSize().let {
-                        floatArrayOf(it, it, it, it, it, it, it, it)
-                    }
                     setColor(shadowColorDark)
+
+                    when (shapeAppearanceModel.getCorner()) {
+                        CornerFamily.OVAL -> {
+                            shape = GradientDrawable.OVAL
+                        }
+                        // CornerFamily.ROUNDED
+                        else -> {
+                            shape = GradientDrawable.RECTANGLE
+                            cornerRadii = shapeAppearanceModel.getCornerSize().let {
+                                floatArrayOf(it, it, it, it, it, it, it, it)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -92,11 +132,19 @@ class NeumorphCardView @JvmOverloads constructor(
         val cornerSize = shapeAppearanceModel.getCornerSize()
         outlinePath.apply {
             reset()
-            addRoundRect(
-                0f, 0f, w.toFloat(), h.toFloat(),
-                cornerSize, cornerSize,
-                Path.Direction.CW
-            )
+            when (shapeAppearanceModel.getCorner()) {
+                CornerFamily.OVAL -> {
+                    addOval(0f, 0f, w.toFloat(), h.toFloat(), Path.Direction.CW)
+                }
+                // CornerFamily.ROUNDED
+                else -> {
+                    addRoundRect(
+                        0f, 0f, w.toFloat(), h.toFloat(),
+                        cornerSize, cornerSize,
+                        Path.Direction.CW
+                    )
+                }
+            }
             close()
         }
         when (shapeType) {
@@ -156,7 +204,7 @@ class NeumorphCardView @JvmOverloads constructor(
                         }
                         darkShadowDrawable.draw(this)
                     }
-                    .blurred(context, radius = 25, sampling = 2)
+                    .blurred(context)
             }
             else -> {
                 val width: Int = w + shadowElevation * 4
