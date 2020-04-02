@@ -193,7 +193,7 @@ class NeumorphCardView @JvmOverloads constructor(
         }
     }
 
-    private fun generateBitmapShadowCache(w: Int, h: Int): Bitmap {
+    private fun generateBitmapShadowCache(w: Int, h: Int): Bitmap? {
         val shadowElevationF = shadowElevation.toFloat()
         when (shapeType) {
             ShapeType.PRESSED -> {

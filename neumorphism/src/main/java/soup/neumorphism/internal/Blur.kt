@@ -2,10 +2,10 @@ package soup.neumorphism.internal
 
 import android.content.Context
 import android.graphics.Bitmap
-import jp.wasabeef.blurry.internal.Blur
-import jp.wasabeef.blurry.internal.BlurFactor
+import soup.neumorphism.internal.blur.Blur
+import soup.neumorphism.internal.blur.BlurFactor
 
-internal fun Bitmap.blurred(context: Context, radius: Int? = null, sampling: Int? = null): Bitmap {
+internal fun Bitmap.blurred(context: Context, radius: Int? = null, sampling: Int? = null): Bitmap? {
     return Blur.of(context, this, BlurFactor().apply {
         this.width = this@blurred.width
         this.height = this@blurred.height
