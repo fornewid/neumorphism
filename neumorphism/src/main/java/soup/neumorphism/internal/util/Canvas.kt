@@ -1,4 +1,4 @@
-package soup.neumorphism.internal
+package soup.neumorphism.internal.util
 
 import android.graphics.Bitmap
 import android.graphics.Canvas

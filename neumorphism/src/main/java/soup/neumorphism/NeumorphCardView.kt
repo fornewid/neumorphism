@@ -8,7 +8,11 @@ import android.graphics.Path
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import soup.neumorphism.internal.*
+import soup.neumorphism.internal.blur.BlurProvider
+import soup.neumorphism.internal.util.onCanvas
+import soup.neumorphism.internal.util.withClip
+import soup.neumorphism.internal.util.withClipOut
+import soup.neumorphism.internal.util.withTranslation
 
 class NeumorphCardView @JvmOverloads constructor(
     context: Context,
@@ -16,6 +20,8 @@ class NeumorphCardView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
     defStyleRes: Int = R.style.defaultNeumorphCardView
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+
+    private val blurProvider = BlurProvider(context)
 
     @ShapeType
     private val shapeType: Int
@@ -204,7 +210,7 @@ class NeumorphCardView @JvmOverloads constructor(
                         }
                         darkShadowDrawable.draw(this)
                     }
-                    .blurred(context)
+                    .blurred()
             }
             else -> {
                 val width: Int = w + shadowElevation * 4
@@ -218,8 +224,12 @@ class NeumorphCardView @JvmOverloads constructor(
                             darkShadowDrawable.draw(this)
                         }
                     }
-                    .blurred(context)
+                    .blurred()
             }
         }
+    }
+
+    private fun Bitmap.blurred(): Bitmap? {
+        return blurProvider.blur(this)
     }
 }

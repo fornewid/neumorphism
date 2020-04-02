@@ -8,10 +8,10 @@ import android.graphics.Path
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
-import soup.neumorphism.internal.blurred
-import soup.neumorphism.internal.withClip
-import soup.neumorphism.internal.withClipOut
-import soup.neumorphism.internal.withTranslation
+import soup.neumorphism.internal.blur.BlurProvider
+import soup.neumorphism.internal.util.withClip
+import soup.neumorphism.internal.util.withClipOut
+import soup.neumorphism.internal.util.withTranslation
 
 class NeumorphFloatingActionButton @JvmOverloads constructor(
     context: Context,
@@ -19,6 +19,8 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
     defStyleAttr: Int = 0,
     defStyleRes: Int = R.style.defaultNeumorphFloatingActionButton
 ) : AppCompatImageButton(context, attrs, defStyleAttr) {
+
+    private val blurProvider = BlurProvider(context)
 
     private val shadowElevation: Int
     private val shadowColorLight: Int
@@ -99,6 +101,10 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
         canvas.withTranslation(shadowElevation.toFloat() * 3, shadowElevation.toFloat() * 3) {
             darkShadowDrawable.draw(this)
         }
-        return bitmap.blurred(context)
+        return bitmap.blurred()
+    }
+
+    private fun Bitmap.blurred(): Bitmap? {
+        return blurProvider.blur(this)
     }
 }
