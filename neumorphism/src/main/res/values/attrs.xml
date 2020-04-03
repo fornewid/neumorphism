@@ -17,6 +17,7 @@
     </declare-styleable>
 
     <declare-styleable name="NeumorphFloatingActionButton">
+        <attr name="neumorph_shapeType" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />

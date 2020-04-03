@@ -1,17 +1,12 @@
 package soup.neumorphism
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Path
-import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
+import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageButton
-import soup.neumorphism.internal.blur.BlurProvider
 import soup.neumorphism.internal.util.withClip
-import soup.neumorphism.internal.util.withClipOut
-import soup.neumorphism.internal.util.withTranslation
 
 class NeumorphFloatingActionButton @JvmOverloads constructor(
     context: Context,
@@ -20,91 +15,75 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
     defStyleRes: Int = R.style.defaultNeumorphFloatingActionButton
 ) : AppCompatImageButton(context, attrs, defStyleAttr) {
 
-    private val blurProvider = BlurProvider(context)
-
-    private val shadowElevation: Int
-    private val shadowColorLight: Int
-    private val shadowColorDark: Int
-
-    private var lastShadowCache: Bitmap? = null
-    private val lightShadowDrawable: GradientDrawable
-    private val darkShadowDrawable: GradientDrawable
-
-    private val shapeAppearanceModel: NeumorphShapeAppearanceModel
-    private val outlinePath = Path()
+    private val shapeDrawable: NeumorphShapeDrawable
 
     init {
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphFloatingActionButton, defStyleAttr, defStyleRes
         )
-        shadowElevation = a.getDimensionPixelSize(
-            R.styleable.NeumorphFloatingActionButton_neumorph_shadowElevation, 0
+        val shapeType =
+            a.getInt(R.styleable.NeumorphFloatingActionButton_neumorph_shapeType, ShapeType.FLAT)
+        val shadowElevation = a.getDimension(
+            R.styleable.NeumorphFloatingActionButton_neumorph_shadowElevation, 0f
         )
-        shadowColorLight = a.getColor(
+        val shadowColorLight = a.getColor(
             R.styleable.NeumorphFloatingActionButton_neumorph_shadowColorLight, Color.WHITE
         )
-        shadowColorDark = a.getColor(
+        val shadowColorDark = a.getColor(
             R.styleable.NeumorphFloatingActionButton_neumorph_shadowColorDark, Color.BLACK
         )
         a.recycle()
 
-        shapeAppearanceModel = NeumorphShapeAppearanceModel
-            .builder(context, attrs, defStyleAttr, defStyleRes)
-            .build()
-
-        lightShadowDrawable = GradientDrawable().apply {
-            setSize(measuredWidth, measuredHeight)
-            shape = GradientDrawable.OVAL
-            setColor(shadowColorLight)
-        }
-        darkShadowDrawable = GradientDrawable().apply {
-            setSize(measuredWidth, measuredHeight)
-            shape = GradientDrawable.OVAL
-            setColor(shadowColorDark)
+        shapeDrawable = NeumorphShapeDrawable(context, attrs, defStyleAttr, defStyleRes).apply {
+            setShapeType(shapeType)
+            setShadowElevation(shadowElevation)
+            setShadowColorLight(shadowColorLight)
+            setShadowColorDark(shadowColorDark)
         }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        outlinePath.apply {
-            reset()
-            addOval(0f, 0f, w.toFloat(), h.toFloat(), Path.Direction.CW)
-            close()
-        }
-        lightShadowDrawable.setSize(w, h)
-        lightShadowDrawable.setBounds(0, 0, w, h)
-        darkShadowDrawable.setSize(w, h)
-        darkShadowDrawable.setBounds(0, 0, w, h)
-        lastShadowCache = generateBitmapShadowCache(w, h)
+        shapeDrawable.setBounds(0, 0, w, h)
     }
 
     override fun draw(canvas: Canvas) {
-        canvas.withClipOut(outlinePath) {
-            lastShadowCache?.let {
-                val offset = (shadowElevation * 2).toFloat().unaryMinus()
-                canvas.drawBitmap(it, offset, offset, null)
-            }
-        }
-        canvas.withClip(outlinePath) {
-            super.draw(canvas)
+        shapeDrawable.draw(canvas)
+        canvas.withClip(shapeDrawable.getOutlinePath()) {
+            super.draw(this)
         }
     }
 
-    private fun generateBitmapShadowCache(w: Int, h: Int): Bitmap? {
-        val width: Int = w + shadowElevation * 4
-        val height: Int = h + shadowElevation * 4
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        canvas.withTranslation(shadowElevation.toFloat(), shadowElevation.toFloat()) {
-            lightShadowDrawable.draw(this)
-        }
-        canvas.withTranslation(shadowElevation.toFloat() * 3, shadowElevation.toFloat() * 3) {
-            darkShadowDrawable.draw(this)
-        }
-        return bitmap.blurred()
+    fun setShapeAppearanceModel(shapeAppearanceModel: NeumorphShapeAppearanceModel) {
+        shapeDrawable.setShapeAppearanceModel(shapeAppearanceModel)
     }
 
-    private fun Bitmap.blurred(): Bitmap? {
-        return blurProvider.blur(this)
+    fun getShapeAppearanceModel(): NeumorphShapeAppearanceModel {
+        return shapeDrawable.getShapeAppearanceModel()
+    }
+
+    fun setShapeType(@ShapeType shapeType: Int) {
+        shapeDrawable.setShapeType(shapeType)
+    }
+
+    @ShapeType
+    fun getShapeType(): Int {
+        return shapeDrawable.getShapeType()
+    }
+
+    fun setShadowElevation(shadowElevation: Float) {
+        shapeDrawable.setShadowElevation(shadowElevation)
+    }
+
+    fun getShadowElevation(): Float {
+        return shapeDrawable.getShadowElevation()
+    }
+
+    fun setShadowColorLight(@ColorInt shadowColor: Int) {
+        shapeDrawable.setShadowColorLight(shadowColor)
+    }
+
+    fun setShadowColorDark(@ColorInt shadowColor: Int) {
+        shapeDrawable.setShadowColorDark(shadowColor)
     }
 }

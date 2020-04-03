@@ -1,18 +1,12 @@
 package soup.neumorphism
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Path
-import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import soup.neumorphism.internal.blur.BlurProvider
-import soup.neumorphism.internal.util.onCanvas
+import androidx.annotation.ColorInt
 import soup.neumorphism.internal.util.withClip
-import soup.neumorphism.internal.util.withClipOut
-import soup.neumorphism.internal.util.withTranslation
 
 class NeumorphCardView @JvmOverloads constructor(
     context: Context,
@@ -21,215 +15,74 @@ class NeumorphCardView @JvmOverloads constructor(
     defStyleRes: Int = R.style.defaultNeumorphCardView
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    private val blurProvider = BlurProvider(context)
-
-    @ShapeType
-    private val shapeType: Int
-    private val shadowElevation: Int
-    private val shadowColorLight: Int
-    private val shadowColorDark: Int
-    private val shapeAppearanceModel: NeumorphShapeAppearanceModel
-
-    private var lastShadowCache: Bitmap? = null
-    private val lightShadowDrawable: GradientDrawable
-    private val darkShadowDrawable: GradientDrawable
-
-    private val outlinePath = Path()
+    private val shapeDrawable: NeumorphShapeDrawable
 
     init {
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphCardView, defStyleAttr, defStyleRes
         )
-        shapeType = a.getInt(R.styleable.NeumorphCardView_neumorph_shapeType, ShapeType.FLAT)
-        shadowElevation = a.getDimensionPixelSize(
-            R.styleable.NeumorphCardView_neumorph_shadowElevation, 0
+        val shapeType = a.getInt(R.styleable.NeumorphCardView_neumorph_shapeType, ShapeType.FLAT)
+        val shadowElevation = a.getDimension(
+            R.styleable.NeumorphCardView_neumorph_shadowElevation, 0f
         )
-        shadowColorLight = a.getColor(
+        val shadowColorLight = a.getColor(
             R.styleable.NeumorphCardView_neumorph_shadowColorLight, Color.WHITE
         )
-        shadowColorDark = a.getColor(
+        val shadowColorDark = a.getColor(
             R.styleable.NeumorphCardView_neumorph_shadowColorDark, Color.BLACK
         )
         a.recycle()
 
-        shapeAppearanceModel = NeumorphShapeAppearanceModel
-            .builder(context, attrs, defStyleAttr, defStyleRes)
-            .build()
-
-        when (shapeType) {
-            ShapeType.PRESSED -> {
-                lightShadowDrawable = GradientDrawable().apply {
-                    setSize(measuredWidth + shadowElevation, measuredHeight + shadowElevation)
-                    setStroke(shadowElevation, shadowColorLight)
-
-                    when (shapeAppearanceModel.getCorner()) {
-                        CornerFamily.OVAL -> {
-                            shape = GradientDrawable.OVAL
-                        }
-                        // CornerFamily.ROUNDED
-                        else -> {
-                            shape = GradientDrawable.RECTANGLE
-                            cornerRadii = shapeAppearanceModel.getCornerSize().let {
-                                floatArrayOf(0f, 0f, 0f, 0f, it, it, 0f, 0f)
-                            }
-                        }
-                    }
-                }
-                darkShadowDrawable = GradientDrawable().apply {
-                    setSize(measuredWidth + shadowElevation, measuredHeight + shadowElevation)
-                    setStroke(shadowElevation, shadowColorDark)
-
-                    when (shapeAppearanceModel.getCorner()) {
-                        CornerFamily.OVAL -> {
-                            shape = GradientDrawable.OVAL
-                        }
-                        // CornerFamily.ROUNDED
-                        else -> {
-                            shape = GradientDrawable.RECTANGLE
-                            cornerRadii = shapeAppearanceModel.getCornerSize().let {
-                                floatArrayOf(it, it, 0f, 0f, 0f, 0f, 0f, 0f)
-                            }
-                        }
-                    }
-                }
-            }
-            // ShapeType.FLAT
-            else -> {
-                lightShadowDrawable = GradientDrawable().apply {
-                    setSize(measuredWidth, measuredHeight)
-                    setColor(shadowColorLight)
-
-                    when (shapeAppearanceModel.getCorner()) {
-                        CornerFamily.OVAL -> {
-                            shape = GradientDrawable.OVAL
-                        }
-                        // CornerFamily.ROUNDED
-                        else -> {
-                            shape = GradientDrawable.RECTANGLE
-                            cornerRadii = shapeAppearanceModel.getCornerSize().let {
-                                floatArrayOf(it, it, it, it, it, it, it, it)
-                            }
-                        }
-                    }
-                }
-                darkShadowDrawable = GradientDrawable().apply {
-                    setSize(measuredWidth, measuredHeight)
-                    setColor(shadowColorDark)
-
-                    when (shapeAppearanceModel.getCorner()) {
-                        CornerFamily.OVAL -> {
-                            shape = GradientDrawable.OVAL
-                        }
-                        // CornerFamily.ROUNDED
-                        else -> {
-                            shape = GradientDrawable.RECTANGLE
-                            cornerRadii = shapeAppearanceModel.getCornerSize().let {
-                                floatArrayOf(it, it, it, it, it, it, it, it)
-                            }
-                        }
-                    }
-                }
-            }
+        shapeDrawable = NeumorphShapeDrawable(context, attrs, defStyleAttr, defStyleRes).apply {
+            setShapeType(shapeType)
+            setShadowElevation(shadowElevation)
+            setShadowColorLight(shadowColorLight)
+            setShadowColorDark(shadowColorDark)
         }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        val cornerSize = shapeAppearanceModel.getCornerSize()
-        outlinePath.apply {
-            reset()
-            when (shapeAppearanceModel.getCorner()) {
-                CornerFamily.OVAL -> {
-                    addOval(0f, 0f, w.toFloat(), h.toFloat(), Path.Direction.CW)
-                }
-                // CornerFamily.ROUNDED
-                else -> {
-                    addRoundRect(
-                        0f, 0f, w.toFloat(), h.toFloat(),
-                        cornerSize, cornerSize,
-                        Path.Direction.CW
-                    )
-                }
-            }
-            close()
-        }
-        when (shapeType) {
-            ShapeType.PRESSED -> {
-                val width = w + shadowElevation
-                val height = h + shadowElevation
-                lightShadowDrawable.setSize(width, height)
-                lightShadowDrawable.setBounds(0, 0, width, height)
-                darkShadowDrawable.setSize(width, height)
-                darkShadowDrawable.setBounds(0, 0, width, height)
-                lastShadowCache = generateBitmapShadowCache(w, h)
-            }
-            // ShapeType.FLAT
-            else -> {
-                lightShadowDrawable.setSize(w, h)
-                lightShadowDrawable.setBounds(0, 0, w, h)
-                darkShadowDrawable.setSize(w, h)
-                darkShadowDrawable.setBounds(0, 0, w, h)
-                lastShadowCache = generateBitmapShadowCache(w, h)
-            }
-        }
+        shapeDrawable.setBounds(0, 0, w, h)
     }
 
     override fun draw(canvas: Canvas) {
-        when (shapeType) {
-            ShapeType.PRESSED -> {
-                canvas.withClip(outlinePath) {
-                    lastShadowCache?.let {
-                        canvas.drawBitmap(it, 0f, 0f, null)
-                    }
-                }
-            }
-            // ShapeType.FLAT
-            else -> {
-                canvas.withClipOut(outlinePath) {
-                    lastShadowCache?.let {
-                        val offset = (shadowElevation * 2).toFloat().unaryMinus()
-                        canvas.drawBitmap(it, offset, offset, null)
-
-                    }
-                }
-            }
-        }
-        canvas.withClip(outlinePath) {
+        shapeDrawable.draw(canvas)
+        canvas.withClip(shapeDrawable.getOutlinePath()) {
             super.draw(this)
         }
     }
 
-    private fun generateBitmapShadowCache(w: Int, h: Int): Bitmap? {
-        val shadowElevationF = shadowElevation.toFloat()
-        when (shapeType) {
-            ShapeType.PRESSED -> {
-                return Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-                    .onCanvas {
-                        withTranslation(-shadowElevationF, -shadowElevationF) {
-                            lightShadowDrawable.draw(this)
-                        }
-                        darkShadowDrawable.draw(this)
-                    }
-                    .blurred()
-            }
-            else -> {
-                val width: Int = w + shadowElevation * 4
-                val height: Int = h + shadowElevation * 4
-                return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-                    .onCanvas {
-                        withTranslation(shadowElevationF, shadowElevationF) {
-                            lightShadowDrawable.draw(this)
-                        }
-                        withTranslation(shadowElevationF * 3, shadowElevationF * 3) {
-                            darkShadowDrawable.draw(this)
-                        }
-                    }
-                    .blurred()
-            }
-        }
+    fun setShapeAppearanceModel(shapeAppearanceModel: NeumorphShapeAppearanceModel) {
+        shapeDrawable.setShapeAppearanceModel(shapeAppearanceModel)
     }
 
-    private fun Bitmap.blurred(): Bitmap? {
-        return blurProvider.blur(this)
+    fun getShapeAppearanceModel(): NeumorphShapeAppearanceModel {
+        return shapeDrawable.getShapeAppearanceModel()
+    }
+
+    fun setShapeType(@ShapeType shapeType: Int) {
+        shapeDrawable.setShapeType(shapeType)
+    }
+
+    @ShapeType
+    fun getShapeType(): Int {
+        return shapeDrawable.getShapeType()
+    }
+
+    fun setShadowElevation(shadowElevation: Float) {
+        shapeDrawable.setShadowElevation(shadowElevation)
+    }
+
+    fun getShadowElevation(): Float {
+        return shapeDrawable.getShadowElevation()
+    }
+
+    fun setShadowColorLight(@ColorInt shadowColor: Int) {
+        shapeDrawable.setShadowColorLight(shadowColor)
+    }
+
+    fun setShadowColorDark(@ColorInt shadowColor: Int) {
+        shapeDrawable.setShadowColorDark(shadowColor)
     }
 }
