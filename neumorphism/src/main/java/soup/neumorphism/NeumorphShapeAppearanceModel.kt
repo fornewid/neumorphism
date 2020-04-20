@@ -56,7 +56,7 @@ class NeumorphShapeAppearanceModel {
     }
 
     @CornerFamily
-    fun getCorner(): Int {
+    fun getCornerFamily(): Int {
         return cornerFamily
     }
 

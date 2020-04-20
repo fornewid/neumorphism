@@ -9,7 +9,21 @@
     <attr name="neumorph_shadowColorLight" format="color" />
     <attr name="neumorph_shadowColorDark" format="color" />
 
+    <declare-styleable name="NeumorphButton">
+        <attr name="neumorph_shapeType" />
+        <attr name="neumorph_shadowElevation" />
+        <attr name="neumorph_shadowColorLight" />
+        <attr name="neumorph_shadowColorDark" />
+    </declare-styleable>
+
     <declare-styleable name="NeumorphCardView">
+        <attr name="neumorph_shapeType" />
+        <attr name="neumorph_shadowElevation" />
+        <attr name="neumorph_shadowColorLight" />
+        <attr name="neumorph_shadowColorDark" />
+    </declare-styleable>
+
+    <declare-styleable name="NeumorphEditText">
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />

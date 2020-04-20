@@ -143,7 +143,7 @@ class NeumorphShapeDrawable : Drawable {
         val w = bounds.width()
         val h = bounds.height()
         path.reset()
-        when (drawableState.shapeAppearanceModel.getCorner()) {
+        when (drawableState.shapeAppearanceModel.getCornerFamily()) {
             CornerFamily.OVAL -> {
                 path.addOval(0f, 0f, w, h, Path.Direction.CW)
             }
@@ -192,7 +192,7 @@ class NeumorphShapeDrawable : Drawable {
                     setSize(w + shadowElevation, h + shadowElevation)
                     setStroke(shadowElevation, drawableState.shadowColorLight)
 
-                    when (drawableState.shapeAppearanceModel.getCorner()) {
+                    when (drawableState.shapeAppearanceModel.getCornerFamily()) {
                         CornerFamily.OVAL -> {
                             shape = GradientDrawable.OVAL
                         }
@@ -208,7 +208,7 @@ class NeumorphShapeDrawable : Drawable {
                     setSize(w + shadowElevation, h + shadowElevation)
                     setStroke(shadowElevation, drawableState.shadowColorDark)
 
-                    when (drawableState.shapeAppearanceModel.getCorner()) {
+                    when (drawableState.shapeAppearanceModel.getCornerFamily()) {
                         CornerFamily.OVAL -> {
                             shape = GradientDrawable.OVAL
                         }
@@ -224,7 +224,7 @@ class NeumorphShapeDrawable : Drawable {
             ShapeType.FLAT -> {
                 lightShadowDrawable.apply {
                     setColor(drawableState.shadowColorLight)
-                    when (drawableState.shapeAppearanceModel.getCorner()) {
+                    when (drawableState.shapeAppearanceModel.getCornerFamily()) {
                         CornerFamily.OVAL -> {
                             shape = GradientDrawable.OVAL
                         }
@@ -239,7 +239,7 @@ class NeumorphShapeDrawable : Drawable {
                 darkShadowDrawable.apply {
                     setColor(drawableState.shadowColorDark)
 
-                    when (drawableState.shapeAppearanceModel.getCorner()) {
+                    when (drawableState.shapeAppearanceModel.getCornerFamily()) {
                         CornerFamily.OVAL -> {
                             shape = GradientDrawable.OVAL
                         }
