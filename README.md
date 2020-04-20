@@ -39,7 +39,7 @@ allprojects {
 Then, add the library to your module `build.gradle`
 ```gradle
 dependencies {
-    implementation 'com.github.fornewid:neumorphism:0.1.0'
+    implementation 'com.github.fornewid:neumorphism:0.1.1'
 }
 ```
 
@@ -47,6 +47,8 @@ dependencies {
 - CardView
 - FloatingActionButton
 - TextView
+- Button
+- EditText
 
 > If you want more features, please click [new issue](https://github.com/fornewid/neumorphism/issues/new) and report to me!
 
