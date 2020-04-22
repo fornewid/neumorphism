@@ -4,6 +4,7 @@
     <attr name="neumorph_shapeType" format="enum">
         <enum name="flat" value="0" />
         <enum name="pressed" value="1" />
+        <enum name="basin" value="2" />
     </attr>
     <attr name="neumorph_shadowElevation" format="dimension" />
     <attr name="neumorph_shadowColorLight" format="color" />

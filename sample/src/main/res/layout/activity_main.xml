@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="48dp"
         android:hint="Enter something"
         android:singleLine="true"
@@ -77,32 +77,22 @@
         android:layout_marginTop="48dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_daynight_activity"
-        app:layout_constraintEnd_toStartOf="@id/image_view_3"
+        app:layout_constraintEnd_toStartOf="@id/basin_image_view"
         app:layout_constraintStart_toEndOf="@id/flat_image_view"
         app:layout_constraintTop_toBottomOf="@id/card_barrier"
         app:neumorph_shapeType="pressed" />
 
-    <!-- TODO: merge flat and pressed to new state -->
     <soup.neumorphism.NeumorphImageView
-        android:id="@+id/image_view_3"
+        android:id="@+id/basin_image_view"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginTop="48dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_daynight_food"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/pressed_image_view"
         app:layout_constraintTop_toBottomOf="@id/card_barrier"
-        app:neumorph_shapeType="flat" />
-
-    <soup.neumorphism.NeumorphImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_daynight_food"
-        app:layout_constraintBottom_toBottomOf="@id/image_view_3"
-        app:layout_constraintEnd_toEndOf="@id/image_view_3"
-        app:layout_constraintStart_toStartOf="@id/image_view_3"
-        app:layout_constraintTop_toTopOf="@id/image_view_3"
-        app:neumorph_shapeType="pressed" />
+        app:neumorph_shapeType="basin" />
 
     <soup.neumorphism.NeumorphButton
         android:id="@+id/button"

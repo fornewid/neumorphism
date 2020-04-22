@@ -3,17 +3,15 @@ package soup.neumorphism
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import soup.neumorphism.internal.blur.BlurProvider
-import soup.neumorphism.internal.util.onCanvas
-import soup.neumorphism.internal.util.withClip
-import soup.neumorphism.internal.util.withClipOut
-import soup.neumorphism.internal.util.withTranslation
-import kotlin.math.roundToInt
+import soup.neumorphism.internal.shape.BasinShape
+import soup.neumorphism.internal.shape.FlatShape
+import soup.neumorphism.internal.shape.PressedShape
+import soup.neumorphism.internal.shape.Shape
 
 class NeumorphShapeDrawable : Drawable {
 
@@ -24,9 +22,7 @@ class NeumorphShapeDrawable : Drawable {
     private var dirty = false
 
     private val outlinePath = Path()
-    private val lightShadowDrawable = GradientDrawable()
-    private val darkShadowDrawable = GradientDrawable()
-    private var shadowBitmap: Bitmap? = null
+    private var shadow: Shape? = null
 
     constructor(context: Context) : this(NeumorphShapeAppearanceModel(), BlurProvider(context))
 
@@ -47,6 +43,19 @@ class NeumorphShapeDrawable : Drawable {
 
     private constructor(drawableState: NeumorphShapeDrawableState) : super() {
         this.drawableState = drawableState
+        this.shadow = shadowOf(drawableState.shapeType, drawableState)
+    }
+
+    private fun shadowOf(
+        @ShapeType shapeType: Int,
+        drawableState: NeumorphShapeDrawableState
+    ): Shape {
+        return when (shapeType) {
+            ShapeType.FLAT -> FlatShape(drawableState)
+            ShapeType.PRESSED -> PressedShape(drawableState)
+            ShapeType.BASIN -> BasinShape(drawableState)
+            else -> throw IllegalArgumentException("ShapeType($shapeType) is invalid.")
+        }
     }
 
     override fun getConstantState(): ConstantState? {
@@ -56,6 +65,7 @@ class NeumorphShapeDrawable : Drawable {
     override fun mutate(): Drawable {
         val newDrawableState = NeumorphShapeDrawableState(drawableState)
         drawableState = newDrawableState
+        shadow?.setDrawableState(newDrawableState)
         return this
     }
 
@@ -86,6 +96,7 @@ class NeumorphShapeDrawable : Drawable {
     fun setShapeType(@ShapeType shapeType: Int) {
         if (drawableState.shapeType != shapeType) {
             drawableState.shapeType = shapeType
+            shadow = shadowOf(shapeType, drawableState)
             invalidateSelf()
         }
     }
@@ -162,152 +173,10 @@ class NeumorphShapeDrawable : Drawable {
     override fun draw(canvas: Canvas) {
         if (dirty) {
             calculateOutlinePath(boundsF, outlinePath)
-            updateShadowBitmap(bounds)
+            shadow?.updateShadowBitmap(bounds)
             dirty = false
         }
-
-        when (drawableState.shapeType) {
-            ShapeType.PRESSED -> canvas.withClip(outlinePath) {
-                shadowBitmap?.let {
-                    canvas.drawBitmap(it, 0f, 0f, null)
-                }
-            }
-            ShapeType.FLAT -> canvas.withClipOut(outlinePath) {
-                shadowBitmap?.let {
-                    val offset = (drawableState.shadowElevation * 2).unaryMinus()
-                    canvas.drawBitmap(it, offset, offset, null)
-                }
-            }
-        }
-    }
-
-    private fun updateShadowBitmap(bounds: Rect) {
-        val w = bounds.width()
-        val h = bounds.height()
-        val shadowElevation = drawableState.shadowElevation.toInt()
-
-        when (drawableState.shapeType) {
-            ShapeType.PRESSED -> {
-                lightShadowDrawable.apply {
-                    setSize(w + shadowElevation, h + shadowElevation)
-                    setStroke(shadowElevation, drawableState.shadowColorLight)
-
-                    when (drawableState.shapeAppearanceModel.getCornerFamily()) {
-                        CornerFamily.OVAL -> {
-                            shape = GradientDrawable.OVAL
-                        }
-                        CornerFamily.ROUNDED -> {
-                            shape = GradientDrawable.RECTANGLE
-                            cornerRadii = drawableState.shapeAppearanceModel.getCornerSize().let {
-                                floatArrayOf(0f, 0f, 0f, 0f, it, it, 0f, 0f)
-                            }
-                        }
-                    }
-                }
-                darkShadowDrawable.apply {
-                    setSize(w + shadowElevation, h + shadowElevation)
-                    setStroke(shadowElevation, drawableState.shadowColorDark)
-
-                    when (drawableState.shapeAppearanceModel.getCornerFamily()) {
-                        CornerFamily.OVAL -> {
-                            shape = GradientDrawable.OVAL
-                        }
-                        CornerFamily.ROUNDED -> {
-                            shape = GradientDrawable.RECTANGLE
-                            cornerRadii = drawableState.shapeAppearanceModel.getCornerSize().let {
-                                floatArrayOf(it, it, 0f, 0f, 0f, 0f, 0f, 0f)
-                            }
-                        }
-                    }
-                }
-            }
-            ShapeType.FLAT -> {
-                lightShadowDrawable.apply {
-                    setColor(drawableState.shadowColorLight)
-                    when (drawableState.shapeAppearanceModel.getCornerFamily()) {
-                        CornerFamily.OVAL -> {
-                            shape = GradientDrawable.OVAL
-                        }
-                         CornerFamily.ROUNDED -> {
-                            shape = GradientDrawable.RECTANGLE
-                            cornerRadii = drawableState.shapeAppearanceModel.getCornerSize().let {
-                                floatArrayOf(it, it, it, it, it, it, it, it)
-                            }
-                        }
-                    }
-                }
-                darkShadowDrawable.apply {
-                    setColor(drawableState.shadowColorDark)
-
-                    when (drawableState.shapeAppearanceModel.getCornerFamily()) {
-                        CornerFamily.OVAL -> {
-                            shape = GradientDrawable.OVAL
-                        }
-                        CornerFamily.ROUNDED -> {
-                            shape = GradientDrawable.RECTANGLE
-                            cornerRadii = drawableState.shapeAppearanceModel.getCornerSize().let {
-                                floatArrayOf(it, it, it, it, it, it, it, it)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        when (drawableState.shapeType) {
-            ShapeType.PRESSED -> {
-                val width: Int = w + shadowElevation
-                val height: Int = h + shadowElevation
-                lightShadowDrawable.setSize(width, height)
-                lightShadowDrawable.setBounds(0, 0, width, height)
-                darkShadowDrawable.setSize(width, height)
-                darkShadowDrawable.setBounds(0, 0, width, height)
-                shadowBitmap = generateShadowBitmap(w, h)
-            }
-            ShapeType.FLAT -> {
-                lightShadowDrawable.setSize(w, h)
-                lightShadowDrawable.setBounds(0, 0, w, h)
-                darkShadowDrawable.setSize(w, h)
-                darkShadowDrawable.setBounds(0, 0, w, h)
-                shadowBitmap = generateShadowBitmap(w, h)
-            }
-        }
-    }
-
-    private fun generateShadowBitmap(w: Int, h: Int): Bitmap? {
-        fun Bitmap.blurred(): Bitmap? {
-            return drawableState.blurProvider.blur(this)
-        }
-
-        val shapeType = drawableState.shapeType
-        val shadowElevation = drawableState.shadowElevation
-        when (shapeType) {
-            ShapeType.PRESSED -> {
-                return Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-                    .onCanvas {
-                        withTranslation(-shadowElevation, -shadowElevation) {
-                            lightShadowDrawable.draw(this)
-                        }
-                        darkShadowDrawable.draw(this)
-                    }
-                    .blurred()
-            }
-            ShapeType.FLAT -> {
-                val width = (w + shadowElevation * 4).roundToInt()
-                val height = (h + shadowElevation * 4).roundToInt()
-                return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-                    .onCanvas {
-                        withTranslation(shadowElevation, shadowElevation) {
-                            lightShadowDrawable.draw(this)
-                        }
-                        withTranslation(shadowElevation * 3, shadowElevation * 3) {
-                            darkShadowDrawable.draw(this)
-                        }
-                    }
-                    .blurred()
-            }
-            else -> return null
-        }
+        shadow?.draw(canvas, outlinePath)
     }
 
     internal class NeumorphShapeDrawableState : ConstantState {
@@ -318,7 +187,7 @@ class NeumorphShapeDrawable : Drawable {
         var alpha = 255
 
         @ShapeType
-        var shapeType: Int = ShapeType.FLAT
+        var shapeType: Int = ShapeType.DEFAULT
         var shadowElevation: Float = 0f
         var shadowColorLight: Int = Color.WHITE
         var shadowColorDark: Int = Color.BLACK
