@@ -19,6 +19,7 @@
     <style name="defaultNeumorphCardView" parent="NeumorphView">
         <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/NeumorphShape.Rounded</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="defaultNeumorphFloatingActionButton" parent="NeumorphView">
