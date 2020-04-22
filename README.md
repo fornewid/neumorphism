@@ -39,16 +39,17 @@ allprojects {
 Then, add the library to your module `build.gradle`
 ```gradle
 dependencies {
-    implementation 'com.github.fornewid:neumorphism:0.1.1'
+    implementation 'com.github.fornewid:neumorphism:0.1.2'
 }
 ```
 
 ## Features
 - CardView
 - FloatingActionButton
-- TextView
 - Button
 - EditText
+- ImageView
+- TextView (Not supports shapeType)
 
 > If you want more features, please click [new issue](https://github.com/fornewid/neumorphism/issues/new) and report to me!
 
@@ -59,7 +60,7 @@ There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) 
 ```xml
 <soup.neumorphism.NeumorphCardView
     ...
-    app:neumorph_shapeType="{flat|pressed}"
+    app:neumorph_shapeType="{flat|pressed|basin}"
     app:neumorph_shadowElevation="6dp"
     app:neumorph_shadowColorLight="@color/solid_light_color"
     app:neumorph_shadowColorDark="@color/solid_dark_color" />
@@ -67,11 +68,22 @@ There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) 
 
 - FloatingActionButton
 ```xml
-<soup.neumorphism.NeumorphFloatingActionButton
-    ...
-    app:neumorph_shadowElevation="6dp"
-    app:neumorph_shadowColorLight="@color/solid_light_color"
-    app:neumorph_shadowColorDark="@color/solid_dark_color" />
+<soup.neumorphism.NeumorphFloatingActionButton />
+```
+
+- Button
+```xml
+<soup.neumorphism.NeumorphButton />
+```
+
+- EditText
+```xml
+<soup.neumorphism.NeumorphEditText />
+```
+
+- ImageView
+```xml
+<soup.neumorphism.NeumorphImageView />
 ```
 
 - TextView
@@ -83,6 +95,12 @@ There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) 
     android:textSize="40sp"
     android:textStyle="bold" />
 ```
+
+#### ShapeType
+
+| FLAT | PRESSED | BASIN |
+| :--: | :-----: | :---: |
+| <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/shape_flat.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/shape_pressed.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/shape_basin.png"/> |
 
 ## License
 
