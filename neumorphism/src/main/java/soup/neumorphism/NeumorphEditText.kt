@@ -29,7 +29,7 @@ class NeumorphEditText @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphEditText, defStyleAttr, defStyleRes
         )
-        val shapeType = a.getInt(R.styleable.NeumorphEditText_neumorph_shapeType, ShapeType.FLAT)
+        val shapeType = a.getInt(R.styleable.NeumorphEditText_neumorph_shapeType, ShapeType.DEFAULT)
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphEditText_neumorph_shadowElevation, 0f
         )

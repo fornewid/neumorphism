@@ -22,7 +22,7 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
             attrs, R.styleable.NeumorphFloatingActionButton, defStyleAttr, defStyleRes
         )
         val shapeType =
-            a.getInt(R.styleable.NeumorphFloatingActionButton_neumorph_shapeType, ShapeType.FLAT)
+            a.getInt(R.styleable.NeumorphFloatingActionButton_neumorph_shapeType, ShapeType.DEFAULT)
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphFloatingActionButton_neumorph_shadowElevation, 0f
         )

@@ -21,7 +21,7 @@ class NeumorphImageView @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphImageView, defStyleAttr, defStyleRes
         )
-        val shapeType = a.getInt(R.styleable.NeumorphImageView_neumorph_shapeType, ShapeType.FLAT)
+        val shapeType = a.getInt(R.styleable.NeumorphImageView_neumorph_shapeType, ShapeType.DEFAULT)
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphImageView_neumorph_shadowElevation, 0f
         )

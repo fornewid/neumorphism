@@ -21,7 +21,7 @@ class NeumorphButton @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphButton, defStyleAttr, defStyleRes
         )
-        val shapeType = a.getInt(R.styleable.NeumorphButton_neumorph_shapeType, ShapeType.FLAT)
+        val shapeType = a.getInt(R.styleable.NeumorphButton_neumorph_shapeType, ShapeType.DEFAULT)
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphButton_neumorph_shadowElevation, 0f
         )

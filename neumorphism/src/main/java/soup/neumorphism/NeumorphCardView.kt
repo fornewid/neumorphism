@@ -21,7 +21,7 @@ class NeumorphCardView @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphCardView, defStyleAttr, defStyleRes
         )
-        val shapeType = a.getInt(R.styleable.NeumorphCardView_neumorph_shapeType, ShapeType.FLAT)
+        val shapeType = a.getInt(R.styleable.NeumorphCardView_neumorph_shapeType, ShapeType.DEFAULT)
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphCardView_neumorph_shadowElevation, 0f
         )
