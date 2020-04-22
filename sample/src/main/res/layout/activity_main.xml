@@ -34,26 +34,74 @@
         app:layout_constraintTop_toBottomOf="@id/edittext" />
 
     <soup.neumorphism.NeumorphCardView
-        android:id="@+id/card"
+        android:id="@+id/flat_card"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="48dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintEnd_toStartOf="@id/pressed"
+        app:layout_constraintEnd_toStartOf="@id/pressed_card"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview" />
 
     <soup.neumorphism.NeumorphCardView
-        android:id="@+id/pressed"
+        android:id="@+id/pressed_card"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="48dp"
-        android:clickable="true"
-        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/card"
+        app:layout_constraintStart_toEndOf="@id/flat_card"
         app:layout_constraintTop_toBottomOf="@id/textview"
+        app:neumorph_shapeType="pressed" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/card_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="flat_card,pressed_card" />
+
+    <soup.neumorphism.NeumorphImageView
+        android:id="@+id/flat_image_view"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="48dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_daynight_sky"
+        app:layout_constraintEnd_toStartOf="@id/pressed_image_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_barrier" />
+
+    <soup.neumorphism.NeumorphImageView
+        android:id="@+id/pressed_image_view"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="48dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_daynight_activity"
+        app:layout_constraintEnd_toStartOf="@id/image_view_3"
+        app:layout_constraintStart_toEndOf="@id/flat_image_view"
+        app:layout_constraintTop_toBottomOf="@id/card_barrier"
+        app:neumorph_shapeType="pressed" />
+
+    <!-- TODO: merge flat and pressed to new state -->
+    <soup.neumorphism.NeumorphImageView
+        android:id="@+id/image_view_3"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/pressed_image_view"
+        app:layout_constraintTop_toBottomOf="@id/card_barrier"
+        app:neumorph_shapeType="flat" />
+
+    <soup.neumorphism.NeumorphImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_daynight_food"
+        app:layout_constraintBottom_toBottomOf="@id/image_view_3"
+        app:layout_constraintEnd_toEndOf="@id/image_view_3"
+        app:layout_constraintStart_toStartOf="@id/image_view_3"
+        app:layout_constraintTop_toTopOf="@id/image_view_3"
         app:neumorph_shapeType="pressed" />
 
     <soup.neumorphism.NeumorphButton
@@ -61,8 +109,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
-        android:clickable="true"
-        android:focusable="true"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,8 +119,6 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_margin="36dp"
-        android:clickable="true"
-        android:focusable="true"
         android:scaleType="centerInside"
         android:src="@drawable/ic_filter"
         app:layout_constraintBottom_toBottomOf="parent"
