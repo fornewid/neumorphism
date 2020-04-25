@@ -1,12 +1,12 @@
 package soup.neumorphism
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.Log
 import android.widget.Button
 import androidx.annotation.ColorInt
-import soup.neumorphism.internal.util.withClip
 
 class NeumorphButton @JvmOverloads constructor(
     context: Context,
@@ -39,18 +39,19 @@ class NeumorphButton @JvmOverloads constructor(
             setShadowColorLight(shadowColorLight)
             setShadowColorDark(shadowColorDark)
         }
+        setBackgroundInternal(shapeDrawable)
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-        shapeDrawable.setBounds(0, 0, w, h)
+    override fun setBackground(drawable: Drawable?) {
+        setBackgroundDrawable(drawable)
     }
 
-    override fun draw(canvas: Canvas) {
-        shapeDrawable.draw(canvas)
-        canvas.withClip(shapeDrawable.getOutlinePath()) {
-            super.draw(this)
-        }
+    override fun setBackgroundDrawable(drawable: Drawable?) {
+        Log.i(LOG_TAG, "Setting a custom background is not supported.");
+    }
+
+    private fun setBackgroundInternal(drawable: Drawable?) {
+        super.setBackgroundDrawable(drawable)
     }
 
     fun setShapeAppearanceModel(shapeAppearanceModel: NeumorphShapeAppearanceModel) {
@@ -84,5 +85,9 @@ class NeumorphButton @JvmOverloads constructor(
 
     fun setShadowColorDark(@ColorInt shadowColor: Int) {
         shapeDrawable.setShadowColorDark(shadowColor)
+    }
+
+    companion object {
+        private const val LOG_TAG = "NeumorphButton"
     }
 }

@@ -170,6 +170,18 @@ class NeumorphShapeDrawable : Drawable {
         path.close()
     }
 
+    override fun getOutline(outline: Outline) {
+        when (drawableState.shapeAppearanceModel.getCornerFamily()) {
+            CornerFamily.OVAL -> {
+                outline.setOval(bounds)
+            }
+            CornerFamily.ROUNDED -> {
+                val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
+                outline.setRoundRect(bounds, cornerSize)
+            }
+        }
+    }
+
     override fun draw(canvas: Canvas) {
         if (dirty) {
             calculateOutlinePath(boundsF, outlinePath)

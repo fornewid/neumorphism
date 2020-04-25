@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="NeumorphView">
-        <item name="neumorph_shadowElevation">6dp</item>
-        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
-        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
-    </style>
-
-    <style name="defaultNeumorphButton" parent="Widget.AppCompat.Button">
+    <style name="defaultNeumorphButton">
+        <item name="android:textAppearance">?android:attr/textAppearanceButton</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">88dip</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
         <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
         <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/NeumorphShape.Rounded</item>
-        <item name="android:background">@null</item>
     </style>
 
-    <style name="defaultNeumorphCardView" parent="NeumorphView">
+    <style name="defaultNeumorphCardView">
+        <item name="neumorph_shadowElevation">6dp</item>
+        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
+        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
         <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/NeumorphShape.Rounded</item>
-        <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="defaultNeumorphFloatingActionButton" parent="NeumorphView">
+    <style name="defaultNeumorphFloatingActionButton">
+        <item name="neumorph_shadowElevation">6dp</item>
+        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
+        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
+        <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/NeumorphShape.Oval</item>
     </style>
 
@@ -45,8 +50,10 @@
         <item name="neumorph_shapeAppearance">@style/NeumorphShape.Rounded</item>
     </style>
 
-    <style name="defaultNeumorphTextView" parent="NeumorphView">
+    <style name="defaultNeumorphTextView">
         <item name="neumorph_shadowElevation">2dp</item>
+        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
+        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
     </style>
 
     <style name="NeumorphShape" />

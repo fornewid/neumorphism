@@ -47,7 +47,7 @@ class NeumorphEditText @JvmOverloads constructor(
             setShadowColorLight(shadowColorLight)
             setShadowColorDark(shadowColorDark)
         }
-        context.resources.apply {
+        with(context.resources) {
             underlineHeight = getDimensionPixelSize(R.dimen.edit_text_underline_height)
             underlineInsetBottom = getDimensionPixelSize(R.dimen.edit_text_underline_inset_bottom)
             underlineCornerSize = getDimension(R.dimen.edit_text_underline_corner_size)
@@ -116,5 +116,9 @@ class NeumorphEditText @JvmOverloads constructor(
 
     fun setShadowColorDark(@ColorInt shadowColor: Int) {
         shapeDrawable.setShadowColorDark(shadowColor)
+    }
+
+    companion object {
+        private const val LOG_TAG = "NeumorphEditText"
     }
 }
