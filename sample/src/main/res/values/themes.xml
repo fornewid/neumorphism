@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Platform.Theme.Neumorphism" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Platform.Theme.Neumorphism" parent="Theme.Neumorph.DayNight.NoActionBar">
         <item name="android:statusBarColor">@color/status_bar_scrim</item>
         <item name="android:navigationBarColor">@color/nav_bar_scrim</item>
     </style>

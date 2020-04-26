@@ -9,6 +9,7 @@
 
     <soup.neumorphism.NeumorphEditText
         android:id="@+id/edittext"
+        style="@style/Widget.Neumorph.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -96,6 +97,7 @@
 
     <soup.neumorphism.NeumorphButton
         android:id="@+id/button"
+        style="@style/Widget.Neumorph.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
@@ -112,6 +114,7 @@
         android:scaleType="centerInside"
         android:src="@drawable/ic_filter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:neumorph_shapeAppearance="@style/CustomShapeAppearance" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

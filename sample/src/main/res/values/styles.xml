@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomShapeAppearance">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">32dp</item>
+    </style>
+</resources>
