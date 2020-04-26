@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.util.AttributeSet
-import android.widget.EditText
 import androidx.annotation.ColorInt
+import androidx.appcompat.widget.AppCompatEditText
 import soup.neumorphism.internal.blur.BlurProvider
 import soup.neumorphism.internal.util.withClip
 import soup.neumorphism.internal.util.withTranslation
@@ -13,9 +13,9 @@ import soup.neumorphism.internal.util.withTranslation
 class NeumorphEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = R.style.defaultNeumorphEditText
-) : EditText(context, attrs, defStyleAttr, defStyleRes) {
+    defStyleAttr: Int = R.attr.neumorphEditTextStyle,
+    defStyleRes: Int = R.style.Widget_Neumorph_EditText
+) : AppCompatEditText(context, attrs, defStyleAttr) {
 
     private val shapeDrawable: NeumorphShapeDrawable
     private val underlineDrawable: NeumorphShapeDrawable

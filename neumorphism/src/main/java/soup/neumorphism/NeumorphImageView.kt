@@ -5,15 +5,15 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
-import android.widget.ImageView
 import androidx.annotation.ColorInt
+import androidx.appcompat.widget.AppCompatImageView
 
 class NeumorphImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = R.style.defaultNeumorphImageView
-) : ImageView(context, attrs, defStyleAttr, defStyleRes) {
+    defStyleAttr: Int = R.attr.neumorphImageViewStyle,
+    defStyleRes: Int = R.style.Widget_Neumorph_ImageView
+) : AppCompatImageView(context, attrs, defStyleAttr) {
 
     private val shapeDrawable: NeumorphShapeDrawable
 

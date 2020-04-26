@@ -13,8 +13,8 @@ import kotlin.math.max
 class NeumorphTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = R.style.defaultNeumorphTextView
+    defStyleAttr: Int = R.attr.neumorphTextViewStyle,
+    defStyleRes: Int = R.style.Widget_Neumorph_TextView
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
     private val shadowElevation: Float

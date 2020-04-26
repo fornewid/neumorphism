@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Platform.Neumorph" parent="Theme.AppCompat" />
+
+    <style name="Platform.Neumorph.Light" parent="Theme.AppCompat.Light" />
+
+    <style name="Base.V21.Theme.Neumorph.Bridge" parent="Platform.Neumorph">
+        <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
+        <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
+        <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
+        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
+        <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
+        <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
+    </style>
+
+    <style name="Base.V21.Theme.Neumorph.Light.Bridge" parent="Platform.Neumorph.Light">
+        <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
+        <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
+        <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
+        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
+        <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
+        <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
+    </style>
+
+    <style name="Base.V21.Theme.Neumorph.Light.DarkActionBar.Bridge" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
+        <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
+        <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
+        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
+        <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
+        <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
+    </style>
+
+    <style name="Base.Theme.Neumorph.Bridge" parent="Base.V21.Theme.Neumorph.Bridge" />
+
+    <style name="Base.Theme.Neumorph.Light.Bridge" parent="Base.V21.Theme.Neumorph.Light.Bridge" />
+
+    <style name="Base.Theme.Neumorph.Light.DarkActionBar.Bridge" parent="Base.V21.Theme.Neumorph.Light.DarkActionBar.Bridge" />
+
+</resources>

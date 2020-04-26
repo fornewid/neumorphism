@@ -11,8 +11,8 @@ import androidx.annotation.ColorInt
 class NeumorphCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = R.style.defaultNeumorphCardView
+    defStyleAttr: Int = R.attr.neumorphCardViewStyle,
+    defStyleRes: Int = R.style.Widget_Neumorph_CardView
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     private val shapeDrawable: NeumorphShapeDrawable

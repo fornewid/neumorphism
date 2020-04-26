@@ -11,8 +11,8 @@ import androidx.appcompat.widget.AppCompatImageButton
 class NeumorphFloatingActionButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = R.style.defaultNeumorphFloatingActionButton
+    defStyleAttr: Int = R.attr.neumorphFloatingActionButtonStyle,
+    defStyleRes: Int = R.style.Widget_Neumorph_FAB
 ) : AppCompatImageButton(context, attrs, defStyleAttr) {
 
     private val shapeDrawable: NeumorphShapeDrawable

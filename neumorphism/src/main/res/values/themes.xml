@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Neumorph" parent="Base.Theme.Neumorph" />
+
+    <style name="Theme.Neumorph.Light" parent="Base.Theme.Neumorph.Light" />
+
+    <style name="Theme.Neumorph.Light.DarkActionBar" parent="Base.Theme.Neumorph.Light.DarkActionBar" />
+
+    <style name="Theme.Neumorph.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Neumorph.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Neumorph.DialogWhenLarge" parent="Base.Theme.Neumorph.DialogWhenLarge" />
+
+    <style name="Theme.Neumorph.Light.DialogWhenLarge" parent="Base.Theme.Neumorph.Light.DialogWhenLarge" />
+
+    <style name="Theme.Neumorph.CompactMenu" parent="Base.Theme.Neumorph.CompactMenu" />
+
+</resources>

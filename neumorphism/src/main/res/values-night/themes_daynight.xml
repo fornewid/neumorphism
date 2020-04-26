@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Neumorph.DayNight" parent="Theme.Neumorph" />
+
+    <style name="Theme.Neumorph.DayNight.DarkActionBar" parent="Theme.Neumorph" />
+
+    <style name="Theme.Neumorph.DayNight.NoActionBar" parent="Theme.Neumorph.NoActionBar" />
+
+    <style name="Theme.Neumorph.DayNight.DialogWhenLarge" parent="Theme.Neumorph.DialogWhenLarge" />
+
+</resources>

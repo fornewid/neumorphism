@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ThemeOverlay.Neumorph" parent="ThemeOverlay.AppCompat" />
+
+    <style name="ThemeOverlay.Neumorph.Light" parent="ThemeOverlay.AppCompat.Light">
+        <!-- TODO:
+        <item name="android:colorBackground">@color/design_default_color_background</item>
+        <item name="colorOnBackground">@color/design_default_color_on_background</item>
+        <item name="colorSurface">@color/design_default_color_surface</item>
+        <item name="colorOnSurface">@color/design_default_color_on_surface</item>
+        <item name="colorError">@color/design_default_color_error</item>
+        <item name="colorOnError">@color/design_default_color_on_error</item>
+        -->
+    </style>
+
+    <style name="ThemeOverlay.Neumorph.Dark" parent="ThemeOverlay.AppCompat.Dark">
+        <!-- TODO:
+        <item name="android:colorBackground">@color/design_default_color_background</item>
+        <item name="colorOnBackground">@color/design_default_color_on_background</item>
+        <item name="colorSurface">@color/design_default_color_surface</item>
+        <item name="colorOnSurface">@color/design_default_color_on_surface</item>
+        <item name="colorError">@color/design_default_color_error</item>
+        <item name="colorOnError">@color/design_default_color_on_error</item>
+        -->
+    </style>
+
+    <style name="ThemeOverlay.Neumorph.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar" />
+
+    <style name="ThemeOverlay.Neumorph.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+</resources>

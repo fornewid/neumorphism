@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.V21.Theme.Neumorph" parent="Base.V21.Theme.Neumorph.Bridge">
+        <item name="android:alertDialogTheme">@style/ThemeOverlay.AppCompat.Dialog.Alert</item>
+        <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
+        <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
+        <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
+        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
+        <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
+        <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
+    </style>
+
+    <style name="Base.V21.Theme.Neumorph.Light" parent="Base.V21.Theme.Neumorph.Light.Bridge">
+        <item name="android:alertDialogTheme">@style/ThemeOverlay.AppCompat.Dialog.Alert</item>
+        <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
+        <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
+        <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
+        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
+        <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
+        <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
+    </style>
+
+    <style name="Base.Theme.Neumorph" parent="Base.V21.Theme.Neumorph" />
+
+    <style name="Base.Theme.Neumorph.Light" parent="Base.V21.Theme.Neumorph.Light" />
+
+    <style name="Base.Theme.Neumorph.Light.DarkActionBar" parent="Base.Theme.Neumorph.Light" />
+
+    <style name="Base.Theme.Neumorph.CompactMenu" parent="" />
+
+    <style name="Base.Theme.Neumorph.DialogWhenLarge" parent="Theme.Neumorph" />
+
+    <style name="Base.Theme.Neumorph.Light.DialogWhenLarge" parent="Theme.Neumorph.Light" />
+
+</resources>

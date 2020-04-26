@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="defaultNeumorphButton">
+    <style name="Widget" />
+
+    <style name="Widget.Neumorph" />
+
+    <style name="Widget.Neumorph.Button" parent="android:Widget">
         <item name="android:textAppearance">?android:attr/textAppearanceButton</item>
         <item name="android:minHeight">48dip</item>
         <item name="android:minWidth">88dip</item>
@@ -12,59 +16,77 @@
         <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
         <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
         <item name="neumorph_shapeType">flat</item>
-        <item name="neumorph_shapeAppearance">@style/NeumorphShape.Rounded</item>
+        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.Button</item>
     </style>
 
-    <style name="defaultNeumorphCardView">
+    <style name="Widget.Neumorph.CardView" parent="android:Widget">
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
         <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
         <item name="neumorph_shapeType">flat</item>
-        <item name="neumorph_shapeAppearance">@style/NeumorphShape.Rounded</item>
+        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.CardView</item>
     </style>
 
-    <style name="defaultNeumorphFloatingActionButton">
+    <style name="Widget.Neumorph.FAB" parent="android:Widget">
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
         <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
         <item name="neumorph_shapeType">flat</item>
-        <item name="neumorph_shapeAppearance">@style/NeumorphShape.Oval</item>
+        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.FAB</item>
     </style>
 
-    <style name="defaultNeumorphEditText" parent="Widget.AppCompat.EditText">
+    <style name="Widget.Neumorph.EditText" parent="Widget.AppCompat.EditText">
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
         <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
         <item name="neumorph_shapeType">flat</item>
-        <item name="neumorph_shapeAppearance">@style/NeumorphShape.Rounded</item>
+        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.EditText</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
         <item name="android:background">@drawable/default_edit_text_background</item>
     </style>
 
-    <style name="defaultNeumorphImageView">
+    <style name="Widget.Neumorph.ImageView" parent="android:Widget">
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
         <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
         <item name="neumorph_shapeType">flat</item>
-        <item name="neumorph_shapeAppearance">@style/NeumorphShape.Rounded</item>
+        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.ImageView</item>
     </style>
 
-    <style name="defaultNeumorphTextView">
+    <style name="Widget.Neumorph.TextView" parent="android:Widget">
         <item name="neumorph_shadowElevation">2dp</item>
         <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
         <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
     </style>
 
-    <style name="NeumorphShape" />
+    <style name="ShapeAppearance" />
 
-    <style name="NeumorphShape.Rounded">
+    <style name="ShapeAppearance.Neumorph" />
+
+    <style name="ShapeAppearance.Neumorph.Button" parent="">
         <item name="neumorph_cornerFamily">rounded</item>
         <item name="neumorph_cornerSize">24dp</item>
     </style>
 
-    <style name="NeumorphShape.Oval">
+    <style name="ShapeAppearance.Neumorph.CardView" parent="">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">24dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Neumorph.FAB" parent="">
         <item name="neumorph_cornerFamily">oval</item>
+        <item name="neumorph_cornerSize">0dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Neumorph.EditText" parent="">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">24dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Neumorph.ImageView" parent="">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">24dp</item>
     </style>
 
 </resources>
