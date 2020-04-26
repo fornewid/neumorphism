@@ -39,65 +39,39 @@ allprojects {
 Then, add the library to your module `build.gradle`
 ```gradle
 dependencies {
-    implementation 'com.github.fornewid:neumorphism:0.1.2'
+    implementation 'com.github.fornewid:neumorphism:0.1.3'
 }
 ```
 
 ## Features
-- CardView
-- FloatingActionButton
-- Button
-- EditText
-- ImageView
-- TextView (Not supports shapeType)
+- Draw a shadow background on widgets for Neumorphism.
+  Supported on the following widgets:
+  - ViewGroup: CardView
+  - View: Button, EditText, FloatingActionButton, ImageView
+- Draw a text shadow on TextView for Neumorphism.
 
 > If you want more features, please click [new issue](https://github.com/fornewid/neumorphism/issues/new) and report to me!
 
 ## Usage
 There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) provided which shows how to use the library:
 
-- CardView
 ```xml
 <soup.neumorphism.NeumorphCardView
+    style="@style/Widget.Neumorph.CardView"
     ...
-    app:neumorph_shapeType="{flat|pressed|basin}"
     app:neumorph_shadowElevation="6dp"
     app:neumorph_shadowColorLight="@color/solid_light_color"
-    app:neumorph_shadowColorDark="@color/solid_dark_color" />
+    app:neumorph_shadowColorDark="@color/solid_dark_color"
+    app:neumorph_shapeType="{flat|pressed|basin}"
+    app:neumorph_shapeAppearance="@style/CustomShapeAppearance" />
+
+<style name="CustomShapeAppearance">
+    <item name="neumorph_cornerFamily">{rounded|oval}</item>
+    <item name="neumorph_cornerSize">32dp</item>
+</style>
 ```
 
-- FloatingActionButton
-```xml
-<soup.neumorphism.NeumorphFloatingActionButton />
-```
-
-- Button
-```xml
-<soup.neumorphism.NeumorphButton />
-```
-
-- EditText
-```xml
-<soup.neumorphism.NeumorphEditText />
-```
-
-- ImageView
-```xml
-<soup.neumorphism.NeumorphImageView />
-```
-
-- TextView
-```xml
-<soup.neumorphism.NeumorphTextView
-    ...
-    android:text="Neumorphism"
-    android:textColor="@color/background"
-    android:textSize="40sp"
-    android:textStyle="bold" />
-```
-
-#### ShapeType
-
+- #### ShapeType
 | FLAT | PRESSED | BASIN |
 | :--: | :-----: | :---: |
 | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/shape_flat.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/shape_pressed.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/shape_basin.png"/> |
