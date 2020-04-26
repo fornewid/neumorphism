@@ -9,12 +9,14 @@
     <attr name="neumorph_shadowElevation" format="dimension" />
     <attr name="neumorph_shadowColorLight" format="color" />
     <attr name="neumorph_shadowColorDark" format="color" />
+    <attr name="neumorph_shapeAppearance" format="reference" />
 
     <declare-styleable name="NeumorphButton">
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
+        <attr name="neumorph_shapeAppearance" />
     </declare-styleable>
 
     <declare-styleable name="NeumorphCardView">
@@ -22,6 +24,7 @@
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
+        <attr name="neumorph_shapeAppearance" />
     </declare-styleable>
 
     <declare-styleable name="NeumorphEditText">
@@ -29,6 +32,7 @@
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
+        <attr name="neumorph_shapeAppearance" />
     </declare-styleable>
 
     <declare-styleable name="NeumorphFloatingActionButton">
@@ -36,6 +40,7 @@
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
+        <attr name="neumorph_shapeAppearance" />
     </declare-styleable>
 
     <declare-styleable name="NeumorphImageView">
@@ -43,6 +48,7 @@
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
+        <attr name="neumorph_shapeAppearance" />
     </declare-styleable>
 
     <declare-styleable name="NeumorphTextView">
@@ -52,7 +58,7 @@
     </declare-styleable>
 
     <declare-styleable name="NeumorphShape">
-        <attr name="neumorph_shapeAppearance" format="reference" />
+        <attr name="neumorph_shapeAppearance" />
     </declare-styleable>
 
     <declare-styleable name="NeumorphShapeAppearance">
