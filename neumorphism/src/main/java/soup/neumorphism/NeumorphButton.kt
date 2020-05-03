@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatButton
 
@@ -48,6 +49,15 @@ class NeumorphButton @JvmOverloads constructor(
 
     override fun setBackgroundDrawable(drawable: Drawable?) {
         Log.i(LOG_TAG, "Setting a custom background is not supported.");
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        when(event.action){
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_DOWN, MotionEvent.ACTION_BUTTON_PRESS -> shapeDrawable.setShapeType(ShapeType.DEFAULT) // Pressed down
+            MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_BUTTON_RELEASE -> shapeDrawable.setShapeType(ShapeType.PRESSED)
+            else -> shapeDrawable.setShapeType(ShapeType.PRESSED)
+        }
+        return super.onTouchEvent(event)
     }
 
     private fun setBackgroundInternal(drawable: Drawable?) {
