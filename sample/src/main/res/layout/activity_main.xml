@@ -60,7 +60,7 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="flat_card,pressed_card" />
 
-    <soup.neumorphism.NeumorphImageView
+    <soup.neumorphism.NeumorphImageButton
         android:id="@+id/flat_image_view"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -71,7 +71,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_barrier" />
 
-    <soup.neumorphism.NeumorphImageView
+    <soup.neumorphism.NeumorphImageButton
         android:id="@+id/pressed_image_view"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -83,7 +83,7 @@
         app:layout_constraintTop_toBottomOf="@id/card_barrier"
         app:neumorph_shapeType="pressed" />
 
-    <soup.neumorphism.NeumorphImageView
+    <soup.neumorphism.NeumorphImageButton
         android:id="@+id/basin_image_view"
         android:layout_width="64dp"
         android:layout_height="64dp"

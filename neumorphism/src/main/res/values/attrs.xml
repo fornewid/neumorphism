@@ -56,6 +56,15 @@
         <attr name="neumorph_shapeAppearance" />
     </declare-styleable>
 
+    <attr name="neumorphImageButtonStyle" format="reference" />
+    <declare-styleable name="NeumorphImageButton">
+        <attr name="neumorph_shapeType" />
+        <attr name="neumorph_shadowElevation" />
+        <attr name="neumorph_shadowColorLight" />
+        <attr name="neumorph_shadowColorDark" />
+        <attr name="neumorph_shapeAppearance" />
+    </declare-styleable>
+
     <attr name="neumorphTextViewStyle" format="reference" />
     <declare-styleable name="NeumorphTextView">
         <attr name="neumorph_shadowElevation" />

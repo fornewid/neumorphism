@@ -8,6 +8,7 @@
         <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
         <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
         <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
+        <item name="neumorphImageButtonStyle">@style/Widget.Neumorph.ImageButton</item>
         <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
     </style>
 
@@ -18,6 +19,7 @@
         <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
         <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
         <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
+        <item name="neumorphImageButtonStyle">@style/Widget.Neumorph.ImageButton</item>
         <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
     </style>
 

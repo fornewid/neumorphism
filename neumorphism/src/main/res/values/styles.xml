@@ -58,6 +58,18 @@
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.ImageView</item>
     </style>
 
+    <style name="Widget.Neumorph.ImageButton" parent="android:Widget">
+        <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:scaleType">center</item>
+        <item name="neumorph_shadowElevation">6dp</item>
+        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
+        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
+        <item name="neumorph_shapeType">flat</item>
+        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.ImageView</item>
+    </style>
+
     <style name="Widget.Neumorph.TextView" parent="android:Widget">
         <item name="neumorph_shadowElevation">2dp</item>
         <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
