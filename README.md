@@ -21,7 +21,7 @@
 <h2 align="center">Preview</h2>
 <h4 align="center">Light    |    Dark</h4>
 <p align="center">
-<img width="300" src="https://github.com/fornewid/Neumorphism/blob/master/art/preview_light.png"/> <img width="300" src="https://github.com/fornewid/Neumorphism/blob/master/art/preview_dark.png"/>
+<img width="300" src="https://github.com/fornewid/Neumorphism/blob/master/art/preview_light.gif"/> <img width="300" src="https://github.com/fornewid/Neumorphism/blob/master/art/preview_dark.gif"/>
 </p>
 
 ## Dependency
@@ -39,7 +39,7 @@ allprojects {
 Then, add the library to your module `build.gradle`
 ```gradle
 dependencies {
-    implementation 'com.github.fornewid:neumorphism:0.1.3'
+    implementation 'com.github.fornewid:neumorphism:0.1.4'
 }
 ```
 
