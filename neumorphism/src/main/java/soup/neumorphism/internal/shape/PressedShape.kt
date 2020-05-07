@@ -10,6 +10,7 @@ import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
 import soup.neumorphism.internal.util.onCanvas
 import soup.neumorphism.internal.util.withClip
 import soup.neumorphism.internal.util.withTranslation
+import kotlin.math.min
 
 internal class PressedShape(
     private var drawableState: NeumorphShapeDrawableState
@@ -47,10 +48,12 @@ internal class PressedShape(
                     shape = GradientDrawable.OVAL
                 }
                 CornerFamily.ROUNDED -> {
+                    val cornerSize = min(
+                        min(w / 2f, h / 2f),
+                        drawableState.shapeAppearanceModel.getCornerSize()
+                    )
                     shape = GradientDrawable.RECTANGLE
-                    cornerRadii = drawableState.shapeAppearanceModel.getCornerSize().let {
-                        floatArrayOf(0f, 0f, 0f, 0f, it, it, 0f, 0f)
-                    }
+                    cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, cornerSize, cornerSize, 0f, 0f)
                 }
             }
         }
@@ -63,10 +66,12 @@ internal class PressedShape(
                     shape = GradientDrawable.OVAL
                 }
                 CornerFamily.ROUNDED -> {
+                    val cornerSize = min(
+                        min(w / 2f, h / 2f),
+                        drawableState.shapeAppearanceModel.getCornerSize()
+                    )
                     shape = GradientDrawable.RECTANGLE
-                    cornerRadii = drawableState.shapeAppearanceModel.getCornerSize().let {
-                        floatArrayOf(it, it, 0f, 0f, 0f, 0f, 0f, 0f)
-                    }
+                    cornerRadii = floatArrayOf(cornerSize, cornerSize, 0f, 0f, 0f, 0f, 0f, 0f)
                 }
             }
         }

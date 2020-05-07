@@ -87,7 +87,7 @@
 
     <style name="ShapeAppearance.Neumorph.CardView" parent="">
         <item name="neumorph_cornerFamily">rounded</item>
-        <item name="neumorph_cornerSize">24dp</item>
+        <item name="neumorph_cornerSize">36dp</item>
     </style>
 
     <style name="ShapeAppearance.Neumorph.FAB" parent="">
