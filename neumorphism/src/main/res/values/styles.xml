@@ -9,6 +9,7 @@
         <item name="android:textAppearance">?android:attr/textAppearanceButton</item>
         <item name="android:minHeight">48dip</item>
         <item name="android:minWidth">88dip</item>
+        <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
@@ -28,6 +29,9 @@
     </style>
 
     <style name="Widget.Neumorph.FAB" parent="android:Widget">
+        <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
         <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>

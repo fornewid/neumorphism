@@ -131,6 +131,25 @@ class NeumorphShapeDrawable : Drawable {
         }
     }
 
+    fun getTranslationZ(): Float {
+        return drawableState.translationZ
+    }
+
+    fun setTranslationZ(translationZ: Float) {
+        if (drawableState.translationZ != translationZ) {
+            drawableState.translationZ = translationZ
+            invalidateSelfIgnoreShape()
+        }
+    }
+
+    fun getZ(): Float {
+        return getShadowElevation() + getTranslationZ()
+    }
+
+    fun setZ(z: Float) {
+        setTranslationZ(z - getShadowElevation())
+    }
+
     override fun invalidateSelf() {
         dirty = true
         super.invalidateSelf()
@@ -203,6 +222,7 @@ class NeumorphShapeDrawable : Drawable {
         var shadowElevation: Float = 0f
         var shadowColorLight: Int = Color.WHITE
         var shadowColorDark: Int = Color.BLACK
+        var translationZ = 0f
 
         constructor(
             shapeAppearanceModel: NeumorphShapeAppearanceModel,

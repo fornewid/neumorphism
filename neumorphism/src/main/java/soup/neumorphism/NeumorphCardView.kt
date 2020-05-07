@@ -87,6 +87,11 @@ class NeumorphCardView @JvmOverloads constructor(
         shapeDrawable.setShadowColorDark(shadowColor)
     }
 
+    override fun setTranslationZ(translationZ: Float) {
+        super.setTranslationZ(translationZ)
+        shapeDrawable.setTranslationZ(translationZ)
+    }
+
     companion object {
         private const val LOG_TAG = "NeumorphCardView"
     }
