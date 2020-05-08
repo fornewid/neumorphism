@@ -33,11 +33,11 @@ internal class FlatShape(
             val z = drawableState.shadowElevation + drawableState.translationZ
             lightShadowBitmap?.let {
                 val offset = -elevation - z
-                canvas.drawBitmap(it, offset, offset, null)
+                drawBitmap(it, offset, offset, null)
             }
             darkShadowBitmap?.let {
                 val offset = -elevation + z
-                canvas.drawBitmap(it, offset, offset, null)
+                drawBitmap(it, offset, offset, null)
             }
         }
     }

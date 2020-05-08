@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <attr name="neumorph_backgroundColor" format="color" />
+    <attr name="neumorph_strokeColor" format="color" />
+    <attr name="neumorph_strokeWidth" format="dimension" />
     <attr name="neumorph_shapeType" format="enum">
         <enum name="flat" value="0" />
         <enum name="pressed" value="1" />
@@ -13,6 +16,9 @@
 
     <attr name="neumorphButtonStyle" format="reference" />
     <declare-styleable name="NeumorphButton">
+        <attr name="neumorph_backgroundColor" />
+        <attr name="neumorph_strokeColor" />
+        <attr name="neumorph_strokeWidth" />
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
@@ -22,6 +28,9 @@
 
     <attr name="neumorphCardViewStyle" format="reference" />
     <declare-styleable name="NeumorphCardView">
+        <attr name="neumorph_backgroundColor" />
+        <attr name="neumorph_strokeColor" />
+        <attr name="neumorph_strokeWidth" />
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
@@ -31,6 +40,9 @@
 
     <attr name="neumorphEditTextStyle" format="reference" />
     <declare-styleable name="NeumorphEditText">
+        <attr name="neumorph_backgroundColor" />
+        <attr name="neumorph_strokeColor" />
+        <attr name="neumorph_strokeWidth" />
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
@@ -40,6 +52,9 @@
 
     <attr name="neumorphFloatingActionButtonStyle" format="reference" />
     <declare-styleable name="NeumorphFloatingActionButton">
+        <attr name="neumorph_backgroundColor" />
+        <attr name="neumorph_strokeColor" />
+        <attr name="neumorph_strokeWidth" />
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
@@ -49,6 +64,9 @@
 
     <attr name="neumorphImageViewStyle" format="reference" />
     <declare-styleable name="NeumorphImageView">
+        <attr name="neumorph_backgroundColor" />
+        <attr name="neumorph_strokeColor" />
+        <attr name="neumorph_strokeWidth" />
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />
@@ -58,6 +76,9 @@
 
     <attr name="neumorphImageButtonStyle" format="reference" />
     <declare-styleable name="NeumorphImageButton">
+        <attr name="neumorph_backgroundColor" />
+        <attr name="neumorph_strokeColor" />
+        <attr name="neumorph_strokeWidth" />
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_shadowElevation" />
         <attr name="neumorph_shadowColorLight" />

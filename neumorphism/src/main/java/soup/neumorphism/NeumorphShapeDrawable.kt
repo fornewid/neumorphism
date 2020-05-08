@@ -1,6 +1,7 @@
 package soup.neumorphism
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -17,9 +18,18 @@ class NeumorphShapeDrawable : Drawable {
 
     private var drawableState: NeumorphShapeDrawableState
 
-    private val boundsF = RectF()
-
     private var dirty = false
+
+    private val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+        color = Color.TRANSPARENT
+    }
+    private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        color = Color.TRANSPARENT
+    }
+
+    private val rectF = RectF()
 
     private val outlinePath = Path()
     private var shadow: Shape? = null
@@ -78,6 +88,47 @@ class NeumorphShapeDrawable : Drawable {
         return drawableState.shapeAppearanceModel
     }
 
+    fun setFillColor(fillColor: ColorStateList?) {
+        if (drawableState.fillColor != fillColor) {
+            drawableState.fillColor = fillColor
+            onStateChange(state)
+        }
+    }
+
+    fun getFillColor(): ColorStateList? {
+        return drawableState.fillColor
+    }
+
+    fun setStrokeColor(strokeColor: ColorStateList?) {
+        if (drawableState.strokeColor != strokeColor) {
+            drawableState.strokeColor = strokeColor
+            onStateChange(state)
+        }
+    }
+
+    fun getStrokeColor(): ColorStateList? {
+        return drawableState.strokeColor
+    }
+
+    fun setStroke(strokeWidth: Float, @ColorInt strokeColor: Int) {
+        setStrokeWidth(strokeWidth)
+        setStrokeColor(ColorStateList.valueOf(strokeColor))
+    }
+
+    fun setStroke(strokeWidth: Float, strokeColor: ColorStateList?) {
+        setStrokeWidth(strokeWidth)
+        setStrokeColor(strokeColor)
+    }
+
+    fun getStrokeWidth(): Float {
+        return drawableState.strokeWidth
+    }
+
+    fun setStrokeWidth(strokeWidth: Float) {
+        drawableState.strokeWidth = strokeWidth
+        invalidateSelf()
+    }
+
     override fun getOpacity(): Int {
         return PixelFormat.TRANSLUCENT
     }
@@ -91,6 +142,11 @@ class NeumorphShapeDrawable : Drawable {
 
     override fun setColorFilter(colorFilter: ColorFilter?) {
         // not supported yet
+    }
+
+    private fun getBoundsAsRectF(): RectF {
+        rectF.set(bounds)
+        return rectF
     }
 
     fun setShapeType(@ShapeType shapeType: Int) {
@@ -159,10 +215,65 @@ class NeumorphShapeDrawable : Drawable {
         super.invalidateSelf()
     }
 
+    fun getPaintStyle(): Paint.Style? {
+        return drawableState.paintStyle
+    }
+
+    fun setPaintStyle(paintStyle: Paint.Style) {
+        drawableState.paintStyle = paintStyle
+        invalidateSelfIgnoreShape()
+    }
+
+    private fun hasFill(): Boolean {
+        return (drawableState.paintStyle === Paint.Style.FILL_AND_STROKE
+                || drawableState.paintStyle === Paint.Style.FILL)
+    }
+
+    private fun hasStroke(): Boolean {
+        return ((drawableState.paintStyle == Paint.Style.FILL_AND_STROKE
+                || drawableState.paintStyle == Paint.Style.STROKE)
+                && strokePaint.strokeWidth > 0)
+    }
+
     override fun onBoundsChange(bounds: Rect) {
-        super.onBoundsChange(bounds)
-        boundsF.set(bounds)
         dirty = true
+        super.onBoundsChange(bounds)
+    }
+
+    override fun draw(canvas: Canvas) {
+        val prevAlpha = fillPaint.alpha
+        fillPaint.alpha = modulateAlpha(prevAlpha, drawableState.alpha)
+
+        strokePaint.strokeWidth = drawableState.strokeWidth
+        val prevStrokeAlpha = strokePaint.alpha
+        strokePaint.alpha = modulateAlpha(prevStrokeAlpha, drawableState.alpha)
+
+        if (dirty) {
+            calculateOutlinePath(getBoundsAsRectF(), outlinePath)
+            shadow?.updateShadowBitmap(bounds)
+            dirty = false
+        }
+
+        if (hasFill()) {
+            drawFillShape(canvas)
+        }
+
+        shadow?.draw(canvas, outlinePath)
+
+        if (hasStroke()) {
+            drawStrokeShape(canvas)
+        }
+
+        fillPaint.alpha = prevAlpha
+        strokePaint.alpha = prevStrokeAlpha
+    }
+
+    private fun drawFillShape(canvas: Canvas) {
+        canvas.drawPath(outlinePath, fillPaint)
+    }
+
+    private fun drawStrokeShape(canvas: Canvas) {
+        canvas.drawPath(outlinePath, strokePaint)
     }
 
     fun getOutlinePath(): Path {
@@ -201,19 +312,49 @@ class NeumorphShapeDrawable : Drawable {
         }
     }
 
-    override fun draw(canvas: Canvas) {
-        if (dirty) {
-            calculateOutlinePath(boundsF, outlinePath)
-            shadow?.updateShadowBitmap(bounds)
-            dirty = false
+    override fun isStateful(): Boolean {
+        return (super.isStateful()
+                || drawableState.fillColor?.isStateful == true)
+    }
+
+    override fun onStateChange(state: IntArray): Boolean {
+        val paintColorChanged = updateColorsForState(state)
+        val invalidateSelf = paintColorChanged
+        if (invalidateSelf) {
+            invalidateSelf()
         }
-        shadow?.draw(canvas, outlinePath)
+        return invalidateSelf
+    }
+
+    private fun updateColorsForState(state: IntArray): Boolean {
+        var invalidateSelf = false
+        drawableState.fillColor?.let { fillColor ->
+            val previousFillColor: Int = fillPaint.color
+            val newFillColor: Int = fillColor.getColorForState(state, previousFillColor)
+            if (previousFillColor != newFillColor) {
+                fillPaint.color = newFillColor
+                invalidateSelf = true
+            }
+        }
+        drawableState.strokeColor?.let { strokeColor ->
+            val previousStrokeColor = strokePaint.color
+            val newStrokeColor = strokeColor.getColorForState(state, previousStrokeColor)
+            if (previousStrokeColor != newStrokeColor) {
+                strokePaint.color = newStrokeColor
+                invalidateSelf = true
+            }
+        }
+        return invalidateSelf
     }
 
     internal class NeumorphShapeDrawableState : ConstantState {
 
         var shapeAppearanceModel: NeumorphShapeAppearanceModel
         val blurProvider: BlurProvider
+
+        var fillColor: ColorStateList? = null
+        var strokeColor: ColorStateList? = null
+        var strokeWidth = 0f
 
         var alpha = 255
 
@@ -223,6 +364,8 @@ class NeumorphShapeDrawable : Drawable {
         var shadowColorLight: Int = Color.WHITE
         var shadowColorDark: Int = Color.BLACK
         var translationZ = 0f
+
+        var paintStyle: Paint.Style = Paint.Style.FILL_AND_STROKE
 
         constructor(
             shapeAppearanceModel: NeumorphShapeAppearanceModel,
@@ -240,6 +383,10 @@ class NeumorphShapeDrawable : Drawable {
             shadowElevation = orig.shadowElevation
             shadowColorLight = orig.shadowColorLight
             shadowColorDark = orig.shadowColorDark
+            fillColor = orig.fillColor
+            strokeColor = orig.strokeColor
+            strokeWidth = orig.strokeWidth
+            paintStyle = orig.paintStyle
         }
 
         override fun newDrawable(): Drawable {
@@ -251,6 +398,14 @@ class NeumorphShapeDrawable : Drawable {
 
         override fun getChangingConfigurations(): Int {
             return 0
+        }
+    }
+
+    companion object {
+
+        private fun modulateAlpha(paintAlpha: Int, alpha: Int): Int {
+            val scale = alpha + (alpha ushr 7) // convert to 0..256
+            return paintAlpha * scale ushr 8
         }
     }
 }

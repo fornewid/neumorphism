@@ -1,6 +1,7 @@
 package soup.neumorphism
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Color
 import android.util.AttributeSet
@@ -29,6 +30,9 @@ class NeumorphEditText @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphEditText, defStyleAttr, defStyleRes
         )
+        val fillColor = a.getColorStateList(R.styleable.NeumorphEditText_neumorph_backgroundColor)
+        val strokeColor = a.getColorStateList(R.styleable.NeumorphEditText_neumorph_strokeColor)
+        val strokeWidth = a.getDimension(R.styleable.NeumorphEditText_neumorph_strokeWidth, 0f)
         val shapeType = a.getInt(R.styleable.NeumorphEditText_neumorph_shapeType, ShapeType.DEFAULT)
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphEditText_neumorph_shadowElevation, 0f
@@ -46,6 +50,8 @@ class NeumorphEditText @JvmOverloads constructor(
             setShadowElevation(shadowElevation)
             setShadowColorLight(shadowColorLight)
             setShadowColorDark(shadowColorDark)
+            setFillColor(fillColor)
+            setStroke(strokeWidth, strokeColor)
         }
         with(context.resources) {
             underlineHeight = getDimensionPixelSize(R.dimen.edit_text_underline_height)
@@ -91,6 +97,30 @@ class NeumorphEditText @JvmOverloads constructor(
 
     fun getShapeAppearanceModel(): NeumorphShapeAppearanceModel {
         return shapeDrawable.getShapeAppearanceModel()
+    }
+
+    fun setBackgroundColor(backgroundColor: ColorStateList?) {
+        shapeDrawable.setFillColor(backgroundColor)
+    }
+
+    fun getBackgroundColor(): ColorStateList? {
+        return shapeDrawable.getFillColor()
+    }
+
+    fun setStrokeColor(strokeColor: ColorStateList?) {
+        shapeDrawable.setStrokeColor(strokeColor)
+    }
+
+    fun getStrokeColor(): ColorStateList? {
+        return shapeDrawable.getStrokeColor()
+    }
+
+    fun setStrokeWidth(strokeWidth: Float) {
+        shapeDrawable.setStrokeWidth(strokeWidth)
+    }
+
+    fun getStrokeWidth(): Float {
+        return shapeDrawable.getStrokeWidth()
     }
 
     fun setShapeType(@ShapeType shapeType: Int) {

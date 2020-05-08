@@ -1,6 +1,7 @@
 package soup.neumorphism
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -22,6 +23,9 @@ class NeumorphImageButton @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphImageButton, defStyleAttr, defStyleRes
         )
+        val fillColor = a.getColorStateList(R.styleable.NeumorphImageButton_neumorph_backgroundColor)
+        val strokeColor = a.getColorStateList(R.styleable.NeumorphImageButton_neumorph_strokeColor)
+        val strokeWidth = a.getDimension(R.styleable.NeumorphImageButton_neumorph_strokeWidth, 0f)
         val shapeType = a.getInt(R.styleable.NeumorphImageButton_neumorph_shapeType, ShapeType.DEFAULT)
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphImageButton_neumorph_shadowElevation, 0f
@@ -39,6 +43,8 @@ class NeumorphImageButton @JvmOverloads constructor(
             setShadowElevation(shadowElevation)
             setShadowColorLight(shadowColorLight)
             setShadowColorDark(shadowColorDark)
+            setFillColor(fillColor)
+            setStroke(strokeWidth, strokeColor)
         }
         setBackgroundInternal(shapeDrawable)
     }
@@ -48,7 +54,7 @@ class NeumorphImageButton @JvmOverloads constructor(
     }
 
     override fun setBackgroundDrawable(drawable: Drawable?) {
-        Log.i(LOG_TAG, "Setting a custom background is not supported.");
+        Log.i(LOG_TAG, "Setting a custom background is not supported.")
     }
 
     private fun setBackgroundInternal(drawable: Drawable?) {
@@ -61,6 +67,30 @@ class NeumorphImageButton @JvmOverloads constructor(
 
     fun getShapeAppearanceModel(): NeumorphShapeAppearanceModel {
         return shapeDrawable.getShapeAppearanceModel()
+    }
+
+    fun setBackgroundColor(backgroundColor: ColorStateList?) {
+        shapeDrawable.setFillColor(backgroundColor)
+    }
+
+    fun getBackgroundColor(): ColorStateList? {
+        return shapeDrawable.getFillColor()
+    }
+
+    fun setStrokeColor(strokeColor: ColorStateList?) {
+        shapeDrawable.setStrokeColor(strokeColor)
+    }
+
+    fun getStrokeColor(): ColorStateList? {
+        return shapeDrawable.getStrokeColor()
+    }
+
+    fun setStrokeWidth(strokeWidth: Float) {
+        shapeDrawable.setStrokeWidth(strokeWidth)
+    }
+
+    fun getStrokeWidth(): Float {
+        return shapeDrawable.getStrokeWidth()
     }
 
     fun setShapeType(@ShapeType shapeType: Int) {
