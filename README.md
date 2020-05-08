@@ -39,7 +39,7 @@ allprojects {
 Then, add the library to your module `build.gradle`
 ```gradle
 dependencies {
-    implementation 'com.github.fornewid:neumorphism:0.1.4'
+    implementation 'com.github.fornewid:neumorphism:0.1.5'
 }
 ```
 
@@ -63,7 +63,11 @@ There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) 
     app:neumorph_shadowColorLight="@color/solid_light_color"
     app:neumorph_shadowColorDark="@color/solid_dark_color"
     app:neumorph_shapeType="{flat|pressed|basin}"
-    app:neumorph_shapeAppearance="@style/CustomShapeAppearance" />
+    app:neumorph_shapeAppearance="@style/CustomShapeAppearance"
+    ...(if needs)...
+    app:neumorph_backgroundColor="@color/background_color"
+    app:neumorph_strokeColor="@color/stroke_color"
+    app:neumorph_strokeWidth="@dimen/stroke_width" />
 
 <style name="CustomShapeAppearance">
     <item name="neumorph_cornerFamily">{rounded|oval}</item>
