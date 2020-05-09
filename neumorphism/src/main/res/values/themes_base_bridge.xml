@@ -6,6 +6,9 @@
     <style name="Platform.Neumorph.Light" parent="Theme.AppCompat.Light" />
 
     <style name="Base.V21.Theme.Neumorph.Bridge" parent="Platform.Neumorph">
+        <item name="colorShadowLight">@color/design_dark_default_color_shadow_light</item>
+        <item name="colorShadowDark">@color/design_dark_default_color_shadow_dark</item>
+
         <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
         <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
         <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
@@ -16,6 +19,9 @@
     </style>
 
     <style name="Base.V21.Theme.Neumorph.Light.Bridge" parent="Platform.Neumorph.Light">
+        <item name="colorShadowLight">@color/design_default_color_shadow_light</item>
+        <item name="colorShadowDark">@color/design_default_color_shadow_dark</item>
+
         <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
         <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
         <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
@@ -26,6 +32,9 @@
     </style>
 
     <style name="Base.V21.Theme.Neumorph.Light.DarkActionBar.Bridge" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorShadowLight">@color/design_default_color_shadow_light</item>
+        <item name="colorShadowDark">@color/design_default_color_shadow_dark</item>
+
         <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
         <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
         <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>

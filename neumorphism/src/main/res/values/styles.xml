@@ -14,16 +14,16 @@
         <item name="android:clickable">true</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="neumorph_shadowElevation">6dp</item>
-        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
-        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
+        <item name="neumorph_shadowColorLight">?colorShadowLight</item>
+        <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.Button</item>
     </style>
 
     <style name="Widget.Neumorph.CardView" parent="android:Widget">
         <item name="neumorph_shadowElevation">6dp</item>
-        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
-        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
+        <item name="neumorph_shadowColorLight">?colorShadowLight</item>
+        <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.CardView</item>
     </style>
@@ -33,16 +33,16 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="neumorph_shadowElevation">6dp</item>
-        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
-        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
+        <item name="neumorph_shadowColorLight">?colorShadowLight</item>
+        <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.FAB</item>
     </style>
 
     <style name="Widget.Neumorph.EditText" parent="Widget.AppCompat.EditText">
         <item name="neumorph_shadowElevation">6dp</item>
-        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
-        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
+        <item name="neumorph_shadowColorLight">?colorShadowLight</item>
+        <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.EditText</item>
         <item name="android:paddingStart">16dp</item>
@@ -52,8 +52,8 @@
 
     <style name="Widget.Neumorph.ImageView" parent="android:Widget">
         <item name="neumorph_shadowElevation">6dp</item>
-        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
-        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
+        <item name="neumorph_shadowColorLight">?colorShadowLight</item>
+        <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.ImageView</item>
     </style>
@@ -64,16 +64,16 @@
         <item name="android:clickable">true</item>
         <item name="android:scaleType">center</item>
         <item name="neumorph_shadowElevation">6dp</item>
-        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
-        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
+        <item name="neumorph_shadowColorLight">?colorShadowLight</item>
+        <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.ImageView</item>
     </style>
 
     <style name="Widget.Neumorph.TextView" parent="android:Widget">
         <item name="neumorph_shadowElevation">2dp</item>
-        <item name="neumorph_shadowColorLight">@color/default_shadow_light</item>
-        <item name="neumorph_shadowColorDark">@color/default_shadow_dark</item>
+        <item name="neumorph_shadowColorLight">?colorShadowLight</item>
+        <item name="neumorph_shadowColorDark">?colorShadowDark</item>
     </style>
 
     <style name="ShapeAppearance" />

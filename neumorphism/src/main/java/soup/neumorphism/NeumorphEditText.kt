@@ -3,11 +3,11 @@ package soup.neumorphism
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Canvas
-import android.graphics.Color
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatEditText
 import soup.neumorphism.internal.blur.BlurProvider
+import soup.neumorphism.internal.util.NeumorphResources
 import soup.neumorphism.internal.util.withClip
 import soup.neumorphism.internal.util.withTranslation
 
@@ -37,11 +37,15 @@ class NeumorphEditText @JvmOverloads constructor(
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphEditText_neumorph_shadowElevation, 0f
         )
-        val shadowColorLight = a.getColor(
-            R.styleable.NeumorphEditText_neumorph_shadowColorLight, Color.WHITE
+        val shadowColorLight = NeumorphResources.getColor(
+            context, a,
+            R.styleable.NeumorphEditText_neumorph_shadowColorLight,
+            R.color.design_default_color_shadow_light
         )
-        val shadowColorDark = a.getColor(
-            R.styleable.NeumorphEditText_neumorph_shadowColorDark, Color.BLACK
+        val shadowColorDark = NeumorphResources.getColor(
+            context, a,
+            R.styleable.NeumorphEditText_neumorph_shadowColorDark,
+            R.color.design_default_color_shadow_dark
         )
         a.recycle()
 

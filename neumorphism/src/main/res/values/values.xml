@@ -1,6 +1,13 @@
 <resources>
-    <color name="default_shadow_light">#ffffff</color>
-    <color name="default_shadow_dark">#d9d9d9</color>
+
+    <!-- Light theme colors. -->
+    <color name="design_default_color_shadow_light">#ffffff</color>
+    <color name="design_default_color_shadow_dark">#d9d9d9</color>
+
+    <!-- Dark theme colors. -->
+    <color name="design_dark_default_color_shadow_light">#2c2c2c</color>
+    <color name="design_dark_default_color_shadow_dark">#111111</color>
+
     <dimen name="edit_text_underline_inset_bottom">4dp</dimen>
     <dimen name="edit_text_underline_height">5dp</dimen>
     <dimen name="edit_text_underline_corner_size">2dp</dimen>

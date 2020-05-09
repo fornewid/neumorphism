@@ -2,13 +2,12 @@ package soup.neumorphism
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.AppCompatImageView
+import soup.neumorphism.internal.util.NeumorphResources
 
 class NeumorphImageButton @JvmOverloads constructor(
     context: Context,
@@ -30,11 +29,15 @@ class NeumorphImageButton @JvmOverloads constructor(
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphImageButton_neumorph_shadowElevation, 0f
         )
-        val shadowColorLight = a.getColor(
-            R.styleable.NeumorphImageButton_neumorph_shadowColorLight, Color.WHITE
+        val shadowColorLight = NeumorphResources.getColor(
+            context, a,
+            R.styleable.NeumorphImageButton_neumorph_shadowColorLight,
+            R.color.design_default_color_shadow_light
         )
-        val shadowColorDark = a.getColor(
-            R.styleable.NeumorphImageButton_neumorph_shadowColorDark, Color.BLACK
+        val shadowColorDark = NeumorphResources.getColor(
+            context, a,
+            R.styleable.NeumorphImageButton_neumorph_shadowColorDark,
+            R.color.design_default_color_shadow_dark
         )
         a.recycle()
 

@@ -8,6 +8,7 @@ import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
+import soup.neumorphism.internal.util.NeumorphResources
 import kotlin.math.max
 
 class NeumorphTextView @JvmOverloads constructor(
@@ -30,14 +31,18 @@ class NeumorphTextView @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphTextView, defStyleAttr, defStyleRes
         )
-        shadowElevation = a.getDimensionPixelSize(
-            R.styleable.NeumorphTextView_neumorph_shadowElevation, 0
-        ).toFloat()
-        shadowColorLight = a.getColor(
-            R.styleable.NeumorphTextView_neumorph_shadowColorLight, Color.WHITE
+        shadowElevation = a.getDimension(
+            R.styleable.NeumorphTextView_neumorph_shadowElevation, 0f
         )
-        shadowColorDark = a.getColor(
-            R.styleable.NeumorphTextView_neumorph_shadowColorDark, Color.BLACK
+        shadowColorLight = NeumorphResources.getColor(
+            context, a,
+            R.styleable.NeumorphTextView_neumorph_shadowColorLight,
+            R.color.design_default_color_shadow_light
+        )
+        shadowColorDark = NeumorphResources.getColor(
+            context, a,
+            R.styleable.NeumorphTextView_neumorph_shadowColorDark,
+            R.color.design_default_color_shadow_dark
         )
         a.recycle()
     }

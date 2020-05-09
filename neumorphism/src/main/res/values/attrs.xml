@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <attr name="colorShadowLight" format="color"/>
+    <attr name="colorShadowDark" format="color"/>
+
     <attr name="neumorph_backgroundColor" format="color" />
     <attr name="neumorph_strokeColor" format="color" />
     <attr name="neumorph_strokeWidth" format="dimension" />
