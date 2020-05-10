@@ -4,29 +4,55 @@
     <style name="ThemeOverlay.Neumorph" parent="ThemeOverlay.AppCompat" />
 
     <style name="ThemeOverlay.Neumorph.Light" parent="ThemeOverlay.AppCompat.Light">
-        <!-- TODO:
-        <item name="android:colorBackground">@color/design_default_color_background</item>
-        <item name="colorOnBackground">@color/design_default_color_on_background</item>
-        <item name="colorSurface">@color/design_default_color_surface</item>
-        <item name="colorOnSurface">@color/design_default_color_on_surface</item>
-        <item name="colorError">@color/design_default_color_error</item>
-        <item name="colorOnError">@color/design_default_color_on_error</item>
-        -->
+        <item name="colorShadowLight">@color/design_default_color_shadow_light</item>
+        <item name="colorShadowDark">@color/design_default_color_shadow_dark</item>
+
+        <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
+        <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
+        <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
+        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
+        <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
+        <item name="neumorphImageButtonStyle">@style/Widget.Neumorph.ImageButton</item>
+        <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
     </style>
 
     <style name="ThemeOverlay.Neumorph.Dark" parent="ThemeOverlay.AppCompat.Dark">
-        <!-- TODO:
-        <item name="android:colorBackground">@color/design_default_color_background</item>
-        <item name="colorOnBackground">@color/design_default_color_on_background</item>
-        <item name="colorSurface">@color/design_default_color_surface</item>
-        <item name="colorOnSurface">@color/design_default_color_on_surface</item>
-        <item name="colorError">@color/design_default_color_error</item>
-        <item name="colorOnError">@color/design_default_color_on_error</item>
-        -->
+        <item name="colorShadowLight">@color/design_dark_default_color_shadow_light</item>
+        <item name="colorShadowDark">@color/design_dark_default_color_shadow_dark</item>
+
+        <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
+        <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
+        <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
+        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
+        <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
+        <item name="neumorphImageButtonStyle">@style/Widget.Neumorph.ImageButton</item>
+        <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
     </style>
 
-    <style name="ThemeOverlay.Neumorph.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar" />
+    <style name="ThemeOverlay.Neumorph.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorShadowLight">@color/design_default_color_shadow_light</item>
+        <item name="colorShadowDark">@color/design_default_color_shadow_dark</item>
 
-    <style name="ThemeOverlay.Neumorph.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+        <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
+        <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
+        <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
+        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
+        <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
+        <item name="neumorphImageButtonStyle">@style/Widget.Neumorph.ImageButton</item>
+        <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
+    </style>
+
+    <style name="ThemeOverlay.Neumorph.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorShadowLight">@color/design_dark_default_color_shadow_light</item>
+        <item name="colorShadowDark">@color/design_dark_default_color_shadow_dark</item>
+
+        <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
+        <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
+        <item name="neumorphEditTextStyle">@style/Widget.Neumorph.EditText</item>
+        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
+        <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
+        <item name="neumorphImageButtonStyle">@style/Widget.Neumorph.ImageButton</item>
+        <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
+    </style>
 
 </resources>

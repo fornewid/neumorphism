@@ -40,22 +40,14 @@
     </style>
 
     <style name="Widget.Neumorph.EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:background">@drawable/default_edit_text_background</item>
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.EditText</item>
-        <item name="android:paddingStart">16dp</item>
-        <item name="android:paddingEnd">16dp</item>
-        <item name="android:background">@drawable/default_edit_text_background</item>
-    </style>
-
-    <style name="Widget.Neumorph.ImageView" parent="android:Widget">
-        <item name="neumorph_shadowElevation">6dp</item>
-        <item name="neumorph_shadowColorLight">?colorShadowLight</item>
-        <item name="neumorph_shadowColorDark">?colorShadowDark</item>
-        <item name="neumorph_shapeType">flat</item>
-        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.ImageView</item>
     </style>
 
     <style name="Widget.Neumorph.ImageButton" parent="android:Widget">
@@ -63,6 +55,14 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:scaleType">center</item>
+        <item name="neumorph_shadowElevation">6dp</item>
+        <item name="neumorph_shadowColorLight">?colorShadowLight</item>
+        <item name="neumorph_shadowColorDark">?colorShadowDark</item>
+        <item name="neumorph_shapeType">flat</item>
+        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.ImageButton</item>
+    </style>
+
+    <style name="Widget.Neumorph.ImageView" parent="android:Widget">
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
@@ -96,6 +96,11 @@
     </style>
 
     <style name="ShapeAppearance.Neumorph.EditText" parent="">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">24dp</item>
+    </style>
+
+    <style name="ShapeAppearance.Neumorph.ImageButton" parent="">
         <item name="neumorph_cornerFamily">rounded</item>
         <item name="neumorph_cornerSize">24dp</item>
     </style>
