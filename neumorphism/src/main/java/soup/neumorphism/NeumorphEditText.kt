@@ -3,7 +3,9 @@ package soup.neumorphism
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatEditText
 import soup.neumorphism.internal.blur.BlurProvider
@@ -65,6 +67,8 @@ class NeumorphEditText @JvmOverloads constructor(
                 setPadding(left, top, right, bottom)
             }
         }
+        setBackgroundInternal(shapeDrawable)
+
         with(context.resources) {
             underlineHeight = getDimensionPixelSize(R.dimen.edit_text_underline_height)
             underlineInsetBottom = getDimensionPixelSize(R.dimen.edit_text_underline_inset_bottom)
@@ -89,17 +93,25 @@ class NeumorphEditText @JvmOverloads constructor(
         shapeDrawable.setPadding(left, top, right, bottom)
     }
 
+    override fun setBackground(drawable: Drawable?) {
+        setBackgroundDrawable(drawable)
+    }
+
+    override fun setBackgroundDrawable(drawable: Drawable?) {
+        Log.i(LOG_TAG, "Setting a custom background is not supported.")
+    }
+
+    private fun setBackgroundInternal(drawable: Drawable?) {
+        super.setBackgroundDrawable(drawable)
+    }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        shapeDrawable.setBounds(0, 0, w, h)
         underlineDrawable.setBounds(0, 0, w - paddingLeft - paddingRight, underlineHeight)
     }
 
     override fun draw(canvas: Canvas) {
-        shapeDrawable.draw(canvas)
-        canvas.withClip(shapeDrawable.getOutlinePath()) {
-            super.draw(this)
-        }
+        super.draw(canvas)
         canvas.withTranslation(
             x = paddingLeft.toFloat(),
             y = (height - underlineHeight - underlineInsetBottom).toFloat()
