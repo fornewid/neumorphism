@@ -39,7 +39,7 @@ allprojects {
 Then, add the library to your module `build.gradle`
 ```gradle
 dependencies {
-    implementation 'com.github.fornewid:neumorphism:0.1.6'
+    implementation 'com.github.fornewid:neumorphism:0.1.7'
 }
 ```
 
@@ -57,17 +57,29 @@ There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) 
 
 ```xml
 <soup.neumorphism.NeumorphCardView
+     (Pre-defined style)
     style="@style/Widget.Neumorph.CardView"
-    ...
+
+     (Set shadow elevation and colors)
     app:neumorph_shadowElevation="6dp"
     app:neumorph_shadowColorLight="@color/solid_light_color"
     app:neumorph_shadowColorDark="@color/solid_dark_color"
+
+     (Set shape type and corner size)
     app:neumorph_shapeType="{flat|pressed|basin}"
     app:neumorph_shapeAppearance="@style/CustomShapeAppearance"
-    ...(if needs)...
+
+     (Set background or stroke)
     app:neumorph_backgroundColor="@color/background_color"
     app:neumorph_strokeColor="@color/stroke_color"
-    app:neumorph_strokeWidth="@dimen/stroke_width" />
+    app:neumorph_strokeWidth="@dimen/stroke_width"
+
+     (Use a padding to avoid clipping shadow. default=12dp)
+    android:padding="12dp">
+
+    <!-- NeumorphCardView extends FrameLayout. -->
+    <ConstraintLayout />
+</soup.neumorphism.NeumorphCardView>
 
 <style name="CustomShapeAppearance">
     <item name="neumorph_cornerFamily">{rounded|oval}</item>
