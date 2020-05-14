@@ -62,8 +62,8 @@
 
     <soup.neumorphism.NeumorphImageButton
         android:id="@+id/flat_image_view"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
         android:layout_marginTop="48dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_daynight_sky"
@@ -73,8 +73,8 @@
 
     <soup.neumorphism.NeumorphImageButton
         android:id="@+id/pressed_image_view"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
         android:layout_marginTop="48dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_daynight_activity"
@@ -85,8 +85,8 @@
 
     <soup.neumorphism.NeumorphImageButton
         android:id="@+id/basin_image_view"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
         android:layout_marginTop="48dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_daynight_food"
@@ -100,7 +100,7 @@
         style="@style/Widget.Neumorph.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="36dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,9 +108,9 @@
 
     <soup.neumorphism.NeumorphFloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_margin="36dp"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_margin="24dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_filter"
         app:layout_constraintBottom_toBottomOf="parent"
