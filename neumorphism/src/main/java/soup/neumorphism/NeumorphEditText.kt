@@ -56,6 +56,14 @@ class NeumorphEditText @JvmOverloads constructor(
             setShadowColorDark(shadowColorDark)
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
+
+            val left = paddingLeft
+            val top = paddingTop
+            val right = paddingRight
+            val bottom = paddingBottom
+            if (arrayOf(left, top, right, bottom).any { it > 0 }) {
+                setPadding(left, top, right, bottom)
+            }
         }
         with(context.resources) {
             underlineHeight = getDimensionPixelSize(R.dimen.edit_text_underline_height)
@@ -74,6 +82,11 @@ class NeumorphEditText @JvmOverloads constructor(
             setShadowColorLight(shadowColorLight)
             setShadowColorDark(shadowColorDark)
         }
+    }
+
+    override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
+        super.setPadding(left, top, right, bottom)
+        shapeDrawable.setPadding(left, top, right, bottom)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

@@ -48,8 +48,21 @@ class NeumorphImageButton @JvmOverloads constructor(
             setShadowColorDark(shadowColorDark)
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
+
+            val left = paddingLeft
+            val top = paddingTop
+            val right = paddingRight
+            val bottom = paddingBottom
+            if (arrayOf(left, top, right, bottom).any { it > 0 }) {
+                setPadding(left, top, right, bottom)
+            }
         }
         setBackgroundInternal(shapeDrawable)
+    }
+
+    override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
+        super.setPadding(left, top, right, bottom)
+        shapeDrawable.setPadding(left, top, right, bottom)
     }
 
     override fun setBackground(drawable: Drawable?) {

@@ -8,6 +8,9 @@
     <color name="design_dark_default_color_shadow_light">#2c2c2c</color>
     <color name="design_dark_default_color_shadow_dark">#111111</color>
 
+    <!-- Default padding to avoid shadow clipping -->
+    <dimen name="design_default_shadow_padding">12dp</dimen>
+
     <dimen name="edit_text_underline_inset_bottom">4dp</dimen>
     <dimen name="edit_text_underline_height">5dp</dimen>
     <dimen name="edit_text_underline_corner_size">2dp</dimen>
