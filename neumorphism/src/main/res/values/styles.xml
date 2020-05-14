@@ -42,17 +42,6 @@
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.FAB</item>
     </style>
 
-    <style name="Widget.Neumorph.EditText" parent="Widget.AppCompat.EditText">
-        <item name="android:paddingStart">16dp</item>
-        <item name="android:paddingEnd">16dp</item>
-        <item name="android:background">@drawable/default_edit_text_background</item>
-        <item name="neumorph_shadowElevation">6dp</item>
-        <item name="neumorph_shadowColorLight">?colorShadowLight</item>
-        <item name="neumorph_shadowColorDark">?colorShadowDark</item>
-        <item name="neumorph_shapeType">flat</item>
-        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.EditText</item>
-    </style>
-
     <style name="Widget.Neumorph.ImageButton" parent="android:Widget">
         <item name="android:padding">@dimen/design_default_shadow_padding</item>
         <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
@@ -98,11 +87,6 @@
     <style name="ShapeAppearance.Neumorph.FAB" parent="">
         <item name="neumorph_cornerFamily">oval</item>
         <item name="neumorph_cornerSize">0dp</item>
-    </style>
-
-    <style name="ShapeAppearance.Neumorph.EditText" parent="">
-        <item name="neumorph_cornerFamily">rounded</item>
-        <item name="neumorph_cornerSize">24dp</item>
     </style>
 
     <style name="ShapeAppearance.Neumorph.ImageButton" parent="">

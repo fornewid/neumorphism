@@ -47,7 +47,7 @@ dependencies {
 - Draw a shadow background on widgets for Neumorphism.
   Supported on the following widgets:
   - ViewGroup: CardView
-  - View: Button, EditText, FloatingActionButton, ImageView
+  - View: Button, FloatingActionButton, ImageView
 - Draw a text shadow on TextView for Neumorphism.
 
 > If you want more features, please click [new issue](https://github.com/fornewid/neumorphism/issues/new) and report to me!

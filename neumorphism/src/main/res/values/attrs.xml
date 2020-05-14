@@ -41,18 +41,6 @@
         <attr name="neumorph_shapeAppearance" />
     </declare-styleable>
 
-    <attr name="neumorphEditTextStyle" format="reference" />
-    <declare-styleable name="NeumorphEditText">
-        <attr name="neumorph_backgroundColor" />
-        <attr name="neumorph_strokeColor" />
-        <attr name="neumorph_strokeWidth" />
-        <attr name="neumorph_shapeType" />
-        <attr name="neumorph_shadowElevation" />
-        <attr name="neumorph_shadowColorLight" />
-        <attr name="neumorph_shadowColorDark" />
-        <attr name="neumorph_shapeAppearance" />
-    </declare-styleable>
-
     <attr name="neumorphFloatingActionButtonStyle" format="reference" />
     <declare-styleable name="NeumorphFloatingActionButton">
         <attr name="neumorph_backgroundColor" />
