@@ -144,9 +144,29 @@ class NeumorphShapeDrawable : Drawable {
         // not supported yet
     }
 
+    private fun getBoundsInternal(): Rect {
+        return drawableState.padding?.let { padding ->
+            val bounds = super.getBounds()
+            Rect(
+                bounds.left + padding.left,
+                bounds.top + padding.top,
+                bounds.right - padding.right,
+                bounds.bottom - padding.bottom
+            )
+        } ?: super.getBounds()
+    }
+
     private fun getBoundsAsRectF(): RectF {
-        rectF.set(bounds)
+        rectF.set(getBoundsInternal())
         return rectF
+    }
+
+    fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
+        if (drawableState.padding == null) {
+            drawableState.padding = Rect()
+        }
+        drawableState.padding?.set(left, top, right, bottom)
+        invalidateSelf()
     }
 
     fun setShapeType(@ShapeType shapeType: Int) {
@@ -250,7 +270,7 @@ class NeumorphShapeDrawable : Drawable {
 
         if (dirty) {
             calculateOutlinePath(getBoundsAsRectF(), outlinePath)
-            shadow?.updateShadowBitmap(bounds)
+            shadow?.updateShadowBitmap(getBoundsInternal())
             dirty = false
         }
 
@@ -281,17 +301,19 @@ class NeumorphShapeDrawable : Drawable {
     }
 
     private fun calculateOutlinePath(bounds: RectF, path: Path) {
-        val w = bounds.width()
-        val h = bounds.height()
+        val left = drawableState.padding?.left?.toFloat() ?: 0f
+        val top = drawableState.padding?.top?.toFloat() ?: 0f
+        val right = left + bounds.width()
+        val bottom = top + bounds.height()
         path.reset()
         when (drawableState.shapeAppearanceModel.getCornerFamily()) {
             CornerFamily.OVAL -> {
-                path.addOval(0f, 0f, w, h, Path.Direction.CW)
+                path.addOval(left, top, right, bottom, Path.Direction.CW)
             }
             CornerFamily.ROUNDED -> {
                 val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
                 path.addRoundRect(
-                    0f, 0f, w, h,
+                    left, top, right, bottom,
                     cornerSize, cornerSize,
                     Path.Direction.CW
                 )
@@ -303,11 +325,11 @@ class NeumorphShapeDrawable : Drawable {
     override fun getOutline(outline: Outline) {
         when (drawableState.shapeAppearanceModel.getCornerFamily()) {
             CornerFamily.OVAL -> {
-                outline.setOval(bounds)
+                outline.setOval(getBoundsInternal())
             }
             CornerFamily.ROUNDED -> {
                 val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
-                outline.setRoundRect(bounds, cornerSize)
+                outline.setRoundRect(getBoundsInternal(), cornerSize)
             }
         }
     }
@@ -318,8 +340,7 @@ class NeumorphShapeDrawable : Drawable {
     }
 
     override fun onStateChange(state: IntArray): Boolean {
-        val paintColorChanged = updateColorsForState(state)
-        val invalidateSelf = paintColorChanged
+        val invalidateSelf = updateColorsForState(state)
         if (invalidateSelf) {
             invalidateSelf()
         }
@@ -352,6 +373,7 @@ class NeumorphShapeDrawable : Drawable {
         var shapeAppearanceModel: NeumorphShapeAppearanceModel
         val blurProvider: BlurProvider
 
+        var padding: Rect? = null
         var fillColor: ColorStateList? = null
         var strokeColor: ColorStateList? = null
         var strokeWidth = 0f
@@ -387,6 +409,9 @@ class NeumorphShapeDrawable : Drawable {
             strokeColor = orig.strokeColor
             strokeWidth = orig.strokeWidth
             paintStyle = orig.paintStyle
+            if (orig.padding != null) {
+                padding = Rect(orig.padding)
+            }
         }
 
         override fun newDrawable(): Drawable {

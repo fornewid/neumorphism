@@ -31,13 +31,23 @@ internal class FlatShape(
         canvas.withClipOut(outlinePath) {
             val elevation = drawableState.shadowElevation
             val z = drawableState.shadowElevation + drawableState.translationZ
+            val left: Float
+            val top: Float
+            val padding = drawableState.padding
+            if (padding != null) {
+                left = padding.left.toFloat()
+                top = padding.top.toFloat()
+            } else {
+                left = 0f
+                top = 0f
+            }
             lightShadowBitmap?.let {
                 val offset = -elevation - z
-                drawBitmap(it, offset, offset, null)
+                drawBitmap(it, offset + left, offset + top, null)
             }
             darkShadowBitmap?.let {
                 val offset = -elevation + z
-                drawBitmap(it, offset, offset, null)
+                drawBitmap(it, offset + left, offset + top, null)
             }
         }
     }
