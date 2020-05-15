@@ -13,7 +13,7 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.neumorphFloatingActionButtonStyle,
-    defStyleRes: Int = R.style.Widget_Neumorph_FAB
+    defStyleRes: Int = R.style.Widget_Neumorph_FloatingActionButton
 ) : AppCompatImageButton(context, attrs, defStyleAttr) {
 
     private val shapeDrawable: NeumorphShapeDrawable

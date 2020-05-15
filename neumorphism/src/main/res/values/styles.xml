@@ -30,7 +30,7 @@
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.CardView</item>
     </style>
 
-    <style name="Widget.Neumorph.FAB" parent="android:Widget">
+    <style name="Widget.Neumorph.FloatingActionButton" parent="android:Widget">
         <item name="android:padding">@dimen/design_default_shadow_padding</item>
         <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="android:focusable">true</item>
@@ -39,7 +39,7 @@
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
-        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.FAB</item>
+        <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.FloatingActionButton</item>
     </style>
 
     <style name="Widget.Neumorph.ImageButton" parent="android:Widget">
@@ -84,7 +84,7 @@
         <item name="neumorph_cornerSize">36dp</item>
     </style>
 
-    <style name="ShapeAppearance.Neumorph.FAB" parent="">
+    <style name="ShapeAppearance.Neumorph.FloatingActionButton" parent="">
         <item name="neumorph_cornerFamily">oval</item>
         <item name="neumorph_cornerSize">0dp</item>
     </style>

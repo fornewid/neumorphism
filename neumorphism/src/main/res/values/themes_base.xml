@@ -5,7 +5,7 @@
         <item name="android:alertDialogTheme">@style/ThemeOverlay.AppCompat.Dialog.Alert</item>
         <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
         <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
-        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
+        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FloatingActionButton</item>
         <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
         <item name="neumorphImageButtonStyle">@style/Widget.Neumorph.ImageButton</item>
         <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
@@ -15,7 +15,7 @@
         <item name="android:alertDialogTheme">@style/ThemeOverlay.AppCompat.Dialog.Alert</item>
         <item name="neumorphButtonStyle">@style/Widget.Neumorph.Button</item>
         <item name="neumorphCardViewStyle">@style/Widget.Neumorph.CardView</item>
-        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FAB</item>
+        <item name="neumorphFloatingActionButtonStyle">@style/Widget.Neumorph.FloatingActionButton</item>
         <item name="neumorphImageViewStyle">@style/Widget.Neumorph.ImageView</item>
         <item name="neumorphImageButtonStyle">@style/Widget.Neumorph.ImageButton</item>
         <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
