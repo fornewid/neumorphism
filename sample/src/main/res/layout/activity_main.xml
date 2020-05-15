@@ -8,6 +8,7 @@
 
     <soup.neumorphism.NeumorphCardView
         android:id="@+id/edittext_card"
+        style="@style/Widget.Neumorph.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -30,6 +31,7 @@
 
     <soup.neumorphism.NeumorphTextView
         android:id="@+id/textview"
+        style="@style/Widget.Neumorph.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -43,6 +45,7 @@
 
     <soup.neumorphism.NeumorphCardView
         android:id="@+id/flat_card"
+        style="@style/Widget.Neumorph.CardView"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="48dp"
@@ -52,6 +55,7 @@
 
     <soup.neumorphism.NeumorphCardView
         android:id="@+id/pressed_card"
+        style="@style/Widget.Neumorph.CardView"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="48dp"
@@ -69,6 +73,7 @@
 
     <soup.neumorphism.NeumorphImageButton
         android:id="@+id/flat_image_view"
+        style="@style/Widget.Neumorph.ImageButton"
         android:layout_width="88dp"
         android:layout_height="88dp"
         android:layout_marginTop="48dp"
@@ -80,6 +85,7 @@
 
     <soup.neumorphism.NeumorphImageButton
         android:id="@+id/pressed_image_view"
+        style="@style/Widget.Neumorph.ImageButton"
         android:layout_width="88dp"
         android:layout_height="88dp"
         android:layout_marginTop="48dp"
@@ -92,6 +98,7 @@
 
     <soup.neumorphism.NeumorphImageButton
         android:id="@+id/basin_image_view"
+        style="@style/Widget.Neumorph.ImageButton"
         android:layout_width="88dp"
         android:layout_height="88dp"
         android:layout_marginTop="48dp"
@@ -104,6 +111,7 @@
 
     <soup.neumorphism.NeumorphButton
         android:id="@+id/button"
+        style="@style/Widget.Neumorph.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
@@ -114,6 +122,7 @@
 
     <soup.neumorphism.NeumorphFloatingActionButton
         android:id="@+id/fab"
+        style="@style/Widget.Neumorph.FloatingActionButton"
         android:layout_width="88dp"
         android:layout_height="88dp"
         android:layout_margin="24dp"
