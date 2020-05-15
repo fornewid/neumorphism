@@ -6,7 +6,7 @@
         <set>
             <objectAnimator
                 android:duration="@integer/button_pressed_animation_duration"
-                android:interpolator="@android:interpolator/linear_out_slow_in"
+                android:interpolator="@android:interpolator/linear"
                 android:propertyName="translationZ"
                 android:valueTo="-5dp"
                 android:valueType="floatType" />
@@ -16,7 +16,7 @@
         <set>
             <objectAnimator
                 android:duration="@integer/button_pressed_animation_duration"
-                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:interpolator="@android:interpolator/linear"
                 android:propertyName="translationZ"
                 android:startDelay="@integer/button_pressed_animation_delay"
                 android:valueTo="0"
