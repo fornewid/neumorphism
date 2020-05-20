@@ -42,6 +42,7 @@ class NeumorphImageView @JvmOverloads constructor(
         a.recycle()
 
         shapeDrawable = NeumorphShapeDrawable(context, attrs, defStyleAttr, defStyleRes).apply {
+            setInEditMode(isInEditMode)
             setShapeType(shapeType)
             setShadowElevation(shadowElevation)
             setShadowColorLight(shadowColorLight)

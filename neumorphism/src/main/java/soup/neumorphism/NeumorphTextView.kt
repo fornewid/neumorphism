@@ -75,7 +75,10 @@ class NeumorphTextView @JvmOverloads constructor(
             tp.color = Color.BLACK
             tp.textSize = textSize
             tp.typeface = typeface
-            staticLayout(text, tp).draw(Canvas(this))
+            if (isInEditMode.not()) {
+                // layout preview is NOT supported in now.
+                staticLayout(text, tp).draw(Canvas(this))
+            }
         }
     }
 

@@ -368,10 +368,15 @@ class NeumorphShapeDrawable : Drawable {
         return invalidateSelf
     }
 
+    fun setInEditMode(inEditMode: Boolean) {
+        drawableState.inEditMode = inEditMode
+    }
+
     internal class NeumorphShapeDrawableState : ConstantState {
 
         var shapeAppearanceModel: NeumorphShapeAppearanceModel
         val blurProvider: BlurProvider
+        var inEditMode: Boolean = false
 
         var padding: Rect? = null
         var fillColor: ColorStateList? = null
@@ -400,6 +405,7 @@ class NeumorphShapeDrawable : Drawable {
         constructor(orig: NeumorphShapeDrawableState) {
             shapeAppearanceModel = orig.shapeAppearanceModel
             blurProvider = orig.blurProvider
+            inEditMode = orig.inEditMode
             alpha = orig.alpha
             shapeType = orig.shapeType
             shadowElevation = orig.shadowElevation

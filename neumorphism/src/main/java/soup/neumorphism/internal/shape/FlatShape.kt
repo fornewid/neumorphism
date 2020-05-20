@@ -88,6 +88,9 @@ internal class FlatShape(
 
     private fun Drawable.toBlurredBitmap(w: Int, h: Int): Bitmap? {
         fun Bitmap.blurred(): Bitmap? {
+            if (drawableState.inEditMode) {
+                return this
+            }
             return drawableState.blurProvider.blur(this)
         }
 
