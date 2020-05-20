@@ -39,7 +39,7 @@ allprojects {
 Then, add the library to your module `build.gradle`
 ```gradle
 dependencies {
-    implementation 'com.github.fornewid:neumorphism:0.1.8'
+    implementation 'com.github.fornewid:neumorphism:0.1.9'
 }
 ```
 
@@ -50,7 +50,7 @@ dependencies {
   - View: Button, FloatingActionButton, ImageView
 - Draw a text shadow on TextView for Neumorphism.
 
-> If you want more features, please click [new issue](https://github.com/fornewid/neumorphism/issues/new) and report to me!
+> If you want more features or want to fix bugs, please click [new issue](https://github.com/fornewid/neumorphism/issues/new/choose) and report to me!
 
 ## Usage
 There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) provided which shows how to use the library:
