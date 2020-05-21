@@ -16,6 +16,7 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
     defStyleRes: Int = R.style.Widget_Neumorph_FloatingActionButton
 ) : AppCompatImageButton(context, attrs, defStyleAttr) {
 
+    private var isInitialized: Boolean = false
     private val shapeDrawable: NeumorphShapeDrawable
 
     init {
@@ -50,6 +51,7 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
             setShadowColorDark(shadowColorDark)
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
+            setTranslationZ(translationZ)
 
             val left = paddingLeft
             val top = paddingTop
@@ -60,6 +62,7 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
             }
         }
         setBackgroundInternal(shapeDrawable)
+        isInitialized = true
     }
 
     override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
@@ -138,7 +141,9 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
 
     override fun setTranslationZ(translationZ: Float) {
         super.setTranslationZ(translationZ)
-        shapeDrawable.setTranslationZ(translationZ)
+        if (isInitialized) {
+            shapeDrawable.setTranslationZ(translationZ)
+        }
     }
 
     companion object {

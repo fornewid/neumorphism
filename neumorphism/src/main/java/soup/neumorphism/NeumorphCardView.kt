@@ -16,6 +16,7 @@ class NeumorphCardView @JvmOverloads constructor(
     defStyleRes: Int = R.style.Widget_Neumorph_CardView
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
+    private var isInitialized: Boolean = false
     private val shapeDrawable: NeumorphShapeDrawable
 
     init {
@@ -49,6 +50,7 @@ class NeumorphCardView @JvmOverloads constructor(
             setShadowColorDark(shadowColorDark)
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
+            setTranslationZ(translationZ)
 
             val left = paddingLeft
             val top = paddingTop
@@ -59,6 +61,7 @@ class NeumorphCardView @JvmOverloads constructor(
             }
         }
         setBackgroundInternal(shapeDrawable)
+        isInitialized = true
     }
 
     override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
@@ -138,7 +141,9 @@ class NeumorphCardView @JvmOverloads constructor(
 
     override fun setTranslationZ(translationZ: Float) {
         super.setTranslationZ(translationZ)
-        shapeDrawable.setTranslationZ(translationZ)
+        if (isInitialized) {
+            shapeDrawable.setTranslationZ(translationZ)
+        }
     }
 
     companion object {

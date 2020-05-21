@@ -16,6 +16,7 @@ class NeumorphButton @JvmOverloads constructor(
     defStyleRes: Int = R.style.Widget_Neumorph_Button
 ) : AppCompatButton(context, attrs, defStyleAttr) {
 
+    private var isInitialized: Boolean = false
     private val shapeDrawable: NeumorphShapeDrawable
 
     init {
@@ -49,6 +50,7 @@ class NeumorphButton @JvmOverloads constructor(
             setShadowColorDark(shadowColorDark)
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
+            setTranslationZ(translationZ)
 
             val left = paddingLeft
             val top = paddingTop
@@ -59,6 +61,7 @@ class NeumorphButton @JvmOverloads constructor(
             }
         }
         setBackgroundInternal(shapeDrawable)
+        isInitialized = true
     }
 
     override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
@@ -137,7 +140,9 @@ class NeumorphButton @JvmOverloads constructor(
 
     override fun setTranslationZ(translationZ: Float) {
         super.setTranslationZ(translationZ)
-        shapeDrawable.setTranslationZ(translationZ)
+        if (isInitialized) {
+            shapeDrawable.setTranslationZ(translationZ)
+        }
     }
 
     companion object {
