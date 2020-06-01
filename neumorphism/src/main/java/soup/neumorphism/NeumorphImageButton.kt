@@ -93,6 +93,10 @@ class NeumorphImageButton @JvmOverloads constructor(
         shapeDrawable.setFillColor(backgroundColor)
     }
 
+    override fun setBackgroundColor(color: Int) {
+        shapeDrawable.setFillColor(ColorStateList.valueOf(color))
+    }
+
     fun getBackgroundColor(): ColorStateList? {
         return shapeDrawable.getFillColor()
     }

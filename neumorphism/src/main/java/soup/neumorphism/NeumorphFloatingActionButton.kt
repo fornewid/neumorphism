@@ -90,6 +90,10 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
         return shapeDrawable.getShapeAppearanceModel()
     }
 
+    override fun setBackgroundColor(color: Int) {
+        shapeDrawable.setFillColor(ColorStateList.valueOf(color))
+    }
+
     fun setBackgroundColor(backgroundColor: ColorStateList?) {
         shapeDrawable.setFillColor(backgroundColor)
     }
