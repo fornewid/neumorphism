@@ -76,12 +76,12 @@
 
     <style name="ShapeAppearance.Neumorph.Button" parent="">
         <item name="neumorph_cornerFamily">rounded</item>
-        <item name="neumorph_cornerSize">24dp</item>
+        <item name="neumorph_cornerSize">@dimen/design_default_corner_radius</item>
     </style>
 
     <style name="ShapeAppearance.Neumorph.CardView" parent="">
         <item name="neumorph_cornerFamily">rounded</item>
-        <item name="neumorph_cornerSize">36dp</item>
+        <item name="neumorph_cornerSize">@dimen/design_default_corner_radius</item>
     </style>
 
     <style name="ShapeAppearance.Neumorph.FloatingActionButton" parent="">
@@ -91,12 +91,12 @@
 
     <style name="ShapeAppearance.Neumorph.ImageButton" parent="">
         <item name="neumorph_cornerFamily">rounded</item>
-        <item name="neumorph_cornerSize">24dp</item>
+        <item name="neumorph_cornerSize">@dimen/design_default_corner_radius</item>
     </style>
 
     <style name="ShapeAppearance.Neumorph.ImageView" parent="">
         <item name="neumorph_cornerFamily">rounded</item>
-        <item name="neumorph_cornerSize">24dp</item>
+        <item name="neumorph_cornerSize">@dimen/design_default_corner_radius</item>
     </style>
 
 </resources>

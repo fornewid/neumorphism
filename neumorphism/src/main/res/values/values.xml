@@ -11,6 +11,9 @@
     <!-- Default padding to avoid shadow clipping -->
     <dimen name="design_default_shadow_padding">12dp</dimen>
 
+    <!-- Default corner radius -->
+    <dimen name="design_default_corner_radius">24dp</dimen>
+
     <dimen name="edit_text_underline_inset_bottom">4dp</dimen>
     <dimen name="edit_text_underline_height">5dp</dimen>
     <dimen name="edit_text_underline_corner_size">2dp</dimen>
