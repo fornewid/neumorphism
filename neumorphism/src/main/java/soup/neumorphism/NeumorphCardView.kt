@@ -2,9 +2,11 @@ package soup.neumorphism
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import soup.neumorphism.internal.util.NeumorphResources
@@ -62,6 +64,17 @@ class NeumorphCardView @JvmOverloads constructor(
         }
         setBackgroundInternal(shapeDrawable)
         isInitialized = true
+    }
+
+    override fun drawChild(canvas: Canvas, child: View, drawingTime: Long): Boolean {
+        //TODO: clip using Outline smoothly
+        val checkpoint = canvas.save()
+        canvas.clipPath(shapeDrawable.getOutlinePath())
+        try {
+            return super.drawChild(canvas, child, drawingTime)
+        } finally {
+            canvas.restoreToCount(checkpoint)
+        }
     }
 
     override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
