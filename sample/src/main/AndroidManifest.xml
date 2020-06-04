@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ColorSampleActivity" />
+        <activity android:name=".CardSampleActivity" />
     </application>
 
 </manifest>

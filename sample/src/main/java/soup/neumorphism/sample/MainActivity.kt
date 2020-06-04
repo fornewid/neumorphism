@@ -14,5 +14,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.button).setOnClickListener {
             startActivity(Intent(this, ColorSampleActivity::class.java))
         }
+
+        findViewById<View>(R.id.flat_card).setOnClickListener {
+            startActivity(Intent(this, CardSampleActivity::class.java))
+        }
     }
 }
