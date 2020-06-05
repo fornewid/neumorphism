@@ -30,13 +30,8 @@ internal class PressedShape(
                 val left: Float
                 val top: Float
                 val padding = drawableState.padding
-                if (padding != null) {
-                    left = padding.left.toFloat()
-                    top = padding.top.toFloat()
-                } else {
-                    left = 0f
-                    top = 0f
-                }
+                left = padding.left.toFloat()
+                top = padding.top.toFloat()
                 drawBitmap(it, left, top, null)
             }
         }

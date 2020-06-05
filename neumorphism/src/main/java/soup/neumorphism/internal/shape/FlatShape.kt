@@ -34,13 +34,8 @@ internal class FlatShape(
             val left: Float
             val top: Float
             val padding = drawableState.padding
-            if (padding != null) {
-                left = padding.left.toFloat()
-                top = padding.top.toFloat()
-            } else {
-                left = 0f
-                top = 0f
-            }
+            left = padding.left.toFloat()
+            top = padding.top.toFloat()
             lightShadowBitmap?.let {
                 val offset = -elevation - z
                 drawBitmap(it, offset + left, offset + top, null)

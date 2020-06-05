@@ -145,7 +145,7 @@ class NeumorphShapeDrawable : Drawable {
     }
 
     private fun getBoundsInternal(): Rect {
-        return drawableState.padding?.let { padding ->
+        return drawableState.padding.let { padding ->
             val bounds = super.getBounds()
             Rect(
                 bounds.left + padding.left,
@@ -153,7 +153,7 @@ class NeumorphShapeDrawable : Drawable {
                 bounds.right - padding.right,
                 bounds.bottom - padding.bottom
             )
-        } ?: super.getBounds()
+        }
     }
 
     private fun getBoundsAsRectF(): RectF {
@@ -162,10 +162,7 @@ class NeumorphShapeDrawable : Drawable {
     }
 
     fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
-        if (drawableState.padding == null) {
-            drawableState.padding = Rect()
-        }
-        drawableState.padding?.set(left, top, right, bottom)
+        drawableState.padding.set(left, top, right, bottom)
         invalidateSelf()
     }
 
@@ -301,8 +298,8 @@ class NeumorphShapeDrawable : Drawable {
     }
 
     private fun calculateOutlinePath(bounds: RectF, path: Path) {
-        val left = drawableState.padding?.left?.toFloat() ?: 0f
-        val top = drawableState.padding?.top?.toFloat() ?: 0f
+        val left = drawableState.padding.left.toFloat()
+        val top = drawableState.padding.top.toFloat()
         val right = left + bounds.width()
         val bottom = top + bounds.height()
         path.reset()
@@ -378,7 +375,7 @@ class NeumorphShapeDrawable : Drawable {
         val blurProvider: BlurProvider
         var inEditMode: Boolean = false
 
-        var padding: Rect? = null
+        var padding: Rect = Rect()
         var fillColor: ColorStateList? = null
         var strokeColor: ColorStateList? = null
         var strokeWidth = 0f
@@ -406,18 +403,16 @@ class NeumorphShapeDrawable : Drawable {
             shapeAppearanceModel = orig.shapeAppearanceModel
             blurProvider = orig.blurProvider
             inEditMode = orig.inEditMode
+            padding = Rect(orig.padding)
+            fillColor = orig.fillColor
+            strokeColor = orig.strokeColor
+            strokeWidth = orig.strokeWidth
             alpha = orig.alpha
             shapeType = orig.shapeType
             shadowElevation = orig.shadowElevation
             shadowColorLight = orig.shadowColorLight
             shadowColorDark = orig.shadowColorDark
-            fillColor = orig.fillColor
-            strokeColor = orig.strokeColor
-            strokeWidth = orig.strokeWidth
             paintStyle = orig.paintStyle
-            if (orig.padding != null) {
-                padding = Rect(orig.padding)
-            }
         }
 
         override fun newDrawable(): Drawable {
