@@ -412,6 +412,7 @@ class NeumorphShapeDrawable : Drawable {
             shadowElevation = orig.shadowElevation
             shadowColorLight = orig.shadowColorLight
             shadowColorDark = orig.shadowColorDark
+            translationZ = orig.translationZ
             paintStyle = orig.paintStyle
         }
 
