@@ -19,15 +19,35 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
     private var isInitialized: Boolean = false
     private val shapeDrawable: NeumorphShapeDrawable
 
+    private var insetStart = 0
+    private var insetEnd = 0
+    private var insetTop = 0
+    private var insetBottom = 0
+
     init {
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphFloatingActionButton, defStyleAttr, defStyleRes
         )
-        val fillColor = a.getColorStateList(R.styleable.NeumorphButton_neumorph_backgroundColor)
-        val strokeColor = a.getColorStateList(R.styleable.NeumorphButton_neumorph_strokeColor)
-        val strokeWidth = a.getDimension(R.styleable.NeumorphButton_neumorph_strokeWidth, 0f)
+        val fillColor = a.getColorStateList(R.styleable.NeumorphFloatingActionButton_neumorph_backgroundColor)
+        val strokeColor = a.getColorStateList(R.styleable.NeumorphFloatingActionButton_neumorph_strokeColor)
+        val strokeWidth = a.getDimension(R.styleable.NeumorphFloatingActionButton_neumorph_strokeWidth, 0f)
         val shapeType =
             a.getInt(R.styleable.NeumorphFloatingActionButton_neumorph_shapeType, ShapeType.DEFAULT)
+        val inset = a.getDimensionPixelSize(
+            R.styleable.NeumorphFloatingActionButton_neumorph_inset, 0
+        )
+        val insetStart = a.getDimensionPixelSize(
+            R.styleable.NeumorphFloatingActionButton_neumorph_insetStart, -1
+        )
+        val insetEnd = a.getDimensionPixelSize(
+            R.styleable.NeumorphFloatingActionButton_neumorph_insetEnd, -1
+        )
+        val insetTop = a.getDimensionPixelSize(
+            R.styleable.NeumorphFloatingActionButton_neumorph_insetTop, -1
+        )
+        val insetBottom = a.getDimensionPixelSize(
+            R.styleable.NeumorphFloatingActionButton_neumorph_insetBottom, -1
+        )
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphFloatingActionButton_neumorph_shadowElevation, 0f
         )
@@ -52,22 +72,15 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
             setTranslationZ(translationZ)
-
-            val left = paddingLeft
-            val top = paddingTop
-            val right = paddingRight
-            val bottom = paddingBottom
-            if (arrayOf(left, top, right, bottom).any { it > 0 }) {
-                setPadding(left, top, right, bottom)
-            }
         }
+        internalSetInset(
+            if (insetStart >= 0) insetStart else inset,
+            if (insetTop >= 0) insetTop else inset,
+            if (insetEnd >= 0) insetEnd else inset,
+            if (insetBottom >= 0) insetBottom else inset
+        )
         setBackgroundInternal(shapeDrawable)
         isInitialized = true
-    }
-
-    override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
-        super.setPadding(left, top, right, bottom)
-        shapeDrawable.setPadding(left, top, right, bottom)
     }
 
     override fun setBackground(drawable: Drawable?) {
@@ -125,6 +138,36 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
     @ShapeType
     fun getShapeType(): Int {
         return shapeDrawable.getShapeType()
+    }
+
+    fun setInset(left: Int, top: Int, right: Int, bottom: Int) {
+        internalSetInset(left, top, right, bottom)
+    }
+
+    private fun internalSetInset(left: Int, top: Int, right: Int, bottom: Int) {
+        var changed = false
+        if (insetStart != left) {
+            changed = true
+            insetStart = left
+        }
+        if (insetTop != top) {
+            changed = true
+            insetTop = top
+        }
+        if (insetEnd != right) {
+            changed = true
+            insetEnd = right
+        }
+        if (insetBottom != bottom) {
+            changed = true
+            insetBottom = bottom
+        }
+
+        if (changed) {
+            shapeDrawable.setInset(left, top, right, bottom)
+            requestLayout()
+            invalidateOutline()
+        }
     }
 
     fun setShadowElevation(shadowElevation: Float) {

@@ -145,13 +145,13 @@ class NeumorphShapeDrawable : Drawable {
     }
 
     private fun getBoundsInternal(): Rect {
-        return drawableState.padding.let { padding ->
+        return drawableState.inset.let { inset ->
             val bounds = super.getBounds()
             Rect(
-                bounds.left + padding.left,
-                bounds.top + padding.top,
-                bounds.right - padding.right,
-                bounds.bottom - padding.bottom
+                bounds.left + inset.left,
+                bounds.top + inset.top,
+                bounds.right - inset.right,
+                bounds.bottom - inset.bottom
             )
         }
     }
@@ -161,8 +161,8 @@ class NeumorphShapeDrawable : Drawable {
         return rectF
     }
 
-    fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
-        drawableState.padding.set(left, top, right, bottom)
+    fun setInset(left: Int, top: Int, right: Int, bottom: Int) {
+        drawableState.inset.set(left, top, right, bottom)
         invalidateSelf()
     }
 
@@ -298,8 +298,8 @@ class NeumorphShapeDrawable : Drawable {
     }
 
     private fun calculateOutlinePath(bounds: RectF, path: Path) {
-        val left = drawableState.padding.left.toFloat()
-        val top = drawableState.padding.top.toFloat()
+        val left = drawableState.inset.left.toFloat()
+        val top = drawableState.inset.top.toFloat()
         val right = left + bounds.width()
         val bottom = top + bounds.height()
         path.reset()
@@ -375,7 +375,7 @@ class NeumorphShapeDrawable : Drawable {
         val blurProvider: BlurProvider
         var inEditMode: Boolean = false
 
-        var padding: Rect = Rect()
+        var inset: Rect = Rect()
         var fillColor: ColorStateList? = null
         var strokeColor: ColorStateList? = null
         var strokeWidth = 0f
@@ -403,7 +403,7 @@ class NeumorphShapeDrawable : Drawable {
             shapeAppearanceModel = orig.shapeAppearanceModel
             blurProvider = orig.blurProvider
             inEditMode = orig.inEditMode
-            padding = Rect(orig.padding)
+            inset = Rect(orig.inset)
             fillColor = orig.fillColor
             strokeColor = orig.strokeColor
             strokeWidth = orig.strokeWidth

@@ -8,8 +8,9 @@
     <color name="design_dark_default_color_shadow_light">#2c2c2c</color>
     <color name="design_dark_default_color_shadow_dark">#111111</color>
 
-    <!-- Default padding to avoid shadow clipping -->
-    <dimen name="design_default_shadow_padding">12dp</dimen>
+    <!-- Default padding and inset to avoid shadow clipping -->
+    <dimen name="design_default_padding">12dp</dimen>
+    <dimen name="design_default_inset">12dp</dimen>
 
     <!-- Default corner radius -->
     <dimen name="design_default_corner_radius">24dp</dimen>

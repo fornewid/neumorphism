@@ -29,9 +29,9 @@ internal class PressedShape(
             shadowBitmap?.let {
                 val left: Float
                 val top: Float
-                val padding = drawableState.padding
-                left = padding.left.toFloat()
-                top = padding.top.toFloat()
+                val inset = drawableState.inset
+                left = inset.left.toFloat()
+                top = inset.top.toFloat()
                 drawBitmap(it, left, top, null)
             }
         }
