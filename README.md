@@ -39,7 +39,7 @@ allprojects {
 Then, add the library to your module `build.gradle`
 ```gradle
 dependencies {
-    implementation 'com.github.fornewid:neumorphism:0.1.11'
+    implementation 'com.github.fornewid:neumorphism:0.2.0'
 }
 ```
 
@@ -74,7 +74,14 @@ There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) 
     app:neumorph_strokeColor="@color/stroke_color"
     app:neumorph_strokeWidth="@dimen/stroke_width"
 
-    // Use a padding to avoid clipping shadow. (default=12dp)
+    // Use a inset to avoid clipping shadow. (default=12dp)
+    app:neumorph_inset="@dimen/stroke_width"
+    app:neumorph_insetStart="@dimen/stroke_width"
+    app:neumorph_insetEnd="@dimen/stroke_width"
+    app:neumorph_insetTop="@dimen/stroke_width"
+    app:neumorph_insetBottom="@dimen/stroke_width"
+
+    // Use a padding. (default=12dp)
     android:padding="12dp">
 
     <!-- NeumorphCardView extends FrameLayout. So you can wrap childrens like this. -->
