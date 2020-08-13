@@ -10,6 +10,10 @@
 
     <!-- Default padding and inset to avoid shadow clipping -->
     <dimen name="design_default_padding">12dp</dimen>
+    <dimen name="design_btn_padding_left">32dp</dimen>
+    <dimen name="design_btn_padding_right">32dp</dimen>
+    <dimen name="design_btn_padding_top">12dp</dimen>
+    <dimen name="design_btn_padding_bottom">12dp</dimen>
     <dimen name="design_default_inset">12dp</dimen>
 
     <!-- Default corner radius -->

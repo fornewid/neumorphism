@@ -5,11 +5,14 @@
 
     <style name="Widget.Neumorph" />
 
-    <style name="Widget.Neumorph.Button" parent="android:Widget">
-        <item name="android:padding">@dimen/design_default_padding</item>
+    <style name="Widget.Neumorph.Button" parent="Widget.AppCompat.Button">
         <item name="android:textAppearance">?android:attr/textAppearanceButton</item>
         <item name="android:minHeight">72dip</item>
         <item name="android:minWidth">112dip</item>
+        <item name="android:paddingLeft">@dimen/design_btn_padding_left</item>
+        <item name="android:paddingRight">@dimen/design_btn_padding_right</item>
+        <item name="android:paddingTop">@dimen/design_btn_padding_top</item>
+        <item name="android:paddingBottom">@dimen/design_btn_padding_bottom</item>
         <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
