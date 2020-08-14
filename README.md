@@ -75,11 +75,11 @@ There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) 
     app:neumorph_strokeWidth="@dimen/stroke_width"
 
     // Use a inset to avoid clipping shadow. (default=12dp)
-    app:neumorph_inset="@dimen/stroke_width"
-    app:neumorph_insetStart="@dimen/stroke_width"
-    app:neumorph_insetEnd="@dimen/stroke_width"
-    app:neumorph_insetTop="@dimen/stroke_width"
-    app:neumorph_insetBottom="@dimen/stroke_width"
+    app:neumorph_inset="12dp"
+    app:neumorph_insetStart="12dp"
+    app:neumorph_insetEnd="12dp"
+    app:neumorph_insetTop="12dp"
+    app:neumorph_insetBottom="12dp"
 
     // Use a padding. (default=12dp)
     android:padding="12dp">
