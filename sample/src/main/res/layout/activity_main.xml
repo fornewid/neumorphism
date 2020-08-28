@@ -137,7 +137,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
+        android:drawablePadding="8dp"
         android:text="Button"
+        app:drawableStartCompat="@drawable/ic_left"
+        app:drawableEndCompat="@drawable/ic_right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

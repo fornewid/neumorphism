@@ -5,19 +5,32 @@ import android.graphics.Bitmap
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.os.Build
 import android.renderscript.*
+import android.util.DisplayMetrics
 import soup.neumorphism.internal.util.onCanvas
 import java.lang.ref.WeakReference
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 internal class BlurProvider(context: Context) {
 
     private val contextRef = WeakReference(context)
+    private val defaultBlurRadius: Int
+
+    init {
+        val densityStable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            DisplayMetrics.DENSITY_DEVICE_STABLE / DisplayMetrics.DENSITY_DEFAULT.toFloat()
+        } else {
+            context.resources.displayMetrics.density
+        }
+        defaultBlurRadius = min(BlurFactor.MAX_RADIUS, (densityStable * 10).roundToInt())
+    }
 
     fun blur(
         source: Bitmap,
-        radius: Int = BlurFactor.DEFAULT_RADIUS,
+        radius: Int = defaultBlurRadius,
         sampling: Int = BlurFactor.DEFAULT_SAMPLING
     ): Bitmap? {
         val factor = BlurFactor(
