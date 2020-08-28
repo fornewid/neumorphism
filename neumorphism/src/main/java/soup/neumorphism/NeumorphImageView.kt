@@ -90,9 +90,12 @@ class NeumorphImageView @JvmOverloads constructor(
     }
 
     override fun setBackgroundDrawable(drawable: Drawable?) {
-        this.post { shapeDrawable.setBackgroundDrawable(drawable) }
+        Log.i(LOG_TAG, "Setting a custom background is not supported.")
     }
 
+    fun setNeumorphBackgroundDrawable(drawable: Drawable?) {
+        shapeDrawable.setBackgroundDrawable(drawable)
+    }
     private fun setBackgroundInternal(drawable: Drawable?) {
         super.setBackgroundDrawable(drawable)
     }

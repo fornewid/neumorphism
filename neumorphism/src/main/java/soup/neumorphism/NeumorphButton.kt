@@ -89,6 +89,10 @@ class NeumorphButton @JvmOverloads constructor(
     }
 
     override fun setBackgroundDrawable(drawable: Drawable?) {
+        Log.i(LOG_TAG, "Setting a custom background is not supported.")
+    }
+
+    fun setNeumorphBackgroundDrawable(drawable: Drawable?) {
         shapeDrawable.setBackgroundDrawable(drawable)
     }
 
