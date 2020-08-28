@@ -13,8 +13,8 @@ import soup.neumorphism.internal.shape.BasinShape
 import soup.neumorphism.internal.shape.FlatShape
 import soup.neumorphism.internal.shape.PressedShape
 import soup.neumorphism.internal.shape.Shape
-import soup.neumorphism.internal.util.BitmapUtils.clipToPath
 import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
+import soup.neumorphism.internal.util.BitmapUtils.toBitmap
 
 
 class NeumorphShapeDrawable : Drawable {
@@ -312,22 +312,17 @@ class NeumorphShapeDrawable : Drawable {
 
     private fun drawBackgroundDrawable(canvas: Canvas) {
         drawableState.backgroundDrawable?.let { drawable ->
-
             val rect = RectF()
             outlinePath.computeBounds(rect, true)
-            val bitmap = drawable.clipToPath(rect)
 
-            val roundBitmap = when (drawableState.shapeAppearanceModel.getCornerFamily()) {
-                CornerFamily.OVAL -> {
-                    bitmap.clipToRadius(bitmap.height / 2f)
-                }
-                else -> {
-                    val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
-                    bitmap.clipToRadius(cornerSize)
-                }
-            }
+            val rectWidth = rect.width().toInt()
+            val rectHeight = rect.height().toInt()
+            val bitmap = drawable.toBitmap(rectWidth, rectHeight)
 
-            canvas.drawBitmap(roundBitmap, rect.left, rect.top, null)
+            val cornerSize = if (drawableState.shapeAppearanceModel.getCornerFamily() == CornerFamily.OVAL) bitmap.height / 2f
+            else drawableState.shapeAppearanceModel.getCornerSize()
+
+            canvas.drawBitmap(bitmap.clipToRadius(cornerSize), rect.left, rect.top, null)
         }
     }
 
