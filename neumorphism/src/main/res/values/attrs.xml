@@ -4,6 +4,7 @@
     <attr name="colorShadowLight" format="color"/>
     <attr name="colorShadowDark" format="color"/>
 
+    <attr name="neumorph_backgroundDrawable" format="reference"/>
     <attr name="neumorph_backgroundColor" format="color" />
     <attr name="neumorph_strokeColor" format="color" />
     <attr name="neumorph_strokeWidth" format="dimension" />
@@ -37,6 +38,7 @@
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
         <attr name="neumorph_shapeAppearance" />
+        <attr name="neumorph_backgroundDrawable" />
     </declare-styleable>
 
     <attr name="neumorphCardViewStyle" format="reference" />
@@ -54,6 +56,7 @@
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
         <attr name="neumorph_shapeAppearance" />
+        <attr name="neumorph_backgroundDrawable" />
     </declare-styleable>
 
     <attr name="neumorphFloatingActionButtonStyle" format="reference" />
@@ -71,6 +74,7 @@
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
         <attr name="neumorph_shapeAppearance" />
+        <attr name="neumorph_backgroundDrawable" />
     </declare-styleable>
 
     <attr name="neumorphImageViewStyle" format="reference" />
@@ -88,6 +92,7 @@
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
         <attr name="neumorph_shapeAppearance" />
+        <attr name="neumorph_backgroundDrawable" />
     </declare-styleable>
 
     <attr name="neumorphImageButtonStyle" format="reference" />
@@ -105,6 +110,7 @@
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
         <attr name="neumorph_shapeAppearance" />
+        <attr name="neumorph_backgroundDrawable" />
     </declare-styleable>
 
     <attr name="neumorphTextViewStyle" format="reference" />

@@ -28,6 +28,8 @@ class NeumorphImageView @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphImageView, defStyleAttr, defStyleRes
         )
+
+        val backgroundDrawable = a.getDrawable(R.styleable.NeumorphImageButton_neumorph_backgroundDrawable)
         val fillColor = a.getColorStateList(R.styleable.NeumorphImageView_neumorph_backgroundColor)
         val strokeColor = a.getColorStateList(R.styleable.NeumorphImageView_neumorph_strokeColor)
         val strokeWidth = a.getDimension(R.styleable.NeumorphImageView_neumorph_strokeWidth, 0f)
@@ -68,6 +70,7 @@ class NeumorphImageView @JvmOverloads constructor(
             setShadowElevation(shadowElevation)
             setShadowColorLight(shadowColorLight)
             setShadowColorDark(shadowColorDark)
+            setBackgroundDrawable(backgroundDrawable)
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
             setTranslationZ(translationZ)
@@ -87,7 +90,7 @@ class NeumorphImageView @JvmOverloads constructor(
     }
 
     override fun setBackgroundDrawable(drawable: Drawable?) {
-        Log.i(LOG_TAG, "Setting a custom background is not supported.")
+        shapeDrawable.setBackgroundDrawable(drawable)
     }
 
     private fun setBackgroundInternal(drawable: Drawable?) {
