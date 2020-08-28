@@ -90,7 +90,7 @@ class NeumorphImageView @JvmOverloads constructor(
     }
 
     override fun setBackgroundDrawable(drawable: Drawable?) {
-        shapeDrawable.setBackgroundDrawable(drawable)
+        this.post { shapeDrawable.setBackgroundDrawable(drawable) }
     }
 
     private fun setBackgroundInternal(drawable: Drawable?) {
