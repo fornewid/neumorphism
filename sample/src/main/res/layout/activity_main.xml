@@ -51,7 +51,29 @@
         android:layout_marginTop="48dp"
         app:layout_constraintEnd_toStartOf="@id/pressed_card"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview" />
+        app:layout_constraintTop_toBottomOf="@id/textview" >
+
+
+    </soup.neumorphism.NeumorphCardView>
+
+    <soup.neumorphism.NeumorphCardView
+        android:id="@+id/neumorphCardView"
+        style="@style/Widget.Neumorph.CardView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintStart_toStartOf="@+id/flat_image_view"
+        app:layout_constraintTop_toBottomOf="@+id/pressed_image_view"
+        app:neumorph_backgroundDrawable="@drawable/gradation" />
+
+    <soup.neumorphism.NeumorphCardView
+        style="@style/Widget.Neumorph.CardView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:neumorph_shapeType="pressed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/neumorphCardView"
+        app:layout_constraintTop_toBottomOf="@+id/pressed_image_view"
+        app:neumorph_backgroundDrawable="@drawable/gradation" />
 
     <soup.neumorphism.NeumorphCardView
         android:id="@+id/pressed_card"
@@ -123,6 +145,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <soup.neumorphism.NeumorphButton
+        style="@style/Widget.Neumorph.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:text="Button"
+        app:neumorph_backgroundDrawable="@drawable/gradation"        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintHorizontal_bias="0.862"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <soup.neumorphism.NeumorphFloatingActionButton
         android:id="@+id/fab"
         style="@style/Widget.Neumorph.FloatingActionButton"
@@ -134,5 +167,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:neumorph_shapeAppearance="@style/CustomShapeAppearance" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

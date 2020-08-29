@@ -28,6 +28,8 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.NeumorphFloatingActionButton, defStyleAttr, defStyleRes
         )
+
+        val backgroundDrawable = a.getDrawable(R.styleable.NeumorphImageButton_neumorph_backgroundDrawable)
         val fillColor = a.getColorStateList(R.styleable.NeumorphFloatingActionButton_neumorph_backgroundColor)
         val strokeColor = a.getColorStateList(R.styleable.NeumorphFloatingActionButton_neumorph_strokeColor)
         val strokeWidth = a.getDimension(R.styleable.NeumorphFloatingActionButton_neumorph_strokeWidth, 0f)
@@ -69,6 +71,7 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
             setShadowElevation(shadowElevation)
             setShadowColorLight(shadowColorLight)
             setShadowColorDark(shadowColorDark)
+            setBackgroundDrawable(backgroundDrawable)
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
             setTranslationZ(translationZ)
@@ -89,6 +92,10 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
 
     override fun setBackgroundDrawable(drawable: Drawable?) {
         Log.i(LOG_TAG, "Setting a custom background is not supported.")
+    }
+
+    fun setNeumorphBackgroundDrawable(drawable: Drawable?) {
+        shapeDrawable.setBackgroundDrawable(drawable)
     }
 
     private fun setBackgroundInternal(drawable: Drawable?) {

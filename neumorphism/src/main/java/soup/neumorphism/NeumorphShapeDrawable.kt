@@ -13,6 +13,9 @@ import soup.neumorphism.internal.shape.BasinShape
 import soup.neumorphism.internal.shape.FlatShape
 import soup.neumorphism.internal.shape.PressedShape
 import soup.neumorphism.internal.shape.Shape
+import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
+import soup.neumorphism.internal.util.BitmapUtils.toBitmap
+
 
 class NeumorphShapeDrawable : Drawable {
 
@@ -24,6 +27,7 @@ class NeumorphShapeDrawable : Drawable {
         style = Paint.Style.FILL
         color = Color.TRANSPARENT
     }
+
     private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         color = Color.TRANSPARENT
@@ -86,6 +90,15 @@ class NeumorphShapeDrawable : Drawable {
 
     fun getShapeAppearanceModel(): NeumorphShapeAppearanceModel {
         return drawableState.shapeAppearanceModel
+    }
+
+    fun setBackgroundDrawable(drawable: Drawable?) {
+        this.drawableState.backgroundDrawable = drawable
+        invalidateSelf()
+    }
+
+    fun getBackgroundDrawable(): Drawable? {
+        return this.drawableState.backgroundDrawable
     }
 
     fun setFillColor(fillColor: ColorStateList?) {
@@ -241,6 +254,10 @@ class NeumorphShapeDrawable : Drawable {
         invalidateSelfIgnoreShape()
     }
 
+    private fun hasBackgroundDrawable(): Boolean {
+        return drawableState.backgroundDrawable?.let(Drawable::isVisible) ?: false
+    }
+
     private fun hasFill(): Boolean {
         return (drawableState.paintStyle === Paint.Style.FILL_AND_STROKE
                 || drawableState.paintStyle === Paint.Style.FILL)
@@ -258,8 +275,11 @@ class NeumorphShapeDrawable : Drawable {
     }
 
     override fun draw(canvas: Canvas) {
-        val prevAlpha = fillPaint.alpha
-        fillPaint.alpha = modulateAlpha(prevAlpha, drawableState.alpha)
+        val prevBackgroundAlpha = drawableState.backgroundDrawable?.alpha ?: 0
+        drawableState.backgroundDrawable?.alpha = modulateAlpha(prevBackgroundAlpha, drawableState.alpha)
+
+        val prevFillAlpha = fillPaint.alpha
+        fillPaint.alpha = modulateAlpha(prevFillAlpha, drawableState.alpha)
 
         strokePaint.strokeWidth = drawableState.strokeWidth
         val prevStrokeAlpha = strokePaint.alpha
@@ -275,14 +295,35 @@ class NeumorphShapeDrawable : Drawable {
             drawFillShape(canvas)
         }
 
+        if (hasBackgroundDrawable()) {
+            drawBackgroundDrawable(canvas)
+        }
+
         shadow?.draw(canvas, outlinePath)
 
         if (hasStroke()) {
             drawStrokeShape(canvas)
         }
 
-        fillPaint.alpha = prevAlpha
+        drawableState.backgroundDrawable?.alpha = prevBackgroundAlpha
+        fillPaint.alpha = prevFillAlpha
         strokePaint.alpha = prevStrokeAlpha
+    }
+
+    private fun drawBackgroundDrawable(canvas: Canvas) {
+        drawableState.backgroundDrawable?.let { drawable ->
+            val rect = RectF()
+            outlinePath.computeBounds(rect, true)
+
+            val rectWidth = rect.width().toInt()
+            val rectHeight = rect.height().toInt()
+            val bitmap = drawable.toBitmap(rectWidth, rectHeight)
+
+            val cornerSize = if (drawableState.shapeAppearanceModel.getCornerFamily() == CornerFamily.OVAL) bitmap.height / 2f
+            else drawableState.shapeAppearanceModel.getCornerSize()
+
+            canvas.drawBitmap(bitmap.clipToRadius(cornerSize), rect.left, rect.top, null)
+        }
     }
 
     private fun drawFillShape(canvas: Canvas) {
@@ -376,6 +417,7 @@ class NeumorphShapeDrawable : Drawable {
         var inEditMode: Boolean = false
 
         var inset: Rect = Rect()
+        var backgroundDrawable: Drawable? = null
         var fillColor: ColorStateList? = null
         var strokeColor: ColorStateList? = null
         var strokeWidth = 0f
@@ -404,6 +446,7 @@ class NeumorphShapeDrawable : Drawable {
             blurProvider = orig.blurProvider
             inEditMode = orig.inEditMode
             inset = Rect(orig.inset)
+            backgroundDrawable = orig.backgroundDrawable
             fillColor = orig.fillColor
             strokeColor = orig.strokeColor
             strokeWidth = orig.strokeWidth
@@ -434,5 +477,6 @@ class NeumorphShapeDrawable : Drawable {
             val scale = alpha + (alpha ushr 7) // convert to 0..256
             return paintAlpha * scale ushr 8
         }
+
     }
 }
