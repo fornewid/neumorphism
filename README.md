@@ -94,6 +94,12 @@ There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) 
 <style name="CustomShapeAppearance">
     <item name="neumorph_cornerFamily">{rounded|oval}</item>
     <item name="neumorph_cornerSize">32dp</item>
+
+    <!-- Or if wants different radii depending on the corner. -->
+    <item name="neumorph_cornerSizeTopLeft">16dp</item>
+    <item name="neumorph_cornerSizeTopRight">16dp</item>
+    <item name="neumorph_cornerSizeBottomLeft">16dp</item>
+    <item name="neumorph_cornerSizeBottomRight">16dp</item>
 </style>
 ```
 
