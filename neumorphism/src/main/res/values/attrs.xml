@@ -131,6 +131,10 @@
 
     <declare-styleable name="NeumorphShapeAppearance">
         <attr name="neumorph_cornerSize" format="dimension" />
+        <attr name="neumorph_cornerSizeTopLeft" format="dimension" />
+        <attr name="neumorph_cornerSizeTopRight" format="dimension" />
+        <attr name="neumorph_cornerSizeBottomLeft" format="dimension" />
+        <attr name="neumorph_cornerSizeBottomRight" format="dimension" />
         <attr name="neumorph_cornerFamily" format="enum">
             <enum name="rounded" value="0" />
             <enum name="oval" value="1" />
