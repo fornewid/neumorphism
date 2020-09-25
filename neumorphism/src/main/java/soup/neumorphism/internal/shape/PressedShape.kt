@@ -59,9 +59,7 @@ internal class PressedShape(
                         drawableState.shapeAppearanceModel.getCornerSize()
                     )
                     shape = GradientDrawable.RECTANGLE
-                    cornerRadii = cornerSize.let {
-                        floatArrayOf(it, it, it, it, it, it, it, it)
-                    }
+                    cornerRadii = getCornerRadiiForLightShadow(cornerSize)
                 }
             }
         }
@@ -79,9 +77,7 @@ internal class PressedShape(
                         drawableState.shapeAppearanceModel.getCornerSize()
                     )
                     shape = GradientDrawable.RECTANGLE
-                    cornerRadii = cornerSize.let {
-                        floatArrayOf(it, it, it, it, it, it, it, it)
-                    }
+                    cornerRadii = getCornerRadiiForDarkShadow(cornerSize)
                 }
             }
         }
@@ -91,6 +87,26 @@ internal class PressedShape(
         darkShadowDrawable.setSize(width, height)
         darkShadowDrawable.setBounds(0, 0, width, height)
         shadowBitmap = generateShadowBitmap(w, h)
+    }
+
+    private fun getCornerRadiiForLightShadow(cornerSize: Float): FloatArray {
+        return when (drawableState.lightSource) {
+            LightSource.LEFT_TOP -> floatArrayOf(0f, 0f, 0f, 0f, cornerSize, cornerSize, 0f, 0f)
+            LightSource.LEFT_BOTTOM -> floatArrayOf(0f, 0f, cornerSize, cornerSize, 0f, 0f, 0f, 0f)
+            LightSource.RIGHT_TOP -> floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, cornerSize, cornerSize)
+            LightSource.RIGHT_BOTTOM -> floatArrayOf(cornerSize, cornerSize, 0f, 0f, 0f, 0f, 0f, 0f)
+            else -> throw IllegalStateException("LightSource ${drawableState.lightSource} is not supported.")
+        }
+    }
+
+    private fun getCornerRadiiForDarkShadow(cornerSize: Float): FloatArray {
+        return when (drawableState.lightSource) {
+            LightSource.LEFT_TOP -> floatArrayOf(cornerSize, cornerSize, 0f, 0f, 0f, 0f, 0f, 0f)
+            LightSource.LEFT_BOTTOM -> floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, cornerSize, cornerSize)
+            LightSource.RIGHT_TOP -> floatArrayOf(0f, 0f, cornerSize, cornerSize, 0f, 0f, 0f, 0f)
+            LightSource.RIGHT_BOTTOM -> floatArrayOf(0f, 0f, 0f, 0f, cornerSize, cornerSize, 0f, 0f)
+            else -> throw IllegalStateException("LightSource ${drawableState.lightSource} is not supported.")
+        }
     }
 
     private fun generateShadowBitmap(w: Int, h: Int): Bitmap? {

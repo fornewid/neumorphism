@@ -98,10 +98,7 @@ internal class FlatShape(
         val height = (h + shadowElevation * 2).roundToInt()
         return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             .onCanvas {
-                withTranslation(
-                    x = shadowElevation,
-                    y = shadowElevation
-                ) {
+                withTranslation(shadowElevation, shadowElevation) {
                     draw(this)
                 }
             }
