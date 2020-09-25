@@ -31,6 +31,7 @@ class NeumorphImageButton @JvmOverloads constructor(
         val fillColor = a.getColorStateList(R.styleable.NeumorphImageButton_neumorph_backgroundColor)
         val strokeColor = a.getColorStateList(R.styleable.NeumorphImageButton_neumorph_strokeColor)
         val strokeWidth = a.getDimension(R.styleable.NeumorphImageButton_neumorph_strokeWidth, 0f)
+        val lightSource = a.getInt(R.styleable.NeumorphImageButton_neumorph_lightSource, LightSource.DEFAULT)
         val shapeType = a.getInt(R.styleable.NeumorphImageButton_neumorph_shapeType, ShapeType.DEFAULT)
         val inset = a.getDimensionPixelSize(
             R.styleable.NeumorphImageButton_neumorph_inset, 0
@@ -64,6 +65,7 @@ class NeumorphImageButton @JvmOverloads constructor(
 
         shapeDrawable = NeumorphShapeDrawable(context, attrs, defStyleAttr, defStyleRes).apply {
             setInEditMode(isInEditMode)
+            setLightSource(lightSource)
             setShapeType(shapeType)
             setShadowElevation(shadowElevation)
             setShadowColorLight(shadowColorLight)
@@ -128,6 +130,15 @@ class NeumorphImageButton @JvmOverloads constructor(
 
     fun getStrokeWidth(): Float {
         return shapeDrawable.getStrokeWidth()
+    }
+
+    fun setLightSource(@LightSource lightSource: Int) {
+        shapeDrawable.setLightSource(lightSource)
+    }
+
+    @LightSource
+    fun getLightSource(): Int {
+        return shapeDrawable.getLightSource()
     }
 
     fun setShapeType(@ShapeType shapeType: Int) {

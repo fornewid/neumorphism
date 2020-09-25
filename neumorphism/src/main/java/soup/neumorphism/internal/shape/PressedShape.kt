@@ -6,6 +6,7 @@ import android.graphics.Path
 import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
 import soup.neumorphism.CornerFamily
+import soup.neumorphism.LightSource
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
 import soup.neumorphism.internal.util.onCanvas
 import soup.neumorphism.internal.util.withClip
@@ -58,7 +59,7 @@ internal class PressedShape(
                         drawableState.shapeAppearanceModel.getCornerSize()
                     )
                     shape = GradientDrawable.RECTANGLE
-                    cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, cornerSize, cornerSize, 0f, 0f)
+                    cornerRadii = getCornerRadiiForLightShadow(cornerSize)
                 }
             }
         }
@@ -76,7 +77,7 @@ internal class PressedShape(
                         drawableState.shapeAppearanceModel.getCornerSize()
                     )
                     shape = GradientDrawable.RECTANGLE
-                    cornerRadii = floatArrayOf(cornerSize, cornerSize, 0f, 0f, 0f, 0f, 0f, 0f)
+                    cornerRadii = getCornerRadiiForDarkShadow(cornerSize)
                 }
             }
         }
@@ -88,6 +89,26 @@ internal class PressedShape(
         shadowBitmap = generateShadowBitmap(w, h)
     }
 
+    private fun getCornerRadiiForLightShadow(cornerSize: Float): FloatArray {
+        return when (drawableState.lightSource) {
+            LightSource.LEFT_TOP -> floatArrayOf(0f, 0f, 0f, 0f, cornerSize, cornerSize, 0f, 0f)
+            LightSource.LEFT_BOTTOM -> floatArrayOf(0f, 0f, cornerSize, cornerSize, 0f, 0f, 0f, 0f)
+            LightSource.RIGHT_TOP -> floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, cornerSize, cornerSize)
+            LightSource.RIGHT_BOTTOM -> floatArrayOf(cornerSize, cornerSize, 0f, 0f, 0f, 0f, 0f, 0f)
+            else -> throw IllegalStateException("LightSource ${drawableState.lightSource} is not supported.")
+        }
+    }
+
+    private fun getCornerRadiiForDarkShadow(cornerSize: Float): FloatArray {
+        return when (drawableState.lightSource) {
+            LightSource.LEFT_TOP -> floatArrayOf(cornerSize, cornerSize, 0f, 0f, 0f, 0f, 0f, 0f)
+            LightSource.LEFT_BOTTOM -> floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, cornerSize, cornerSize)
+            LightSource.RIGHT_TOP -> floatArrayOf(0f, 0f, cornerSize, cornerSize, 0f, 0f, 0f, 0f)
+            LightSource.RIGHT_BOTTOM -> floatArrayOf(0f, 0f, 0f, 0f, cornerSize, cornerSize, 0f, 0f)
+            else -> throw IllegalStateException("LightSource ${drawableState.lightSource} is not supported.")
+        }
+    }
+
     private fun generateShadowBitmap(w: Int, h: Int): Bitmap? {
         fun Bitmap.blurred(): Bitmap? {
             if (drawableState.inEditMode) {
@@ -97,12 +118,21 @@ internal class PressedShape(
         }
 
         val shadowElevation = drawableState.shadowElevation
+        val lightSource = drawableState.lightSource
         return Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
             .onCanvas {
-                withTranslation(-shadowElevation, -shadowElevation) {
+                withTranslation(
+                    x = if (LightSource.isLeft(lightSource)) -shadowElevation else 0f,
+                    y = if (LightSource.isTop(lightSource)) -shadowElevation else 0f
+                ) {
                     lightShadowDrawable.draw(this)
                 }
-                darkShadowDrawable.draw(this)
+                withTranslation(
+                    x = if (LightSource.isRight(lightSource)) -shadowElevation else 0f,
+                    y = if (LightSource.isBottom(lightSource)) -shadowElevation else 0f
+                ) {
+                    darkShadowDrawable.draw(this)
+                }
             }
             .blurred()
     }

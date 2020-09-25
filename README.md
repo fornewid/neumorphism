@@ -65,6 +65,9 @@ There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) 
     app:neumorph_shadowColorLight="@color/solid_light_color"
     app:neumorph_shadowColorDark="@color/solid_dark_color"
 
+    // Set light source
+    app:neumorph_lightSource="leftTop|leftBottom|rightTop|rightBottom"
+
     // Set shape type and corner size
     app:neumorph_shapeType="{flat|pressed|basin}"
     app:neumorph_shapeAppearance="@style/CustomShapeAppearance"
@@ -93,6 +96,11 @@ There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) 
     <item name="neumorph_cornerSize">32dp</item>
 </style>
 ```
+
+- #### LightSource
+| LEFT_TOP | LEFT_BOTTOM | RIGHT_TOP | RIGHT_BOTTOM |
+| :--: | :-----: | :---: | :---: |
+| <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/lightSource_leftTop.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/lightSource_leftBottom.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/lightSource_rightTop.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/lightSource_rightBottom.png"/> |
 
 - #### ShapeType
 | FLAT | PRESSED | BASIN |

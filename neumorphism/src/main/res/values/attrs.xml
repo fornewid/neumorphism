@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="colorShadowLight" format="color"/>
-    <attr name="colorShadowDark" format="color"/>
+    <attr name="colorShadowLight" format="color" />
+    <attr name="colorShadowDark" format="color" />
 
     <attr name="neumorph_backgroundColor" format="color" />
     <attr name="neumorph_strokeColor" format="color" />
     <attr name="neumorph_strokeWidth" format="dimension" />
+    <attr name="neumorph_lightSource" format="enum">
+        <enum name="leftTop" value="0" />
+        <enum name="leftBottom" value="1" />
+        <enum name="rightTop" value="2" />
+        <enum name="rightBottom" value="3" />
+    </attr>
     <attr name="neumorph_shapeType" format="enum">
         <enum name="flat" value="0" />
         <enum name="pressed" value="1" />
@@ -27,6 +33,7 @@
         <attr name="neumorph_backgroundColor" />
         <attr name="neumorph_strokeColor" />
         <attr name="neumorph_strokeWidth" />
+        <attr name="neumorph_lightSource" />
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_inset" />
         <attr name="neumorph_insetStart" />
@@ -44,6 +51,7 @@
         <attr name="neumorph_backgroundColor" />
         <attr name="neumorph_strokeColor" />
         <attr name="neumorph_strokeWidth" />
+        <attr name="neumorph_lightSource" />
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_inset" />
         <attr name="neumorph_insetStart" />
@@ -61,6 +69,7 @@
         <attr name="neumorph_backgroundColor" />
         <attr name="neumorph_strokeColor" />
         <attr name="neumorph_strokeWidth" />
+        <attr name="neumorph_lightSource" />
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_inset" />
         <attr name="neumorph_insetStart" />
@@ -78,6 +87,7 @@
         <attr name="neumorph_backgroundColor" />
         <attr name="neumorph_strokeColor" />
         <attr name="neumorph_strokeWidth" />
+        <attr name="neumorph_lightSource" />
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_inset" />
         <attr name="neumorph_insetStart" />
@@ -95,6 +105,7 @@
         <attr name="neumorph_backgroundColor" />
         <attr name="neumorph_strokeColor" />
         <attr name="neumorph_strokeWidth" />
+        <attr name="neumorph_lightSource" />
         <attr name="neumorph_shapeType" />
         <attr name="neumorph_inset" />
         <attr name="neumorph_insetStart" />

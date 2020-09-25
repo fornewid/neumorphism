@@ -166,6 +166,18 @@ class NeumorphShapeDrawable : Drawable {
         invalidateSelf()
     }
 
+    fun setLightSource(@LightSource lightSource: Int) {
+        if (drawableState.lightSource != lightSource) {
+            drawableState.lightSource = lightSource
+            invalidateSelf()
+        }
+    }
+
+    @LightSource
+    fun getLightSource(): Int {
+        return drawableState.lightSource
+    }
+
     fun setShapeType(@ShapeType shapeType: Int) {
         if (drawableState.shapeType != shapeType) {
             drawableState.shapeType = shapeType
@@ -382,6 +394,8 @@ class NeumorphShapeDrawable : Drawable {
 
         var alpha = 255
 
+        @LightSource
+        var lightSource: Int = LightSource.DEFAULT
         @ShapeType
         var shapeType: Int = ShapeType.DEFAULT
         var shadowElevation: Float = 0f
@@ -408,6 +422,7 @@ class NeumorphShapeDrawable : Drawable {
             strokeColor = orig.strokeColor
             strokeWidth = orig.strokeWidth
             alpha = orig.alpha
+            lightSource = orig.lightSource
             shapeType = orig.shapeType
             shadowElevation = orig.shadowElevation
             shadowColorLight = orig.shadowColorLight
