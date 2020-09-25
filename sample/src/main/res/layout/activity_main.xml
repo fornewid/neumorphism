@@ -109,6 +109,17 @@
         app:layout_constraintTop_toBottomOf="@id/card_barrier"
         app:neumorph_shapeType="basin" />
 
+    <soup.neumorphism.NeumorphFloatingActionButton
+        style="@style/Widget.Neumorph.FloatingActionButton"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_margin="24dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_filter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:neumorph_shapeAppearance="@style/CustomShapeAppearance" />
+
     <soup.neumorphism.NeumorphButton
         android:id="@+id/button"
         style="@style/Widget.Neumorph.Button"
@@ -117,8 +128,8 @@
         android:layout_marginBottom="36dp"
         android:drawablePadding="8dp"
         android:text="Button"
-        app:drawableStartCompat="@drawable/ic_left"
         app:drawableEndCompat="@drawable/ic_right"
+        app:drawableStartCompat="@drawable/ic_left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -132,7 +143,6 @@
         android:scaleType="centerInside"
         android:src="@drawable/ic_filter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:neumorph_shapeAppearance="@style/CustomShapeAppearance" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

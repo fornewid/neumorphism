@@ -7,6 +7,7 @@ import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.Dimension
 import androidx.annotation.StyleRes
+import kotlin.math.min
 
 class NeumorphShapeAppearanceModel {
 
@@ -14,14 +15,17 @@ class NeumorphShapeAppearanceModel {
 
         @CornerFamily
         var cornerFamily: Int = CornerFamily.ROUNDED
-        var cornerSize: Float = 0f
+        var topLeftCornerSize: Float = 0f
+        var topRightCornerSize: Float = 0f
+        var bottomLeftCornerSize: Float = 0f
+        var bottomRightCornerSize: Float = 0f
 
         fun setAllCorners(
             @CornerFamily cornerFamily: Int,
             @Dimension cornerSize: Float
         ): Builder {
             return setAllCorners(cornerFamily)
-                .setAllCornerSizes(cornerSize)
+                .setCornerRadius(cornerSize)
         }
 
         fun setAllCorners(@CornerFamily cornerFamily: Int): Builder {
@@ -30,9 +34,34 @@ class NeumorphShapeAppearanceModel {
             }
         }
 
-        fun setAllCornerSizes(cornerSize: Float): Builder {
+        fun setCornerRadius(cornerRadius: Float): Builder {
+            return setTopLeftCornerSize(cornerRadius)
+                .setTopRightCornerSize(cornerRadius)
+                .setBottomLeftCornerSize(cornerRadius)
+                .setBottomRightCornerSize(cornerRadius)
+        }
+
+        fun setTopLeftCornerSize(topLeftCornerSize: Float): Builder {
             return apply {
-                this.cornerSize = cornerSize
+                this.topLeftCornerSize = topLeftCornerSize
+            }
+        }
+
+        fun setTopRightCornerSize(topRightCornerSize: Float): Builder {
+            return apply {
+                this.topRightCornerSize = topRightCornerSize
+            }
+        }
+
+        fun setBottomLeftCornerSize(bottomLeftCornerSize: Float): Builder {
+            return apply {
+                this.bottomLeftCornerSize = bottomLeftCornerSize
+            }
+        }
+
+        fun setBottomRightCornerSize(bottomRightCornerSize: Float): Builder {
+            return apply {
+                this.bottomRightCornerSize = bottomRightCornerSize
             }
         }
 
@@ -43,16 +72,25 @@ class NeumorphShapeAppearanceModel {
 
     @CornerFamily
     private val cornerFamily: Int
-    private val cornerSize: Float
+    private val topLeftCornerSize: Float
+    private val topRightCornerSize: Float
+    private val bottomLeftCornerSize: Float
+    private val bottomRightCornerSize: Float
 
     private constructor(builder: Builder) {
         cornerFamily = builder.cornerFamily
-        cornerSize = builder.cornerSize
+        topLeftCornerSize = builder.topLeftCornerSize
+        topRightCornerSize = builder.topRightCornerSize
+        bottomLeftCornerSize = builder.bottomLeftCornerSize
+        bottomRightCornerSize = builder.bottomRightCornerSize
     }
 
     constructor() {
         cornerFamily = CornerFamily.ROUNDED
-        cornerSize = 0f
+        topLeftCornerSize = 0f
+        topRightCornerSize = 0f
+        bottomLeftCornerSize = 0f
+        bottomRightCornerSize = 0f
     }
 
     @CornerFamily
@@ -60,8 +98,37 @@ class NeumorphShapeAppearanceModel {
         return cornerFamily
     }
 
-    fun getCornerSize(): Float {
-        return cornerSize
+    fun getTopLeftCornerSize(): Float {
+        return topLeftCornerSize
+    }
+
+    fun getTopRightCornerSize(): Float {
+        return topRightCornerSize
+    }
+
+    fun getBottomLeftCornerSize(): Float {
+        return bottomLeftCornerSize
+    }
+
+    fun getBottomRightCornerSize(): Float {
+        return bottomRightCornerSize
+    }
+
+    internal fun getCornerRadii(maximum: Float): FloatArray {
+        val topLeftCornerSize = min(maximum, getTopLeftCornerSize())
+        val topRightCornerSize = min(maximum, getTopRightCornerSize())
+        val bottomLeftCornerSize = min(maximum, getBottomLeftCornerSize())
+        val bottomRightCornerSize = min(maximum, getBottomRightCornerSize())
+        return floatArrayOf(
+            topLeftCornerSize,
+            topLeftCornerSize,
+            topRightCornerSize,
+            topRightCornerSize,
+            bottomLeftCornerSize,
+            bottomLeftCornerSize,
+            bottomRightCornerSize,
+            bottomRightCornerSize
+        )
     }
 
     companion object {
@@ -105,26 +172,40 @@ class NeumorphShapeAppearanceModel {
                     R.styleable.NeumorphShapeAppearance_neumorph_cornerFamily,
                     CornerFamily.ROUNDED
                 )
-                val cornerSize =
-                    getCornerSize(
-                        a,
-                        R.styleable.NeumorphShapeAppearance_neumorph_cornerSize,
-                        defaultCornerSize
-                    )
+                val cornerSize = a.getCornerSize(
+                    R.styleable.NeumorphShapeAppearance_neumorph_cornerSize,
+                    defaultCornerSize
+                )
+                val cornerSizeTopLeft = a.getCornerSize(
+                    R.styleable.NeumorphShapeAppearance_neumorph_cornerSizeTopLeft,
+                    cornerSize
+                )
+                val cornerSizeTopRight = a.getCornerSize(
+                    R.styleable.NeumorphShapeAppearance_neumorph_cornerSizeTopRight,
+                    cornerSize
+                )
+                val cornerSizeBottomRight = a.getCornerSize(
+                    R.styleable.NeumorphShapeAppearance_neumorph_cornerSizeBottomLeft, cornerSize
+                )
+                val cornerSizeBottomLeft = a.getCornerSize(
+                    R.styleable.NeumorphShapeAppearance_neumorph_cornerSizeBottomRight, cornerSize
+                )
                 return Builder()
-                    .setAllCorners(cornerFamily, cornerSize)
+                    .setAllCorners(cornerFamily)
+                    .setTopLeftCornerSize(cornerSizeTopLeft)
+                    .setTopRightCornerSize(cornerSizeTopRight)
+                    .setBottomRightCornerSize(cornerSizeBottomRight)
+                    .setBottomLeftCornerSize(cornerSizeBottomLeft)
             } finally {
                 a.recycle()
             }
         }
 
-        private fun getCornerSize(
-            a: TypedArray, index: Int, defaultValue: Float
-        ): Float {
-            val value = a.peekValue(index) ?: return defaultValue
+        private fun TypedArray.getCornerSize(index: Int, defaultValue: Float): Float {
+            val value = peekValue(index) ?: return defaultValue
             return if (value.type == TypedValue.TYPE_DIMENSION) {
                 TypedValue.complexToDimensionPixelSize(
-                    value.data, a.resources.displayMetrics
+                    value.data, resources.displayMetrics
                 ).toFloat()
             } else {
                 defaultValue

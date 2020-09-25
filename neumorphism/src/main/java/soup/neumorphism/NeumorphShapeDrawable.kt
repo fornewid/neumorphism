@@ -13,6 +13,7 @@ import soup.neumorphism.internal.shape.BasinShape
 import soup.neumorphism.internal.shape.FlatShape
 import soup.neumorphism.internal.shape.PressedShape
 import soup.neumorphism.internal.shape.Shape
+import kotlin.math.min
 
 class NeumorphShapeDrawable : Drawable {
 
@@ -310,20 +311,20 @@ class NeumorphShapeDrawable : Drawable {
     }
 
     private fun calculateOutlinePath(bounds: RectF, path: Path) {
+        val shapeAppearanceModel = drawableState.shapeAppearanceModel
         val left = drawableState.inset.left.toFloat()
         val top = drawableState.inset.top.toFloat()
         val right = left + bounds.width()
         val bottom = top + bounds.height()
         path.reset()
-        when (drawableState.shapeAppearanceModel.getCornerFamily()) {
+        when (shapeAppearanceModel.getCornerFamily()) {
             CornerFamily.OVAL -> {
                 path.addOval(left, top, right, bottom, Path.Direction.CW)
             }
             CornerFamily.ROUNDED -> {
-                val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
                 path.addRoundRect(
                     left, top, right, bottom,
-                    cornerSize, cornerSize,
+                    shapeAppearanceModel.getCornerRadii(min(bounds.width() / 2f, bounds.height() / 2f)),
                     Path.Direction.CW
                 )
             }
@@ -332,13 +333,14 @@ class NeumorphShapeDrawable : Drawable {
     }
 
     override fun getOutline(outline: Outline) {
-        when (drawableState.shapeAppearanceModel.getCornerFamily()) {
+        val shapeAppearanceModel = drawableState.shapeAppearanceModel
+        when (shapeAppearanceModel.getCornerFamily()) {
             CornerFamily.OVAL -> {
                 outline.setOval(getBoundsInternal())
             }
             CornerFamily.ROUNDED -> {
-                val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
-                outline.setRoundRect(getBoundsInternal(), cornerSize)
+                //TODO: How to setRoundRect() with cornerRadii???
+                outline.setRect(getBoundsInternal())
             }
         }
     }

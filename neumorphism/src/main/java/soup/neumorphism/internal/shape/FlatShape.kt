@@ -13,6 +13,7 @@ import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
 import soup.neumorphism.internal.util.onCanvas
 import soup.neumorphism.internal.util.withClipOut
 import soup.neumorphism.internal.util.withTranslation
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 internal class FlatShape(
@@ -39,13 +40,11 @@ internal class FlatShape(
             lightShadowBitmap?.let {
                 val offsetX = if (LightSource.isLeft(lightSource)) -elevation - z else -elevation + z
                 val offsetY = if (LightSource.isTop(lightSource)) -elevation - z else -elevation + z
-                val offset = -elevation - z
                 drawBitmap(it, offsetX + left, offsetY + top, null)
             }
             darkShadowBitmap?.let {
                 val offsetX = if (LightSource.isLeft(lightSource)) -elevation + z else -elevation - z
                 val offsetY = if (LightSource.isTop(lightSource)) -elevation + z else -elevation - z
-                val offset = -elevation + z
                 drawBitmap(it, offsetX + left, offsetY + top, null)
             }
         }
@@ -59,9 +58,9 @@ internal class FlatShape(
                 }
                 CornerFamily.ROUNDED -> {
                     shape = GradientDrawable.RECTANGLE
-                    cornerRadii = shapeAppearanceModel.getCornerSize().let {
-                        floatArrayOf(it, it, it, it, it, it, it, it)
-                    }
+                    cornerRadii = shapeAppearanceModel.getCornerRadii(
+                        min(bounds.width() / 2f, bounds.height() / 2f)
+                    )
                 }
             }
         }

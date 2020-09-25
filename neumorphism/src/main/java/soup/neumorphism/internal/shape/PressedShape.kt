@@ -56,7 +56,7 @@ internal class PressedShape(
                 CornerFamily.ROUNDED -> {
                     val cornerSize = min(
                         min(w / 2f, h / 2f),
-                        drawableState.shapeAppearanceModel.getCornerSize()
+                        getCornerSizeForLightShadow()
                     )
                     shape = GradientDrawable.RECTANGLE
                     cornerRadii = getCornerRadiiForLightShadow(cornerSize)
@@ -74,7 +74,7 @@ internal class PressedShape(
                 CornerFamily.ROUNDED -> {
                     val cornerSize = min(
                         min(w / 2f, h / 2f),
-                        drawableState.shapeAppearanceModel.getCornerSize()
+                        getCornerSizeForDarkShadow()
                     )
                     shape = GradientDrawable.RECTANGLE
                     cornerRadii = getCornerRadiiForDarkShadow(cornerSize)
@@ -89,6 +89,18 @@ internal class PressedShape(
         shadowBitmap = generateShadowBitmap(w, h)
     }
 
+    private fun getCornerSizeForLightShadow(): Float {
+        return drawableState.shapeAppearanceModel.run {
+            when (drawableState.lightSource) {
+                LightSource.LEFT_TOP -> getBottomLeftCornerSize()
+                LightSource.LEFT_BOTTOM -> getTopRightCornerSize()
+                LightSource.RIGHT_TOP -> getBottomRightCornerSize()
+                LightSource.RIGHT_BOTTOM -> getTopLeftCornerSize()
+                else -> throw IllegalStateException("LightSource ${drawableState.lightSource} is not supported.")
+            }
+        }
+    }
+
     private fun getCornerRadiiForLightShadow(cornerSize: Float): FloatArray {
         return when (drawableState.lightSource) {
             LightSource.LEFT_TOP -> floatArrayOf(0f, 0f, 0f, 0f, cornerSize, cornerSize, 0f, 0f)
@@ -96,6 +108,18 @@ internal class PressedShape(
             LightSource.RIGHT_TOP -> floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, cornerSize, cornerSize)
             LightSource.RIGHT_BOTTOM -> floatArrayOf(cornerSize, cornerSize, 0f, 0f, 0f, 0f, 0f, 0f)
             else -> throw IllegalStateException("LightSource ${drawableState.lightSource} is not supported.")
+        }
+    }
+
+    private fun getCornerSizeForDarkShadow(): Float {
+        return drawableState.shapeAppearanceModel.run {
+            when (drawableState.lightSource) {
+                LightSource.LEFT_TOP -> getTopLeftCornerSize()
+                LightSource.LEFT_BOTTOM -> getBottomLeftCornerSize()
+                LightSource.RIGHT_TOP -> getTopRightCornerSize()
+                LightSource.RIGHT_BOTTOM -> getBottomRightCornerSize()
+                else -> throw IllegalStateException("LightSource ${drawableState.lightSource} is not supported.")
+            }
         }
     }
 
