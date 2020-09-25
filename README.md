@@ -39,7 +39,7 @@ allprojects {
 Then, add the library to your module `build.gradle`
 ```gradle
 dependencies {
-    implementation 'com.github.fornewid:neumorphism:0.2.0'
+    implementation 'com.github.fornewid:neumorphism:0.2.1'
 }
 ```
 
