@@ -7,6 +7,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import soup.neumorphism.CornerFamily
+import soup.neumorphism.LightSource
 import soup.neumorphism.NeumorphShapeAppearanceModel
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
 import soup.neumorphism.internal.util.onCanvas
@@ -29,20 +30,23 @@ internal class FlatShape(
 
     override fun draw(canvas: Canvas, outlinePath: Path) {
         canvas.withClipOut(outlinePath) {
+            val lightSource = drawableState.lightSource
             val elevation = drawableState.shadowElevation
             val z = drawableState.shadowElevation + drawableState.translationZ
-            val left: Float
-            val top: Float
             val inset = drawableState.inset
-            left = inset.left.toFloat()
-            top = inset.top.toFloat()
+            val left = inset.left.toFloat()
+            val top = inset.top.toFloat()
             lightShadowBitmap?.let {
+                val offsetX = if (LightSource.isLeft(lightSource)) -elevation - z else -elevation + z
+                val offsetY = if (LightSource.isTop(lightSource)) -elevation - z else -elevation + z
                 val offset = -elevation - z
-                drawBitmap(it, offset + left, offset + top, null)
+                drawBitmap(it, offsetX + left, offsetY + top, null)
             }
             darkShadowBitmap?.let {
+                val offsetX = if (LightSource.isLeft(lightSource)) -elevation + z else -elevation - z
+                val offsetY = if (LightSource.isTop(lightSource)) -elevation + z else -elevation - z
                 val offset = -elevation + z
-                drawBitmap(it, offset + left, offset + top, null)
+                drawBitmap(it, offsetX + left, offsetY + top, null)
             }
         }
     }
@@ -94,7 +98,10 @@ internal class FlatShape(
         val height = (h + shadowElevation * 2).roundToInt()
         return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             .onCanvas {
-                withTranslation(shadowElevation, shadowElevation) {
+                withTranslation(
+                    x = shadowElevation,
+                    y = shadowElevation
+                ) {
                     draw(this)
                 }
             }
