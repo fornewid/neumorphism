@@ -74,9 +74,9 @@
     <soup.neumorphism.NeumorphImageButton
         android:id="@+id/flat_image_view"
         style="@style/Widget.Neumorph.ImageButton"
-        android:layout_width="88dp"
-        android:layout_height="88dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="77dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="24dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_daynight_sky"
         app:layout_constraintEnd_toStartOf="@id/pressed_image_view"
@@ -88,36 +88,35 @@
         style="@style/Widget.Neumorph.ImageButton"
         android:layout_width="88dp"
         android:layout_height="88dp"
-        android:layout_marginTop="48dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_daynight_activity"
         app:layout_constraintEnd_toStartOf="@id/basin_image_view"
         app:layout_constraintStart_toEndOf="@id/flat_image_view"
-        app:layout_constraintTop_toBottomOf="@id/card_barrier"
+        app:layout_constraintTop_toTopOf="@+id/flat_image_view"
         app:neumorph_shapeType="pressed" />
 
     <soup.neumorphism.NeumorphImageButton
         android:id="@+id/basin_image_view"
         style="@style/Widget.Neumorph.ImageButton"
-        android:layout_width="88dp"
-        android:layout_height="88dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="77dp"
+        android:layout_height="77dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_daynight_food"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/pressed_image_view"
-        app:layout_constraintTop_toBottomOf="@id/card_barrier"
+        app:layout_constraintTop_toTopOf="@+id/pressed_image_view"
         app:neumorph_shapeType="basin" />
 
     <soup.neumorphism.NeumorphFloatingActionButton
+        android:id="@+id/neumorphFloatingActionButton"
         style="@style/Widget.Neumorph.FloatingActionButton"
-        android:layout_width="88dp"
-        android:layout_height="88dp"
+        android:layout_width="77dp"
+        android:layout_height="77dp"
         android:layout_margin="24dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_filter"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flat_image_view"
         app:neumorph_shapeAppearance="@style/CustomShapeAppearance" />
 
     <soup.neumorphism.NeumorphButton
@@ -125,24 +124,42 @@
         style="@style/Widget.Neumorph.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:drawablePadding="8dp"
         android:text="Button"
         app:drawableEndCompat="@drawable/ic_right"
         app:drawableStartCompat="@drawable/ic_left"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/neumorphFloatingActionButton"
+        app:layout_constraintEnd_toStartOf="@+id/fab"
+        app:layout_constraintStart_toEndOf="@+id/neumorphFloatingActionButton"
+        app:layout_constraintTop_toTopOf="@+id/neumorphFloatingActionButton" />
+
+    <soup.neumorphism.NeumorphButton
+        android:id="@+id/button2"
+        style="@style/Widget.Neumorph.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:drawablePadding="8dp"
+        android:text="Button2"
+        app:drawableEndCompat="@drawable/ic_right"
+        app:drawableStartCompat="@drawable/ic_left"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <soup.neumorphism.NeumorphFloatingActionButton
         android:id="@+id/fab"
         style="@style/Widget.Neumorph.FloatingActionButton"
-        android:layout_width="88dp"
-        android:layout_height="88dp"
+        android:layout_width="77dp"
+        android:layout_height="77dp"
         android:layout_margin="24dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_filter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/basin_image_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
