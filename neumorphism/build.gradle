@@ -3,9 +3,7 @@ import dependencies.Versions
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.github.dcendents.android-maven'
-
-group = 'com.github.fornewid'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion Versions.compileSdk
@@ -26,4 +24,41 @@ android {
 dependencies {
     implementation Libs.Kotlin.stdlib
     implementation Libs.AndroidX.appcompat
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                group = 'com.github.fornewid'
+                artifactId = 'neumorphism'
+                version = '0.2.1'
+
+                pom {
+                    name = 'Neumorphism'
+                    description = 'Try to Neumorphism designs in Android.'
+                    url = 'https://github.com/fornewid/neumorphism'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'fornewid'
+                            name = 'SOUP'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git@github.com/fornewid/neumorphism.git'
+                        developerConnection = 'scm:git@github.com/fornewid/neumorphism.git'
+                        url = 'https://github.com/fornewid/neumorphism'
+                    }
+                }
+            }
+        }
+    }
 }

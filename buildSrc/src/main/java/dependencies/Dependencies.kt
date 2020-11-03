@@ -8,6 +8,7 @@ object Versions {
 }
 
 object Libs {
+    const val androidGradlePlugin = "com.android.tools.build:gradle:4.1.0"
 
     object Kotlin {
         private const val version = "1.3.72"
