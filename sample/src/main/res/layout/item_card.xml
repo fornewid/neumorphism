@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soup.neumorphism.NeumorphCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Neumorph.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <soup.neumorphism.NeumorphTextView
+        android:id="@+id/textview"
+        style="@style/Widget.Neumorph.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Neumorphism"
+        android:textColor="@color/background"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+</soup.neumorphism.NeumorphCardView>
