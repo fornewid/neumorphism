@@ -50,12 +50,8 @@ class NeumorphTextView @JvmOverloads constructor(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         lastTextCache = buildTextCache(w, h).also { origin ->
-            if (lastShadowLight == null) {
-                lastShadowLight = origin.generateBitmapShadowCache(w, h, shadowColorLight)
-            }
-            if (lastShadowDark == null) {
-                lastShadowDark = origin.generateBitmapShadowCache(w, h, shadowColorDark)
-            }
+            lastShadowLight = origin.generateBitmapShadowCache(w, h, shadowColorLight)
+            lastShadowDark = origin.generateBitmapShadowCache(w, h, shadowColorDark)
         }
     }
 

@@ -12,6 +12,10 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.textview.setOnClickListener {
+            binding.textview.text = listOf("Neumorphism", "in", "Android").random()
+        }
+
         binding.button.setOnClickListener {
             startActivity(Intent(this, ColorSampleActivity::class.java))
         }
