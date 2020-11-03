@@ -34,7 +34,7 @@ afterEvaluate {
 
                 group = 'com.github.fornewid'
                 artifactId = 'neumorphism'
-                version = '0.2.1'
+                version = '0.2.2'
 
                 pom {
                     name = 'Neumorphism'
