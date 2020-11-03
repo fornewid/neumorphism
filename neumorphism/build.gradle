@@ -1,14 +1,17 @@
+import dependencies.Libs
+import dependencies.Versions
+
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.fornewid'
+group = 'com.github.fornewid'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion Versions.compileSdk
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
         consumerProguardFiles 'consumer-rules.pro'
     }
     compileOptions {
@@ -21,6 +24,6 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.AndroidX.appcompat
 }
