@@ -27,6 +27,7 @@
 
     <style name="Widget.Neumorph.CardView" parent="android:Widget">
         <item name="android:padding">@dimen/design_default_padding</item>
+        <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="neumorph_inset">@dimen/design_default_inset</item>
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
@@ -64,6 +65,7 @@
 
     <style name="Widget.Neumorph.ImageView" parent="android:Widget">
         <item name="android:padding">@dimen/design_default_padding</item>
+        <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="neumorph_inset">@dimen/design_default_inset</item>
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
