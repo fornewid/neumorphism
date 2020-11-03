@@ -19,7 +19,7 @@
         </activity>
         <activity android:name=".ColorSampleActivity" />
         <activity android:name=".CardSampleActivity" />
-        <activity android:name=".collection.CollectionSampleActivity" />
+        <activity android:name=".ListSampleActivity" />
     </application>
 
 </manifest>
