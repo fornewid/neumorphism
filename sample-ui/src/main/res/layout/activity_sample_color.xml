@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,10 +13,7 @@
         <soup.neumorphism.NeumorphCardView
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_gravity="center_horizontal"
-            app:layout_constraintEnd_toStartOf="@id/pressed_card"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textview">
+            android:layout_gravity="center_horizontal">
 
             <View
                 android:layout_width="match_parent"
@@ -30,10 +26,7 @@
             android:id="@+id/card"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_gravity="center_horizontal"
-            app:layout_constraintEnd_toStartOf="@id/pressed_card"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textview" />
+            android:layout_gravity="center_horizontal" />
 
         <soup.neumorphism.NeumorphImageView
             android:id="@+id/image_view"
@@ -42,10 +35,7 @@
             android:layout_height="88dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_daynight_sky"
-            app:layout_constraintEnd_toStartOf="@id/pressed_image_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_barrier" />
+            android:src="@drawable/ic_daynight_sky" />
 
         <soup.neumorphism.NeumorphImageButton
             android:id="@+id/image_button"
@@ -54,10 +44,7 @@
             android:layout_height="88dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_daynight_sky"
-            app:layout_constraintEnd_toStartOf="@id/pressed_image_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_barrier" />
+            android:src="@drawable/ic_daynight_sky" />
 
         <soup.neumorphism.NeumorphButton
             android:id="@+id/button"
@@ -65,10 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="Button" />
 
         <soup.neumorphism.NeumorphFloatingActionButton
             android:id="@+id/fab"
@@ -77,9 +61,7 @@
             android:layout_height="88dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_filter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:src="@drawable/ic_filter" />
 
     </LinearLayout>
 </ScrollView>

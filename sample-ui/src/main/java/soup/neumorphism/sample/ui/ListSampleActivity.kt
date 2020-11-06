@@ -1,12 +1,12 @@
-package soup.neumorphism.sample
+package soup.neumorphism.sample.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import soup.neumorphism.sample.databinding.ActivitySampleListBinding
-import soup.neumorphism.sample.databinding.ItemCardBinding
+import soup.neumorphism.sample.ui.databinding.ActivitySampleListBinding
+import soup.neumorphism.sample.ui.databinding.ItemCardBinding
 
 class ListSampleActivity : AppCompatActivity() {
 

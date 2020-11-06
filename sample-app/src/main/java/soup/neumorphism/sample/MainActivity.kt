@@ -4,6 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import soup.neumorphism.sample.databinding.ActivityMainBinding
+import soup.neumorphism.sample.ui.CardSampleActivity
+import soup.neumorphism.sample.ui.ColorSampleActivity
+import soup.neumorphism.sample.ui.ListSampleActivity
 
 class MainActivity : AppCompatActivity() {
 
