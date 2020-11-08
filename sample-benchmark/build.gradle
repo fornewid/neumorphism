@@ -44,10 +44,16 @@ android {
 }
 
 dependencies {
+    implementation project(":neumorphism")
     implementation project(":sample-ui")
     implementation Libs.Kotlin.stdlib
     androidTestImplementation Libs.Test.junit
     androidTestImplementation Libs.AndroidX.Test.runner
     androidTestImplementation Libs.AndroidX.Test.junit
     androidTestImplementation Libs.AndroidX.Benchmark.junit4
+
+    androidTestImplementation Libs.AndroidX.appcompat
+    androidTestImplementation Libs.AndroidX.constraintlayout
+    androidTestImplementation Libs.AndroidX.core_ktx
+    androidTestImplementation Libs.AndroidX.recyclerview
 }
