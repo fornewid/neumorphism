@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="soup.neumorphism.sample.ui">
+
+    <application android:theme="@style/AppTheme">
+        <activity android:name=".ColorSampleActivity" />
+        <activity android:name=".CardSampleActivity" />
+        <activity android:name=".ListSampleActivity" />
+    </application>
+</manifest>

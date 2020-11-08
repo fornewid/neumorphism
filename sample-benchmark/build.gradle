@@ -1,0 +1,59 @@
+import dependencies.Libs
+import dependencies.Versions
+
+plugins {
+    id 'com.android.library'
+    id 'androidx.benchmark'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion Versions.compileSdk
+    buildToolsVersion Versions.buildTools
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner 'androidx.benchmark.junit4.AndroidBenchmarkRunner'
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    testBuildType = "release"
+    buildTypes {
+        debug {
+            // Since debuggable can't be modified by gradle for library modules,
+            // it must be done in a manifest - see src/androidTest/AndroidManifest.xml
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "benchmark-proguard-rules.pro"
+        }
+        release {
+            isDefault = true
+        }
+    }
+}
+
+dependencies {
+    implementation project(":neumorphism")
+    implementation project(":sample-ui")
+    implementation Libs.Kotlin.stdlib
+    androidTestImplementation Libs.Test.junit
+    androidTestImplementation Libs.AndroidX.Test.runner
+    androidTestImplementation Libs.AndroidX.Test.junit
+    androidTestImplementation Libs.AndroidX.Benchmark.junit4
+
+    androidTestImplementation Libs.AndroidX.appcompat
+    androidTestImplementation Libs.AndroidX.constraintlayout
+    androidTestImplementation Libs.AndroidX.core_ktx
+    androidTestImplementation Libs.AndroidX.recyclerview
+}

@@ -1,4 +1,4 @@
-package soup.neumorphism.sample
+package soup.neumorphism.sample.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

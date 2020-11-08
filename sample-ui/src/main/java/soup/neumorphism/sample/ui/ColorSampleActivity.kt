@@ -1,11 +1,11 @@
-package soup.neumorphism.sample
+package soup.neumorphism.sample.ui
 
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import soup.neumorphism.sample.databinding.ActivitySampleColorBinding
+import soup.neumorphism.sample.ui.databinding.ActivitySampleColorBinding
 
 class ColorSampleActivity : AppCompatActivity() {
 

@@ -1,3 +1,5 @@
 rootProject.name='Neumorphism'
 include ':neumorphism'
-include ':sample'
+include ':sample-app'
+include ':sample-benchmark'
+include ':sample-ui'
