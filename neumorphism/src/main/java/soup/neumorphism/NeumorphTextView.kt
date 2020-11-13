@@ -50,8 +50,8 @@ class NeumorphTextView @JvmOverloads constructor(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         lastTextCache = buildTextCache(w, h).also { origin ->
-            lastShadowLight = origin.generateBitmapShadowCache(w, h, shadowColorLight)
-            lastShadowDark = origin.generateBitmapShadowCache(w, h, shadowColorDark)
+            lastShadowLight = origin.generateBitmapShadowCache(w, h, shadowColorLight, isInEditMode)
+            lastShadowDark = origin.generateBitmapShadowCache(w, h, shadowColorDark, isInEditMode)
         }
     }
 
@@ -71,10 +71,7 @@ class NeumorphTextView @JvmOverloads constructor(
             tp.color = Color.BLACK
             tp.textSize = textSize
             tp.typeface = typeface
-            if (isInEditMode.not()) {
-                // layout preview is NOT supported in now.
-                staticLayout(text, tp).draw(Canvas(this))
-            }
+            staticLayout(text, tp).draw(Canvas(this))
         }
     }
 
@@ -92,7 +89,7 @@ class NeumorphTextView @JvmOverloads constructor(
     }
 
     private fun Bitmap.generateBitmapShadowCache(
-        w: Int, h: Int, color: Int, radius: Float = 5f
+        w: Int, h: Int, color: Int, isInEditMode: Boolean = false
     ): Bitmap? {
         val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
@@ -105,7 +102,9 @@ class NeumorphTextView @JvmOverloads constructor(
         // Draws the shadow from original drawable
         val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
         paint.color = color
-        paint.maskFilter = BlurMaskFilter(max(1f, radius), BlurMaskFilter.Blur.NORMAL)
+        if (isInEditMode.not()) {
+            paint.maskFilter = BlurMaskFilter(5f, BlurMaskFilter.Blur.NORMAL)
+        }
         val offset = IntArray(2)
         val shadow = bitmap.extractAlpha(paint, offset)
         paint.maskFilter = null
