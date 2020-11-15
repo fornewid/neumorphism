@@ -237,7 +237,10 @@ class NeumorphShapeDrawable : Drawable {
     }
 
     override fun invalidateSelf() {
-        dirty = true
+        // To reduce jank in RecyclerView.
+        if (isVisibleChanging.not()) {
+            dirty = true
+        }
         super.invalidateSelf()
     }
 
@@ -263,6 +266,15 @@ class NeumorphShapeDrawable : Drawable {
         return ((drawableState.paintStyle == Paint.Style.FILL_AND_STROKE
                 || drawableState.paintStyle == Paint.Style.STROKE)
                 && strokePaint.strokeWidth > 0)
+    }
+
+    private var isVisibleChanging = false
+
+    override fun setVisible(visible: Boolean, restart: Boolean): Boolean {
+        isVisibleChanging = true
+        return super.setVisible(visible, restart).apply {
+            isVisibleChanging = false
+        }
     }
 
     override fun onBoundsChange(bounds: Rect) {
@@ -324,7 +336,12 @@ class NeumorphShapeDrawable : Drawable {
             CornerFamily.ROUNDED -> {
                 path.addRoundRect(
                     left, top, right, bottom,
-                    shapeAppearanceModel.getCornerRadii(min(bounds.width() / 2f, bounds.height() / 2f)),
+                    shapeAppearanceModel.getCornerRadii(
+                        min(
+                            bounds.width() / 2f,
+                            bounds.height() / 2f
+                        )
+                    ),
                     Path.Direction.CW
                 )
             }
