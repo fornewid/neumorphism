@@ -64,6 +64,24 @@ class NeumorphShapeAppearanceModel {
         return cornerSize
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as NeumorphShapeAppearanceModel
+
+        if (cornerFamily != other.cornerFamily) return false
+        if (cornerSize != other.cornerSize) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = cornerFamily
+        result = 31 * result + cornerSize.hashCode()
+        return result
+    }
+
     companion object {
 
         fun builder(): Builder {

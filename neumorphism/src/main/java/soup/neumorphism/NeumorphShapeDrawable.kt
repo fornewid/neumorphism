@@ -9,10 +9,8 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import soup.neumorphism.internal.blur.BlurProvider
-import soup.neumorphism.internal.shape.BasinShape
-import soup.neumorphism.internal.shape.FlatShape
-import soup.neumorphism.internal.shape.PressedShape
 import soup.neumorphism.internal.shape.Shape
+import soup.neumorphism.internal.shape.ShapeFactory
 import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
 import soup.neumorphism.internal.util.BitmapUtils.toBitmap
 
@@ -21,7 +19,7 @@ class NeumorphShapeDrawable : Drawable {
 
     private var drawableState: NeumorphShapeDrawableState
 
-    private var dirty = false
+    private var dirty = true
 
     private val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
@@ -37,6 +35,9 @@ class NeumorphShapeDrawable : Drawable {
 
     private val outlinePath = Path()
     private var shadow: Shape? = null
+
+    private var backgroundRect: RectF? = null
+    private var backgroundBitmap: Bitmap? = null
 
     constructor(context: Context) : this(NeumorphShapeAppearanceModel(), BlurProvider(context))
 
@@ -57,19 +58,6 @@ class NeumorphShapeDrawable : Drawable {
 
     private constructor(drawableState: NeumorphShapeDrawableState) : super() {
         this.drawableState = drawableState
-        this.shadow = shadowOf(drawableState.shapeType, drawableState)
-    }
-
-    private fun shadowOf(
-        @ShapeType shapeType: Int,
-        drawableState: NeumorphShapeDrawableState
-    ): Shape {
-        return when (shapeType) {
-            ShapeType.FLAT -> FlatShape(drawableState)
-            ShapeType.PRESSED -> PressedShape(drawableState)
-            ShapeType.BASIN -> BasinShape(drawableState)
-            else -> throw IllegalArgumentException("ShapeType($shapeType) is invalid.")
-        }
     }
 
     override fun getConstantState(): ConstantState? {
@@ -85,6 +73,8 @@ class NeumorphShapeDrawable : Drawable {
 
     fun setShapeAppearanceModel(shapeAppearanceModel: NeumorphShapeAppearanceModel) {
         drawableState.shapeAppearanceModel = shapeAppearanceModel
+        updateShadowShape()
+        updateBackgroundBitmap()
         invalidateSelf()
     }
 
@@ -94,6 +84,7 @@ class NeumorphShapeDrawable : Drawable {
 
     fun setBackgroundDrawable(drawable: Drawable?) {
         this.drawableState.backgroundDrawable = drawable
+        updateBackgroundBitmap()
         invalidateSelf()
     }
 
@@ -149,7 +140,7 @@ class NeumorphShapeDrawable : Drawable {
     override fun setAlpha(alpha: Int) {
         if (drawableState.alpha != alpha) {
             drawableState.alpha = alpha
-            invalidateSelfIgnoreShape()
+            invalidateSelf()
         }
     }
 
@@ -176,15 +167,26 @@ class NeumorphShapeDrawable : Drawable {
 
     fun setInset(left: Int, top: Int, right: Int, bottom: Int) {
         drawableState.inset.set(left, top, right, bottom)
+        updateShadowShape()
         invalidateSelf()
     }
 
     fun setShapeType(@ShapeType shapeType: Int) {
         if (drawableState.shapeType != shapeType) {
             drawableState.shapeType = shapeType
-            shadow = shadowOf(shapeType, drawableState)
+            updateShadowShape()
             invalidateSelf()
         }
+    }
+
+    private fun updateShadowShape() {
+        val internalBounds = getBoundsInternal()
+        if (internalBounds.width() <= 0 || internalBounds.height() <= 0) {
+            shadow = null
+            return
+        }
+
+        shadow = ShapeFactory.createReusableShape(drawableState, internalBounds)
     }
 
     @ShapeType
@@ -195,6 +197,7 @@ class NeumorphShapeDrawable : Drawable {
     fun setShadowElevation(shadowElevation: Float) {
         if (drawableState.shadowElevation != shadowElevation) {
             drawableState.shadowElevation = shadowElevation
+            updateShadowShape()
             invalidateSelf()
         }
     }
@@ -206,6 +209,7 @@ class NeumorphShapeDrawable : Drawable {
     fun setShadowColorLight(@ColorInt shadowColor: Int) {
         if (drawableState.shadowColorLight != shadowColor) {
             drawableState.shadowColorLight = shadowColor
+            updateShadowShape()
             invalidateSelf()
         }
     }
@@ -213,6 +217,7 @@ class NeumorphShapeDrawable : Drawable {
     fun setShadowColorDark(@ColorInt shadowColor: Int) {
         if (drawableState.shadowColorDark != shadowColor) {
             drawableState.shadowColorDark = shadowColor
+            updateShadowShape()
             invalidateSelf()
         }
     }
@@ -224,7 +229,7 @@ class NeumorphShapeDrawable : Drawable {
     fun setTranslationZ(translationZ: Float) {
         if (drawableState.translationZ != translationZ) {
             drawableState.translationZ = translationZ
-            invalidateSelfIgnoreShape()
+            invalidateSelf()
         }
     }
 
@@ -236,25 +241,16 @@ class NeumorphShapeDrawable : Drawable {
         setTranslationZ(z - getShadowElevation())
     }
 
-    override fun invalidateSelf() {
-        dirty = true
-        super.invalidateSelf()
-    }
-
-    private fun invalidateSelfIgnoreShape() {
-        super.invalidateSelf()
-    }
-
     fun getPaintStyle(): Paint.Style? {
         return drawableState.paintStyle
     }
 
     fun setPaintStyle(paintStyle: Paint.Style) {
         drawableState.paintStyle = paintStyle
-        invalidateSelfIgnoreShape()
+        invalidateSelf()
     }
 
-    private fun hasBackgroundDrawable(): Boolean {
+    private fun hasBackgroundBitmap(): Boolean {
         return drawableState.backgroundDrawable?.let(Drawable::isVisible) ?: false
     }
 
@@ -287,7 +283,8 @@ class NeumorphShapeDrawable : Drawable {
 
         if (dirty) {
             calculateOutlinePath(getBoundsAsRectF(), outlinePath)
-            shadow?.updateShadowBitmap(getBoundsInternal())
+            updateShadowShape()
+            updateBackgroundBitmap()
             dirty = false
         }
 
@@ -295,8 +292,8 @@ class NeumorphShapeDrawable : Drawable {
             drawFillShape(canvas)
         }
 
-        if (hasBackgroundDrawable()) {
-            drawBackgroundDrawable(canvas)
+        if (hasBackgroundBitmap()) {
+            drawBackgroundBitmap(canvas)
         }
 
         shadow?.draw(canvas, outlinePath)
@@ -310,20 +307,32 @@ class NeumorphShapeDrawable : Drawable {
         strokePaint.alpha = prevStrokeAlpha
     }
 
-    private fun drawBackgroundDrawable(canvas: Canvas) {
-        drawableState.backgroundDrawable?.let { drawable ->
-            val rect = RectF()
-            outlinePath.computeBounds(rect, true)
+    private fun drawBackgroundBitmap(canvas: Canvas) {
+        val rect = backgroundRect ?: return
+        val bitmap = backgroundBitmap ?: return
 
-            val rectWidth = rect.width().toInt()
-            val rectHeight = rect.height().toInt()
-            val bitmap = drawable.toBitmap(rectWidth, rectHeight)
 
-            val cornerSize = if (drawableState.shapeAppearanceModel.getCornerFamily() == CornerFamily.OVAL) bitmap.height / 2f
-            else drawableState.shapeAppearanceModel.getCornerSize()
+        canvas.drawBitmap(bitmap, rect.left, rect.top, null)
+    }
 
-            canvas.drawBitmap(bitmap.clipToRadius(cornerSize), rect.left, rect.top, null)
+    private fun updateBackgroundBitmap() {
+        val drawable = drawableState.backgroundDrawable ?: return
+        val rect = RectF()
+        outlinePath.computeBounds(rect, true)
+
+        if (rect.width() <= 0 || rect.height() <= 0) {
+            backgroundRect = null
+            backgroundBitmap = null
+            return
         }
+        
+        backgroundRect = rect
+        backgroundBitmap = ShapeFactory.createReusableBitmap(
+                rect,
+                drawableState.shapeAppearanceModel.getCornerFamily(),
+                drawableState.shapeAppearanceModel.getCornerSize(),
+                drawable
+        )
     }
 
     private fun drawFillShape(canvas: Canvas) {
@@ -469,6 +478,51 @@ class NeumorphShapeDrawable : Drawable {
         override fun getChangingConfigurations(): Int {
             return 0
         }
+
+        override fun hashCode(): Int {
+            var result = shapeAppearanceModel.hashCode()
+            result = 31 * result + blurProvider.hashCode()
+            result = 31 * result + inEditMode.hashCode()
+            result = 31 * result + inset.hashCode()
+            result = 31 * result + (backgroundDrawable?.hashCode() ?: 0)
+            result = 31 * result + (fillColor?.hashCode() ?: 0)
+            result = 31 * result + (strokeColor?.hashCode() ?: 0)
+            result = 31 * result + strokeWidth.hashCode()
+            result = 31 * result + alpha
+            result = 31 * result + shapeType
+            result = 31 * result + shadowElevation.hashCode()
+            result = 31 * result + shadowColorLight
+            result = 31 * result + shadowColorDark
+            result = 31 * result + translationZ.hashCode()
+            result = 31 * result + paintStyle.hashCode()
+            return result
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as NeumorphShapeDrawableState
+
+            if (shapeAppearanceModel != other.shapeAppearanceModel) return false
+            if (blurProvider != other.blurProvider) return false
+            if (inEditMode != other.inEditMode) return false
+            if (inset != other.inset) return false
+            if (backgroundDrawable != other.backgroundDrawable) return false
+            if (fillColor != other.fillColor) return false
+            if (strokeColor != other.strokeColor) return false
+            if (strokeWidth != other.strokeWidth) return false
+            if (alpha != other.alpha) return false
+            if (shapeType != other.shapeType) return false
+            if (shadowElevation != other.shadowElevation) return false
+            if (shadowColorLight != other.shadowColorLight) return false
+            if (shadowColorDark != other.shadowColorDark) return false
+            if (translationZ != other.translationZ) return false
+            if (paintStyle != other.paintStyle) return false
+
+            return true
+        }
+
     }
 
     companion object {
