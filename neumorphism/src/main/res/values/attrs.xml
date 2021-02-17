@@ -125,6 +125,30 @@
         <attr name="neumorph_shadowColorDark" />
     </declare-styleable>
 
+    <declare-styleable name="NeumorphBottomNavigation">
+        <attr name="neumorph_menuResource" format="reference" />
+        <attr name="neumorph_setBottomInset" format="boolean" />
+        <attr name="neumorph_setTopInset" format="boolean" />
+        <attr name="neumorph_setLeftInset" format="boolean" />
+        <attr name="neumorph_setRightInset" format="boolean" />
+        <attr name="neumorph_iconSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="NeumorphMenuItem">
+        <attr name="selected_color" format="color"/>
+        <attr name="unselected_color" format="color"/>
+        <attr name="android:id" />
+        <attr name="android:icon" />
+        <attr name="android:title" />
+        <attr name="icon_tint_mode">
+            <enum name="src_over" value="3" />
+            <enum name="src_in" value="5" />
+            <enum name="src_atop" value="9" />
+            <enum name="multiply" value="14" />
+            <enum name="screen" value="15" />
+        </attr>
+    </declare-styleable>
+
     <declare-styleable name="NeumorphShape">
         <attr name="neumorph_shapeAppearance" />
     </declare-styleable>

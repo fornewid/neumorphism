@@ -7,6 +7,7 @@ import soup.neumorphism.sample.databinding.ActivityMainBinding
 import soup.neumorphism.sample.ui.CardSampleActivity
 import soup.neumorphism.sample.ui.ColorSampleActivity
 import soup.neumorphism.sample.ui.ListSampleActivity
+import soup.neumorphism.sample.ui.BottomNavActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener {
             startActivity(Intent(this, ListSampleActivity::class.java))
+        }
+
+        binding.buttonBottomNav.setOnClickListener {
+            startActivity(Intent(this, BottomNavActivity::class.java))
         }
     }
 }

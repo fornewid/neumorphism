@@ -2,4 +2,5 @@
 <resources>
     <color name="color_accent">#000000</color>
     <color name="background">#EFEEEE</color>
+    <color name="color_red">#FF0000</color>
 </resources>

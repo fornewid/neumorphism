@@ -24,6 +24,7 @@ android {
 dependencies {
     implementation Libs.Kotlin.stdlib
     implementation Libs.AndroidX.appcompat
+    implementation Libs.AndroidX.constraintlayout
 }
 
 afterEvaluate {
