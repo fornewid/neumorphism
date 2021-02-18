@@ -6,5 +6,6 @@
         <activity android:name=".ColorSampleActivity" />
         <activity android:name=".CardSampleActivity" />
         <activity android:name=".ListSampleActivity" />
+        <activity android:name=".BottomNavActivity" />
     </application>
 </manifest>

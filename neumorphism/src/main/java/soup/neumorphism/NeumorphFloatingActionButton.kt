@@ -5,9 +5,12 @@ import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
+import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageButton
 import soup.neumorphism.internal.util.NeumorphResources
+import soup.neumorphism.internal.util.setColorStateListAnimator
+import soup.neumorphism.model.MenuItem
 
 class NeumorphFloatingActionButton @JvmOverloads constructor(
     context: Context,
@@ -18,6 +21,7 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
 
     private var isInitialized: Boolean = false
     private val shapeDrawable: NeumorphShapeDrawable
+    private var menuItem: MenuItem? = null
 
     private var insetStart = 0
     private var insetEnd = 0
@@ -82,6 +86,22 @@ class NeumorphFloatingActionButton @JvmOverloads constructor(
         )
         setBackgroundInternal(shapeDrawable)
         isInitialized = true
+    }
+
+    fun bind(item: MenuItem) {
+        menuItem = item
+        id = item.id
+
+        val iconSize = item.menuStyle.iconSize
+        layoutParams = ViewGroup.LayoutParams(iconSize, iconSize)
+        setImageResource(item.icon)
+        scaleType = ScaleType.CENTER_INSIDE
+
+        setColorStateListAnimator(
+            item.selectedIconColor,
+            item.unselectedIconColor,
+            item.tintMode
+        )
     }
 
     override fun setBackground(drawable: Drawable?) {
