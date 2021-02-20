@@ -41,7 +41,7 @@ internal object ShapeFactory {
             bounds: Rect
     ): Shape {
         var hashCode = drawableState.hashCode()
-        hashCode = 31 * hashCode + bounds.hashCode()
+        hashCode = 31 * hashCode + bounds.calculateHashCode()
 
         return reusable_shapes[hashCode]?.get() ?: createNewShape(drawableState, bounds).also { newShape ->
             reusable_shapes[hashCode] = SoftReference(newShape)
@@ -70,7 +70,7 @@ internal object ShapeFactory {
             cornerRadius: Float,
             drawable: Drawable
     ): Bitmap {
-        var hashCode = rect.hashCode()
+        var hashCode = rect.calculateHashCode()
         hashCode = 31 * hashCode + cornerFamily
         hashCode = 31 * hashCode + cornerRadius.hashCode()
         hashCode = 31 * hashCode + drawable.hashCode()
@@ -78,6 +78,18 @@ internal object ShapeFactory {
         return reusable_bitmaps[hashCode]?.get() ?: createNewBitmap(rect, cornerFamily, cornerRadius, drawable).also { newBitmap ->
             reusable_bitmaps[hashCode] = SoftReference(newBitmap)
         }
+    }
+
+    private fun Rect.calculateHashCode(): Int {
+        var result = width().hashCode()
+        result = 31 * result + height().hashCode()
+        return result
+    }
+
+    private fun RectF.calculateHashCode(): Int {
+        var result = width().hashCode()
+        result = 31 * result + height().hashCode()
+        return result
     }
 
 }
