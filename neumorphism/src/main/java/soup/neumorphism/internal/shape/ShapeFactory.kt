@@ -9,15 +9,16 @@ import soup.neumorphism.NeumorphShapeDrawable
 import soup.neumorphism.ShapeType
 import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
 import soup.neumorphism.internal.util.BitmapUtils.toBitmap
+import java.lang.ref.SoftReference
 
 internal object ShapeFactory {
 
     private val reusable_shapes by lazy {
-        HashMap<Int, Shape>()
+        HashMap<Int, SoftReference<Shape>>()
     }
 
     private val reusable_bitmaps by lazy {
-        HashMap<Int, Bitmap>()
+        HashMap<Int, SoftReference<Bitmap>>()
     }
 
     fun createNewShape(
@@ -42,8 +43,8 @@ internal object ShapeFactory {
         var hashCode = drawableState.hashCode()
         hashCode = 31 * hashCode + bounds.hashCode()
 
-        return reusable_shapes[hashCode] ?: createNewShape(drawableState, bounds).also { newShape ->
-            reusable_shapes[hashCode] = newShape
+        return reusable_shapes[hashCode]?.get() ?: createNewShape(drawableState, bounds).also { newShape ->
+            reusable_shapes[hashCode] = SoftReference(newShape)
         }
     }
 
@@ -74,8 +75,8 @@ internal object ShapeFactory {
         hashCode = 31 * hashCode + cornerRadius.hashCode()
         hashCode = 31 * hashCode + drawable.hashCode()
 
-        return reusable_bitmaps[hashCode] ?: createNewBitmap(rect, cornerFamily, cornerRadius, drawable).also { newBitmap ->
-            reusable_bitmaps[hashCode] = newBitmap
+        return reusable_bitmaps[hashCode]?.get() ?: createNewBitmap(rect, cornerFamily, cornerRadius, drawable).also { newBitmap ->
+            reusable_bitmaps[hashCode] = SoftReference(newBitmap)
         }
     }
 
