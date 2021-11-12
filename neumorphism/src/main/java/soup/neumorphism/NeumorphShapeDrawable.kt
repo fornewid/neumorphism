@@ -15,7 +15,7 @@ import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
 import soup.neumorphism.internal.util.BitmapUtils.toBitmap
 
 
-class NeumorphShapeDrawable : Drawable {
+open class NeumorphShapeDrawable : Drawable {
 
     private var drawableState: NeumorphShapeDrawableState
 
@@ -327,11 +327,11 @@ class NeumorphShapeDrawable : Drawable {
         }
         
         backgroundRect = rect
-        backgroundBitmap = ShapeFactory.createReusableBitmap(
-                rect,
-                drawableState.shapeAppearanceModel.getCornerFamily(),
-                drawableState.shapeAppearanceModel.getCornerSize(),
-                drawable
+        backgroundBitmap = ShapeFactory.createNewBitmap(
+            rect,
+            drawableState.shapeAppearanceModel.getCornerFamily(),
+            drawableState.shapeAppearanceModel.getCornerSize(),
+            drawable
         )
     }
 

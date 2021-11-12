@@ -9,7 +9,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatButton
 import soup.neumorphism.internal.util.NeumorphResources
 
-class NeumorphButton @JvmOverloads constructor(
+open class NeumorphButton @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.neumorphButtonStyle,

@@ -9,7 +9,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
 import soup.neumorphism.internal.util.NeumorphResources
 
-class NeumorphImageView @JvmOverloads constructor(
+open class NeumorphImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.neumorphImageViewStyle,

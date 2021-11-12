@@ -11,7 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import soup.neumorphism.internal.util.NeumorphResources
 import kotlin.math.max
 
-class NeumorphTextView @JvmOverloads constructor(
+open class NeumorphTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.neumorphTextViewStyle,

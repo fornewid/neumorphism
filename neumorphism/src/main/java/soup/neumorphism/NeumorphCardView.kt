@@ -11,7 +11,7 @@ import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import soup.neumorphism.internal.util.NeumorphResources
 
-class NeumorphCardView @JvmOverloads constructor(
+open class NeumorphCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.neumorphCardViewStyle,

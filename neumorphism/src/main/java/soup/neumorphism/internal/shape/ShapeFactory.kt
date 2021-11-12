@@ -7,23 +7,22 @@ import android.graphics.drawable.Drawable
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphShapeDrawable
 import soup.neumorphism.ShapeType
+import soup.neumorphism.internal.shape.utils.SoftHashMap
 import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
 import soup.neumorphism.internal.util.BitmapUtils.toBitmap
 import java.lang.ref.SoftReference
 
 internal object ShapeFactory {
 
-    private val reusable_shapes by lazy {
-        HashMap<Int, SoftReference<Shape>>()
-    }
+    private const val MAX_CACHE_SIZE = 100
 
-    private val reusable_bitmaps by lazy {
-        HashMap<Int, SoftReference<Bitmap>>()
+    private val reusable_shapes by lazy {
+        SoftHashMap<Int, Shape>(MAX_CACHE_SIZE)
     }
 
     fun createNewShape(
-            drawableState: NeumorphShapeDrawable.NeumorphShapeDrawableState,
-            bounds: Rect
+        drawableState: NeumorphShapeDrawable.NeumorphShapeDrawableState,
+        bounds: Rect
     ): Shape {
         val shape = when (val shapeType = drawableState.shapeType) {
             ShapeType.FLAT -> FlatShape(drawableState)
@@ -43,16 +42,19 @@ internal object ShapeFactory {
         var hashCode = drawableState.hashCode()
         hashCode = 31 * hashCode + bounds.calculateHashCode()
 
-        return reusable_shapes[hashCode]?.get() ?: createNewShape(drawableState, bounds).also { newShape ->
-            reusable_shapes[hashCode] = SoftReference(newShape)
+        return reusable_shapes[hashCode] ?: createNewShape(
+            drawableState,
+            bounds
+        ).also { newShape ->
+            reusable_shapes.put(hashCode, newShape)
         }
     }
 
     fun createNewBitmap(
-            rect: RectF,
-            cornerFamily: Int,
-            cornerRadius: Float,
-            drawable: Drawable
+        rect: RectF,
+        cornerFamily: Int,
+        cornerRadius: Float,
+        drawable: Drawable
     ): Bitmap {
         val rectWidth = rect.width().toInt()
         val rectHeight = rect.height().toInt()
@@ -64,32 +66,9 @@ internal object ShapeFactory {
         return bitmap.clipToRadius(cornerSize)
     }
 
-    fun createReusableBitmap(
-            rect: RectF,
-            cornerFamily: Int,
-            cornerRadius: Float,
-            drawable: Drawable
-    ): Bitmap {
-        var hashCode = rect.calculateHashCode()
-        hashCode = 31 * hashCode + cornerFamily
-        hashCode = 31 * hashCode + cornerRadius.hashCode()
-        hashCode = 31 * hashCode + drawable.hashCode()
-
-        return reusable_bitmaps[hashCode]?.get() ?: createNewBitmap(rect, cornerFamily, cornerRadius, drawable).also { newBitmap ->
-            reusable_bitmaps[hashCode] = SoftReference(newBitmap)
-        }
-    }
-
     private fun Rect.calculateHashCode(): Int {
         var result = width().hashCode()
         result = 31 * result + height().hashCode()
         return result
     }
-
-    private fun RectF.calculateHashCode(): Int {
-        var result = width().hashCode()
-        result = 31 * result + height().hashCode()
-        return result
-    }
-
 }

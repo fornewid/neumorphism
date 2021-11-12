@@ -8,7 +8,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.Dimension
 import androidx.annotation.StyleRes
 
-class NeumorphShapeAppearanceModel {
+open class NeumorphShapeAppearanceModel {
 
     class Builder {
 
