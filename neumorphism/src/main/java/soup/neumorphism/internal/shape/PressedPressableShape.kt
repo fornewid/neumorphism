@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
-import soup.neumorphism.internal.util.BitmapUtils.toBitmap
+import soup.neumorphism.internal.drawable.ShadowDrawable
 import soup.neumorphism.internal.util.onCanvas
 import soup.neumorphism.internal.util.withClip
 import soup.neumorphism.internal.util.withTranslation
@@ -21,8 +21,6 @@ internal class PressedPressableShape(
 
     private var lightShadowBitmap: Bitmap? = null
     private var darkShadowBitmap: Bitmap? = null
-    private val lightShadowDrawable = GradientDrawable()
-    private val darkShadowDrawable = GradientDrawable()
 
     override fun setDrawableState(newDrawableState: NeumorphShapeDrawableState) {
         this.drawableState = newDrawableState
@@ -38,12 +36,12 @@ internal class PressedPressableShape(
             left = inset.left.toFloat()
             top = inset.top.toFloat()
             lightShadowBitmap?.let {
-                val offset = elevation - z
-                drawBitmap(it, -offset, -offset, null)
+                val offset = - elevation + z * 2
+                drawBitmap(it, offset, offset, null)
             }
             darkShadowBitmap?.let {
-                val offset = -elevation + z
-                drawBitmap(it, - offset, - offset, null)
+                val offset = elevation - z * 2
+                drawBitmap(it, offset, offset, null)
             }
         }
     }
@@ -54,55 +52,41 @@ internal class PressedPressableShape(
         val h = bounds.height()
         val width: Int = w + shadowElevation
         val height: Int = h + shadowElevation
-        val actualWidth = width * 2
-        val actualHeight = height * 2
 
-        lightShadowDrawable.apply {
-            setSize(width, height)
-            setStroke(shadowElevation, drawableState.shadowColorLight)
+        val cornerSize = min(
+            min(w / 2f, h / 2f),
+            drawableState.shapeAppearanceModel.getCornerSize()
+        )
 
-            when (drawableState.shapeAppearanceModel.getCornerFamily()) {
-                CornerFamily.OVAL -> {
-                    shape = GradientDrawable.OVAL
-                }
-                CornerFamily.ROUNDED -> {
-                    val cornerSize = min(
-                        min(w / 2f, h / 2f),
-                        drawableState.shapeAppearanceModel.getCornerSize()
-                    )
-                    shape = GradientDrawable.RECTANGLE
-                    cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, cornerSize, cornerSize, 0f, 0f)
-                }
-            }
-        }
+        lightShadowBitmap = ShadowDrawable(
+            drawableState.shadowElevation,
+            cornerSize,
+            drawableState.shadowColorLight
+        ).apply {
+            alpha = drawableState.alpha
+            setCoverage(
+                ShadowDrawable.Coverage.BOTTOM_RIGHT_CORNER,
+                ShadowDrawable.Coverage.BOTTOM_LINE,
+                ShadowDrawable.Coverage.RIGHT_LINE,
+            )
 
-        val lightBitmap = lightShadowDrawable.toBitmap(w, h)
-        lightBitmap.height
-        darkShadowDrawable.apply {
-            setSize(width, height)
-            setStroke(shadowElevation, drawableState.shadowColorDark)
+            setBounds(shadowElevation, shadowElevation, width, height)
+        }.toBlurredBitmap(width + shadowElevation, height + shadowElevation)
 
-            when (drawableState.shapeAppearanceModel.getCornerFamily()) {
-                CornerFamily.OVAL -> {
-                    shape = GradientDrawable.OVAL
-                }
-                CornerFamily.ROUNDED -> {
-                    val cornerSize = min(
-                        min(w / 2f, h / 2f),
-                        drawableState.shapeAppearanceModel.getCornerSize()
-                    )
-                    shape = GradientDrawable.RECTANGLE
-                    cornerRadii = floatArrayOf(cornerSize, cornerSize, 0f, 0f, 0f, 0f, 0f, 0f)
-                }
-            }
-        }
+        darkShadowBitmap = ShadowDrawable(
+            drawableState.shadowElevation,
+            cornerSize,
+            drawableState.shadowColorDark
+        ).apply {
+            alpha = drawableState.alpha
+            setCoverage(
+                ShadowDrawable.Coverage.TOP_LEFT_CORNER,
+                ShadowDrawable.Coverage.TOP_LINE,
+                ShadowDrawable.Coverage.LEFT_LINE,
+            )
 
-        lightShadowDrawable.setSize(actualWidth, actualHeight)
-        lightShadowDrawable.setBounds(w - shadowElevation, h - shadowElevation, actualWidth, actualHeight)
-        darkShadowDrawable.setSize(actualWidth, actualHeight)
-        darkShadowDrawable.setBounds(0, 0, actualWidth, actualHeight)
-        lightShadowBitmap = lightShadowDrawable.toBlurredBitmap(w, h)
-        darkShadowBitmap = darkShadowDrawable.toBlurredBitmap(w, h)
+            setBounds(shadowElevation, shadowElevation, width, height)
+        }.toBlurredBitmap(width + shadowElevation, height + shadowElevation)
     }
 
     private fun Drawable.toBlurredBitmap(w: Int, h: Int): Bitmap? {
