@@ -36,10 +36,20 @@ class ShadowDrawable(
             drawingRect.top + radius * 2
 
         if (hasCoverage(Coverage.TOP_LINE)) {
+            var startX = drawingRect.left.toFloat()
+            if (hasCoverage(Coverage.TOP_LEFT_CORNER)) {
+                startX += radius
+            }
+
+            var endX = drawingRect.right.toFloat()
+            if (hasCoverage(Coverage.TOP_RIGHT_CORNER)) {
+                endX -= radius
+            }
+
             canvas.drawLine(
-                drawingRect.left + radius,
+                startX,
                 drawingRect.top.toFloat(),
-                drawingRect.right - radius,
+                endX,
                 drawingRect.top.toFloat(),
                 paint
             )
@@ -56,6 +66,24 @@ class ShadowDrawable(
         }
 
         if (hasCoverage(Coverage.RIGHT_LINE)) {
+            var startY = drawingRect.top.toFloat()
+            if (hasCoverage(Coverage.TOP_RIGHT_CORNER)) {
+                startY += radius
+            }
+
+            var endY = drawingRect.bottom.toFloat()
+            if (hasCoverage(Coverage.BOTTOM_RIGHT_CORNER)) {
+                endY -= radius
+            }
+
+            canvas.drawLine(
+                drawingRect.right.toFloat(),
+                startY,
+                drawingRect.right.toFloat(),
+                endY,
+                paint
+            )
+
             canvas.drawLine(
                 drawingRect.right.toFloat(),
                 drawingRect.top + radius,
@@ -76,10 +104,20 @@ class ShadowDrawable(
         }
 
         if (hasCoverage(Coverage.BOTTOM_LINE)) {
+            var startX = drawingRect.left.toFloat()
+            if (hasCoverage(Coverage.BOTTOM_LEFT_CORNER)) {
+                startX += radius
+            }
+
+            var endX = drawingRect.right.toFloat()
+            if (hasCoverage(Coverage.BOTTOM_RIGHT_CORNER)) {
+                endX -= radius
+            }
+
             canvas.drawLine(
-                drawingRect.right - radius,
+                startX,
                 drawingRect.bottom.toFloat(),
-                drawingRect.left + radius,
+                endX,
                 drawingRect.bottom.toFloat(),
                 paint
             )
@@ -96,11 +134,21 @@ class ShadowDrawable(
         }
 
         if (hasCoverage(Coverage.LEFT_LINE)) {
+            var startY = drawingRect.top.toFloat()
+            if (hasCoverage(Coverage.TOP_LEFT_CORNER)) {
+                startY += radius
+            }
+
+            var endY = drawingRect.bottom.toFloat()
+            if (hasCoverage(Coverage.BOTTOM_LEFT_CORNER)) {
+                endY -= radius
+            }
+
             canvas.drawLine(
                 drawingRect.left.toFloat(),
-                drawingRect.bottom - radius,
+                startY,
                 drawingRect.left.toFloat(),
-                drawingRect.top + radius,
+                endY,
                 paint
             )
         }

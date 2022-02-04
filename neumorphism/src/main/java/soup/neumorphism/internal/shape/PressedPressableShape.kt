@@ -1,14 +1,11 @@
 package soup.neumorphism.internal.shape
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Path
-import android.graphics.Rect
+import android.graphics.*
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
 import soup.neumorphism.internal.drawable.ShadowDrawable
+import soup.neumorphism.internal.drawable.ShadowDrawable.Coverage.*
 import soup.neumorphism.internal.util.onCanvas
 import soup.neumorphism.internal.util.withClip
 import soup.neumorphism.internal.util.withTranslation
@@ -26,22 +23,22 @@ internal class PressedPressableShape(
         this.drawableState = newDrawableState
     }
 
+    private val shadowPaint = Paint()
+
     override fun draw(canvas: Canvas, outlinePath: Path) {
         canvas.withClip(outlinePath) {
             val elevation = drawableState.shadowElevation
             val z = drawableState.shadowElevation + drawableState.translationZ
-            val left: Float
-            val top: Float
-            val inset = drawableState.inset
-            left = inset.left.toFloat()
-            top = inset.top.toFloat()
+
+            val pressPercentage = 1 - (z / elevation)
+            shadowPaint.alpha = (255 * pressPercentage).toInt()
+
             lightShadowBitmap?.let {
-                val offset = - elevation + z * 2
-                drawBitmap(it, offset, offset, null)
+                drawBitmap(it, 0f, 0f, shadowPaint)
             }
+
             darkShadowBitmap?.let {
-                val offset = elevation - z * 2
-                drawBitmap(it, offset, offset, null)
+                drawBitmap(it, 0f, 0f, shadowPaint)
             }
         }
     }
@@ -53,10 +50,14 @@ internal class PressedPressableShape(
         val width: Int = w + shadowElevation
         val height: Int = h + shadowElevation
 
-        val cornerSize = min(
-            min(w / 2f, h / 2f),
-            drawableState.shapeAppearanceModel.getCornerSize()
-        )
+        val minRadius = min(w / 2f, h / 2f)
+        val cornerSize = when(drawableState.shapeAppearanceModel.getCornerFamily()) {
+            CornerFamily.OVAL -> minRadius
+            else -> min(
+                minRadius,
+                drawableState.shapeAppearanceModel.getCornerSize()
+            )
+        }
 
         lightShadowBitmap = ShadowDrawable(
             drawableState.shadowElevation,
@@ -64,14 +65,12 @@ internal class PressedPressableShape(
             drawableState.shadowColorLight
         ).apply {
             alpha = drawableState.alpha
-            setCoverage(
-                ShadowDrawable.Coverage.BOTTOM_RIGHT_CORNER,
-                ShadowDrawable.Coverage.BOTTOM_LINE,
-                ShadowDrawable.Coverage.RIGHT_LINE,
-            )
-
             setBounds(shadowElevation, shadowElevation, width, height)
-        }.toBlurredBitmap(width + shadowElevation, height + shadowElevation)
+            setCoverage(BOTTOM_RIGHT_CORNER, BOTTOM_LINE, RIGHT_LINE)
+        }.toBlurredBitmap(
+            width + shadowElevation,
+            height + shadowElevation
+        )
 
         darkShadowBitmap = ShadowDrawable(
             drawableState.shadowElevation,
@@ -79,14 +78,12 @@ internal class PressedPressableShape(
             drawableState.shadowColorDark
         ).apply {
             alpha = drawableState.alpha
-            setCoverage(
-                ShadowDrawable.Coverage.TOP_LEFT_CORNER,
-                ShadowDrawable.Coverage.TOP_LINE,
-                ShadowDrawable.Coverage.LEFT_LINE,
-            )
-
             setBounds(shadowElevation, shadowElevation, width, height)
-        }.toBlurredBitmap(width + shadowElevation, height + shadowElevation)
+            setCoverage(TOP_LEFT_CORNER, TOP_LINE, LEFT_LINE)
+        }.toBlurredBitmap(
+            width + shadowElevation,
+            height + shadowElevation
+        )
     }
 
     private fun Drawable.toBlurredBitmap(w: Int, h: Int): Bitmap? {
