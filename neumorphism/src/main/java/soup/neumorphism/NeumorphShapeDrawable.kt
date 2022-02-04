@@ -65,7 +65,7 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     override fun mutate(): Drawable {
-        val newDrawableState = NeumorphShapeDrawableState(drawableState)
+        val newDrawableState = drawableState.copy()
         drawableState = newDrawableState
         shadow?.setDrawableState(newDrawableState)
         return this
@@ -419,54 +419,24 @@ open class NeumorphShapeDrawable : Drawable {
         drawableState.inEditMode = inEditMode
     }
 
-    internal class NeumorphShapeDrawableState : ConstantState {
-
-        var shapeAppearanceModel: NeumorphShapeAppearanceModel
-        val blurProvider: BlurProvider
-        var inEditMode: Boolean = false
-
-        var inset: Rect = Rect()
-        var backgroundDrawable: Drawable? = null
-        var fillColor: ColorStateList? = null
-        var strokeColor: ColorStateList? = null
-        var strokeWidth = 0f
-
-        var alpha = 255
-
+    internal data class NeumorphShapeDrawableState(
+        var shapeAppearanceModel: NeumorphShapeAppearanceModel,
+        val blurProvider: BlurProvider,
+        var inEditMode: Boolean = false,
+        var inset: Rect = Rect(),
+        var backgroundDrawable: Drawable? = null,
+        var fillColor: ColorStateList? = null,
+        var strokeColor: ColorStateList? = null,
+        var strokeWidth: Float = 0f,
+        var alpha: Int = 255,
         @ShapeType
-        var shapeType: Int = ShapeType.DEFAULT
-        var shadowElevation: Float = 0f
-        var shadowColorLight: Int = Color.WHITE
-        var shadowColorDark: Int = Color.BLACK
-        var translationZ = 0f
-
+        var shapeType: Int = ShapeType.DEFAULT,
+        var shadowElevation: Float = 0f,
+        var shadowColorLight: Int = Color.WHITE,
+        var shadowColorDark: Int = Color.BLACK,
+        var translationZ: Float = 0f,
         var paintStyle: Paint.Style = Paint.Style.FILL_AND_STROKE
-
-        constructor(
-            shapeAppearanceModel: NeumorphShapeAppearanceModel,
-            blurProvider: BlurProvider
-        ) {
-            this.shapeAppearanceModel = shapeAppearanceModel
-            this.blurProvider = blurProvider
-        }
-
-        constructor(orig: NeumorphShapeDrawableState) {
-            shapeAppearanceModel = orig.shapeAppearanceModel
-            blurProvider = orig.blurProvider
-            inEditMode = orig.inEditMode
-            inset = Rect(orig.inset)
-            backgroundDrawable = orig.backgroundDrawable
-            fillColor = orig.fillColor
-            strokeColor = orig.strokeColor
-            strokeWidth = orig.strokeWidth
-            alpha = orig.alpha
-            shapeType = orig.shapeType
-            shadowElevation = orig.shadowElevation
-            shadowColorLight = orig.shadowColorLight
-            shadowColorDark = orig.shadowColorDark
-            translationZ = orig.translationZ
-            paintStyle = orig.paintStyle
-        }
+    ) : ConstantState() {
 
         override fun newDrawable(): Drawable {
             return NeumorphShapeDrawable(this).apply {
@@ -478,51 +448,6 @@ open class NeumorphShapeDrawable : Drawable {
         override fun getChangingConfigurations(): Int {
             return 0
         }
-
-        override fun hashCode(): Int {
-            var result = shapeAppearanceModel.hashCode()
-            result = 31 * result + blurProvider.hashCode()
-            result = 31 * result + inEditMode.hashCode()
-            result = 31 * result + inset.hashCode()
-            result = 31 * result + (backgroundDrawable?.hashCode() ?: 0)
-            result = 31 * result + (fillColor?.hashCode() ?: 0)
-            result = 31 * result + (strokeColor?.hashCode() ?: 0)
-            result = 31 * result + strokeWidth.hashCode()
-            result = 31 * result + alpha
-            result = 31 * result + shapeType
-            result = 31 * result + shadowElevation.hashCode()
-            result = 31 * result + shadowColorLight
-            result = 31 * result + shadowColorDark
-            result = 31 * result + translationZ.hashCode()
-            result = 31 * result + paintStyle.hashCode()
-            return result
-        }
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as NeumorphShapeDrawableState
-
-            if (shapeAppearanceModel != other.shapeAppearanceModel) return false
-            if (blurProvider != other.blurProvider) return false
-            if (inEditMode != other.inEditMode) return false
-            if (inset != other.inset) return false
-            if (backgroundDrawable != other.backgroundDrawable) return false
-            if (fillColor != other.fillColor) return false
-            if (strokeColor != other.strokeColor) return false
-            if (strokeWidth != other.strokeWidth) return false
-            if (alpha != other.alpha) return false
-            if (shapeType != other.shapeType) return false
-            if (shadowElevation != other.shadowElevation) return false
-            if (shadowColorLight != other.shadowColorLight) return false
-            if (shadowColorDark != other.shadowColorDark) return false
-            if (translationZ != other.translationZ) return false
-            if (paintStyle != other.paintStyle) return false
-
-            return true
-        }
-
     }
 
     companion object {

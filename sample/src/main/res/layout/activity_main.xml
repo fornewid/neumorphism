@@ -67,6 +67,8 @@
 
     <soup.neumorphism.NeumorphCardView
         style="@style/Widget.Neumorph.CardView"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="150dp"
         android:layout_height="150dp"
         app:neumorph_shapeType="pressed"

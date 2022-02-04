@@ -2,17 +2,17 @@ package soup.neumorphism.internal.shape
 
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
 import soup.neumorphism.internal.drawable.ShadowDrawable
+import soup.neumorphism.internal.drawable.ShadowDrawable.Coverage.*
 import soup.neumorphism.internal.util.onCanvas
 import soup.neumorphism.internal.util.withClip
 import soup.neumorphism.internal.util.withTranslation
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-internal class PressedShape(
+internal class PressedPressableShape(
     private var drawableState: NeumorphShapeDrawableState
 ) : Shape {
 
@@ -23,14 +23,22 @@ internal class PressedShape(
         this.drawableState = newDrawableState
     }
 
+    private val shadowPaint = Paint()
+
     override fun draw(canvas: Canvas, outlinePath: Path) {
         canvas.withClip(outlinePath) {
+            val elevation = drawableState.shadowElevation
+            val z = drawableState.shadowElevation + drawableState.translationZ
+
+            val pressPercentage = 1 - (z / elevation)
+            shadowPaint.alpha = (255 * pressPercentage).toInt()
+
             lightShadowBitmap?.let {
-                drawBitmap(it, 0f, 0f, null)
+                drawBitmap(it, 0f, 0f, shadowPaint)
             }
 
             darkShadowBitmap?.let {
-                drawBitmap(it, 0f, 0f, null)
+                drawBitmap(it, 0f, 0f, shadowPaint)
             }
         }
     }
@@ -58,11 +66,7 @@ internal class PressedShape(
         ).apply {
             alpha = drawableState.alpha
             setBounds(shadowElevation, shadowElevation, width, height)
-            setCoverage(
-                ShadowDrawable.Coverage.BOTTOM_RIGHT_CORNER,
-                ShadowDrawable.Coverage.BOTTOM_LINE,
-                ShadowDrawable.Coverage.RIGHT_LINE
-            )
+            setCoverage(BOTTOM_RIGHT_CORNER, BOTTOM_LINE, RIGHT_LINE)
         }.toBlurredBitmap(
             width + shadowElevation,
             height + shadowElevation
@@ -75,11 +79,7 @@ internal class PressedShape(
         ).apply {
             alpha = drawableState.alpha
             setBounds(shadowElevation, shadowElevation, width, height)
-            setCoverage(
-                ShadowDrawable.Coverage.TOP_LEFT_CORNER,
-                ShadowDrawable.Coverage.TOP_LINE,
-                ShadowDrawable.Coverage.LEFT_LINE
-            )
+            setCoverage(TOP_LEFT_CORNER, TOP_LINE, LEFT_LINE)
         }.toBlurredBitmap(
             width + shadowElevation,
             height + shadowElevation
