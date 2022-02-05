@@ -13,6 +13,7 @@ import soup.neumorphism.internal.shape.Shape
 import soup.neumorphism.internal.shape.ShapeFactory
 import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
 import soup.neumorphism.internal.util.BitmapUtils.toBitmap
+import kotlin.math.roundToInt
 
 
 open class NeumorphShapeDrawable : Drawable {
@@ -149,26 +150,19 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun getBoundsInternal(): Rect {
-        return drawableState.inset.let { inset ->
-            val bounds = super.getBounds()
-            Rect(
-                bounds.left + inset.left,
-                bounds.top + inset.top,
-                bounds.right - inset.right,
-                bounds.bottom - inset.bottom
-            )
-        }
+        val offset = drawableState.shadowElevation.roundToInt() / 2
+        val bounds = super.getBounds()
+        return Rect(
+            bounds.left + offset,
+            bounds.top + offset,
+            bounds.right - offset,
+            bounds.bottom - offset
+        )
     }
 
     private fun getBoundsAsRectF(): RectF {
         rectF.set(getBoundsInternal())
         return rectF
-    }
-
-    fun setInset(left: Int, top: Int, right: Int, bottom: Int) {
-        drawableState.inset.set(left, top, right, bottom)
-        updateShadowShape()
-        invalidateSelf()
     }
 
     fun setShapeType(@ShapeType shapeType: Int) {
@@ -348,19 +342,18 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun calculateOutlinePath(bounds: RectF, path: Path) {
-        val left = drawableState.inset.left.toFloat()
-        val top = drawableState.inset.top.toFloat()
-        val right = left + bounds.width()
-        val bottom = top + bounds.height()
+        val offset = drawableState.shadowElevation / 2
+        val right = offset + bounds.width()
+        val bottom = offset + bounds.height()
         path.reset()
         when (drawableState.shapeAppearanceModel.getCornerFamily()) {
             CornerFamily.OVAL -> {
-                path.addOval(left, top, right, bottom, Path.Direction.CW)
+                path.addOval(offset, offset, right, bottom, Path.Direction.CW)
             }
             CornerFamily.ROUNDED -> {
                 val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
                 path.addRoundRect(
-                    left, top, right, bottom,
+                    offset, offset, right, bottom,
                     cornerSize, cornerSize,
                     Path.Direction.CW
                 )
@@ -423,7 +416,6 @@ open class NeumorphShapeDrawable : Drawable {
         var shapeAppearanceModel: NeumorphShapeAppearanceModel,
         val blurProvider: BlurProvider,
         var inEditMode: Boolean = false,
-        var inset: Rect = Rect(),
         var backgroundDrawable: Drawable? = null,
         var fillColor: ColorStateList? = null,
         var strokeColor: ColorStateList? = null,

@@ -14,12 +14,10 @@
     <dimen name="design_btn_padding_right">32dp</dimen>
     <dimen name="design_btn_padding_top">12dp</dimen>
     <dimen name="design_btn_padding_bottom">12dp</dimen>
-    <dimen name="design_default_inset">12dp</dimen>
 
     <!-- Default corner radius -->
     <dimen name="design_default_corner_radius">24dp</dimen>
 
-    <dimen name="edit_text_underline_inset_bottom">4dp</dimen>
     <dimen name="edit_text_underline_height">5dp</dimen>
     <dimen name="edit_text_underline_corner_size">2dp</dimen>
     <dimen name="edit_text_underline_elevation">2dp</dimen>
