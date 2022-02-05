@@ -5,8 +5,8 @@
     <color name="design_default_color_shadow_dark">#d9d9d9</color>
 
     <!-- Dark theme colors. -->
-    <color name="design_dark_default_color_shadow_light">#2c2c2c</color>
-    <color name="design_dark_default_color_shadow_dark">#111111</color>
+    <color name="design_dark_default_color_shadow_light">#802C2C2C</color>
+    <color name="design_dark_default_color_shadow_dark">#80111111</color>
 
     <!-- Default padding and inset to avoid shadow clipping -->
     <dimen name="design_default_padding">12dp</dimen>

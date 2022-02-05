@@ -15,7 +15,6 @@ class ShadowDrawable(
     private val paint = Paint().apply {
         style = Paint.Style.STROKE
         strokeWidth = elevation
-        isAntiAlias = true
         color = shadowColor
     }
 
@@ -173,7 +172,7 @@ class ShadowDrawable(
     }
 
     override fun getOpacity(): Int {
-        return PixelFormat.TRANSLUCENT
+        return PixelFormat.TRANSPARENT
     }
 
     fun setCoverage(vararg coverages: Coverage) {

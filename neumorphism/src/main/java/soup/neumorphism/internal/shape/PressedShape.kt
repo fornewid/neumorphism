@@ -25,12 +25,14 @@ internal class PressedShape(
 
     override fun draw(canvas: Canvas, outlinePath: Path) {
         canvas.withClip(outlinePath) {
-            lightShadowBitmap?.let {
-                drawBitmap(it, 0f, 0f, null)
-            }
+            val elevation = drawableState.shadowElevation
 
             darkShadowBitmap?.let {
-                drawBitmap(it, 0f, 0f, null)
+                drawBitmap(it, -elevation/4, -elevation/4, null)
+            }
+
+            lightShadowBitmap?.let {
+                drawBitmap(it, elevation/4, elevation/4, null)
             }
         }
     }
@@ -38,7 +40,6 @@ internal class PressedShape(
     override fun updateShadowBitmap(bounds: Rect) {
         val w = bounds.width()
         val h = bounds.height()
-        val shadowOffset = drawableState.shadowElevation.toInt() / 2
 
         val minRadius = min(w / 2f, h / 2f)
         val cornerSize = when(drawableState.shapeAppearanceModel.getCornerFamily()) {
@@ -55,14 +56,6 @@ internal class PressedShape(
             drawableState.shadowColorLight
         ).apply {
             alpha = drawableState.alpha
-
-            setBounds(
-                shadowOffset,
-                shadowOffset,
-                w + shadowOffset,
-                h + shadowOffset
-            )
-
             setCoverage(
                 ShadowDrawable.Coverage.BOTTOM_RIGHT_CORNER,
                 ShadowDrawable.Coverage.BOTTOM_LINE,
@@ -76,14 +69,6 @@ internal class PressedShape(
             drawableState.shadowColorDark
         ).apply {
             alpha = drawableState.alpha
-
-            setBounds(
-                shadowOffset,
-                shadowOffset,
-                w + shadowOffset,
-                h + shadowOffset
-            )
-
             setCoverage(
                 ShadowDrawable.Coverage.TOP_LEFT_CORNER,
                 ShadowDrawable.Coverage.TOP_LINE,
