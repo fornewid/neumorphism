@@ -2,15 +2,14 @@ package soup.neumorphism.internal.drawable
 
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import kotlin.math.pow
 
 class ShadowDrawable(
     elevation: Float,
-    private val radius: Float,
-    shadowColor: Int
+    shadowColor: Int,
+    private val coverage: ShadowCoverage
 ) : Drawable() {
 
-    private var coverageFlags = Int.MAX_VALUE
+    private var rectangleRectPaths: RectangleRectPaths? = null
 
     private val paint = Paint().apply {
         style = Paint.Style.STROKE
@@ -19,147 +18,9 @@ class ShadowDrawable(
     }
 
     override fun draw(canvas: Canvas) {
-        val drawingRect = copyBounds()
-        val topLeftArcBound = RectF()
-        val topRightArcBound = RectF()
-        val bottomLeftArcBound = RectF()
-        val bottomRightArcBound = RectF()
-
-        topRightArcBound[drawingRect.right - radius * 2, drawingRect.top.toFloat(), drawingRect.right.toFloat()] =
-            drawingRect.top + radius * 2
-        bottomRightArcBound[drawingRect.right - radius * 2, drawingRect.bottom - radius * 2, drawingRect.right.toFloat()] =
-            drawingRect.bottom.toFloat()
-        bottomLeftArcBound[drawingRect.left.toFloat(), drawingRect.bottom - radius * 2, drawingRect.left + radius * 2] =
-            drawingRect.bottom.toFloat()
-        topLeftArcBound[drawingRect.left.toFloat(), drawingRect.top.toFloat(), drawingRect.left + radius * 2] =
-            drawingRect.top + radius * 2
-
-        if (hasCoverage(Coverage.TOP_LINE)) {
-            var startX = drawingRect.left.toFloat()
-            if (hasCoverage(Coverage.TOP_LEFT_CORNER)) {
-                startX += radius
-            }
-
-            var endX = drawingRect.right.toFloat()
-            if (hasCoverage(Coverage.TOP_RIGHT_CORNER)) {
-                endX -= radius
-            }
-
-            canvas.drawLine(
-                startX,
-                drawingRect.top.toFloat(),
-                endX,
-                drawingRect.top.toFloat(),
-                paint
-            )
-        }
-
-        if (hasCoverage(Coverage.TOP_RIGHT_CORNER)) {
-            canvas.drawArc(
-                topRightArcBound,
-                -90f,
-                90f,
-                false,
-                paint
-            )
-        }
-
-        if (hasCoverage(Coverage.RIGHT_LINE)) {
-            var startY = drawingRect.top.toFloat()
-            if (hasCoverage(Coverage.TOP_RIGHT_CORNER)) {
-                startY += radius
-            }
-
-            var endY = drawingRect.bottom.toFloat()
-            if (hasCoverage(Coverage.BOTTOM_RIGHT_CORNER)) {
-                endY -= radius
-            }
-
-            canvas.drawLine(
-                drawingRect.right.toFloat(),
-                startY,
-                drawingRect.right.toFloat(),
-                endY,
-                paint
-            )
-
-            canvas.drawLine(
-                drawingRect.right.toFloat(),
-                drawingRect.top + radius,
-                drawingRect.right.toFloat(),
-                drawingRect.bottom - radius,
-                paint
-            )
-        }
-
-        if (hasCoverage(Coverage.BOTTOM_RIGHT_CORNER)) {
-            canvas.drawArc(
-                bottomRightArcBound,
-                0f,
-                90f,
-                false,
-                paint
-            )
-        }
-
-        if (hasCoverage(Coverage.BOTTOM_LINE)) {
-            var startX = drawingRect.left.toFloat()
-            if (hasCoverage(Coverage.BOTTOM_LEFT_CORNER)) {
-                startX += radius
-            }
-
-            var endX = drawingRect.right.toFloat()
-            if (hasCoverage(Coverage.BOTTOM_RIGHT_CORNER)) {
-                endX -= radius
-            }
-
-            canvas.drawLine(
-                startX,
-                drawingRect.bottom.toFloat(),
-                endX,
-                drawingRect.bottom.toFloat(),
-                paint
-            )
-        }
-
-        if (hasCoverage(Coverage.BOTTOM_LEFT_CORNER)) {
-            canvas.drawArc(
-                bottomLeftArcBound,
-                90f,
-                90f,
-                false,
-                paint
-            )
-        }
-
-        if (hasCoverage(Coverage.LEFT_LINE)) {
-            var startY = drawingRect.top.toFloat()
-            if (hasCoverage(Coverage.TOP_LEFT_CORNER)) {
-                startY += radius
-            }
-
-            var endY = drawingRect.bottom.toFloat()
-            if (hasCoverage(Coverage.BOTTOM_LEFT_CORNER)) {
-                endY -= radius
-            }
-
-            canvas.drawLine(
-                drawingRect.left.toFloat(),
-                startY,
-                drawingRect.left.toFloat(),
-                endY,
-                paint
-            )
-        }
-
-        if (hasCoverage(Coverage.TOP_LEFT_CORNER)) {
-            canvas.drawArc(
-                topLeftArcBound,
-                180f,
-                90f,
-                false,
-                paint
-            )
+        when(coverage) {
+            is ShadowCoverage.Oval -> canvas.drawOvalShadow(coverage)
+            is ShadowCoverage.Rectangle -> canvas.drawRectangleShadow(coverage)
         }
     }
 
@@ -175,33 +36,162 @@ class ShadowDrawable(
         return PixelFormat.TRANSPARENT
     }
 
-    fun setCoverage(vararg coverages: Coverage) {
-        coverageFlags = 0
-        coverages.forEach(::addCoverage)
+    private fun Canvas.drawOvalShadow(coverage: ShadowCoverage.Oval) {
+
     }
 
-    fun hasCoverage(coverage: Coverage): Boolean {
-        return coverageFlags and coverage.flag != 0
+    private fun Canvas.drawRectangleShadow(coverage: ShadowCoverage.Rectangle) {
+        if (rectangleRectPaths == null) {
+            val drawingRect = copyBounds()
+            val bounds = RectF(drawingRect)
+            rectangleRectPaths = RectangleRectPaths(coverage, bounds)
+        }
+
+        requireNotNull(rectangleRectPaths).apply {
+            if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.TOP_LINE)) {
+                var startX = drawingRect.left
+                if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.TOP_LEFT_CORNER)) {
+                    startX += coverage.radius
+                }
+
+                var endX = drawingRect.right
+                if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.TOP_RIGHT_CORNER)) {
+                    endX -= coverage.radius
+                }
+
+                drawLine(
+                    startX,
+                    drawingRect.top,
+                    endX,
+                    drawingRect.top,
+                    paint
+                )
+            }
+
+            if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.TOP_RIGHT_CORNER)) {
+                drawArc(
+                    topRightArcBound,
+                    -90f,
+                    90f,
+                    false,
+                    paint
+                )
+            }
+
+            if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.RIGHT_LINE)) {
+                var startY = drawingRect.top
+                if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.TOP_RIGHT_CORNER)) {
+                    startY += coverage.radius
+                }
+
+                var endY = drawingRect.bottom
+                if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.BOTTOM_RIGHT_CORNER)) {
+                    endY -= coverage.radius
+                }
+
+                drawLine(
+                    drawingRect.right,
+                    startY,
+                    drawingRect.right,
+                    endY,
+                    paint
+                )
+
+                drawLine(
+                    drawingRect.right,
+                    drawingRect.top + coverage.radius,
+                    drawingRect.right,
+                    drawingRect.bottom - coverage.radius,
+                    paint
+                )
+            }
+
+            if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.BOTTOM_RIGHT_CORNER)) {
+                drawArc(
+                    bottomRightArcBound,
+                    0f,
+                    90f,
+                    false,
+                    paint
+                )
+            }
+
+            if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.BOTTOM_LINE)) {
+                var startX = drawingRect.left
+                if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.BOTTOM_LEFT_CORNER)) {
+                    startX += coverage.radius
+                }
+
+                var endX = drawingRect.right
+                if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.BOTTOM_RIGHT_CORNER)) {
+                    endX -= coverage.radius
+                }
+
+                drawLine(
+                    startX,
+                    drawingRect.bottom,
+                    endX,
+                    drawingRect.bottom,
+                    paint
+                )
+            }
+
+            if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.BOTTOM_LEFT_CORNER)) {
+                drawArc(
+                    bottomLeftArcBound,
+                    90f,
+                    90f,
+                    false,
+                    paint
+                )
+            }
+
+            if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.LEFT_LINE)) {
+                var startY = drawingRect.top
+                if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.TOP_LEFT_CORNER)) {
+                    startY += coverage.radius
+                }
+
+                var endY = drawingRect.bottom
+                if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.BOTTOM_LEFT_CORNER)) {
+                    endY -= coverage.radius
+                }
+
+                drawLine(
+                    drawingRect.left,
+                    startY,
+                    drawingRect.left,
+                    endY,
+                    paint
+                )
+            }
+
+            if (coverage.hasCoverage(ShadowCoverage.Rectangle.Sides.TOP_LEFT_CORNER)) {
+                drawArc(
+                    topLeftArcBound,
+                    180f,
+                    90f,
+                    false,
+                    paint
+                )
+            }
+        }
     }
 
-    fun addCoverage(coverage: Coverage) {
-        coverageFlags = coverageFlags or coverage.flag
-    }
+    private class RectangleRectPaths(
+        coverage: ShadowCoverage.Rectangle,
+        val drawingRect: RectF
+    ) {
+        val topLeftArcBound = RectF()
+        val topRightArcBound = RectF()
+        val bottomLeftArcBound = RectF()
+        val bottomRightArcBound = RectF()
 
-    fun removeCoverage(coverage: Coverage) {
-        coverageFlags = coverageFlags and coverage.flag.inv()
-    }
-
-    enum class Coverage {
-        TOP_LEFT_CORNER,
-        TOP_LINE,
-        TOP_RIGHT_CORNER,
-        RIGHT_LINE,
-        BOTTOM_RIGHT_CORNER,
-        BOTTOM_LINE,
-        BOTTOM_LEFT_CORNER,
-        LEFT_LINE;
-
-        val flag get() = 2.0.pow(ordinal).toInt()
+        init {
+            topRightArcBound[drawingRect.right - coverage.radius * 2, drawingRect.top, drawingRect.right] = drawingRect.top + coverage.radius * 2
+            bottomRightArcBound[drawingRect.right - coverage.radius * 2, drawingRect.bottom - coverage.radius * 2, drawingRect.right] = drawingRect.bottom
+            bottomLeftArcBound[drawingRect.left, drawingRect.bottom - coverage.radius * 2, drawingRect.left + coverage.radius * 2] = drawingRect.bottom
+            topLeftArcBound[drawingRect.left, drawingRect.top, drawingRect.left + coverage.radius * 2] = drawingRect.top + coverage.radius * 2
+        }
     }
 }

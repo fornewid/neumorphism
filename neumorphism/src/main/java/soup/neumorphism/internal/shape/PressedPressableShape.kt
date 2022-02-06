@@ -4,8 +4,9 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
+import soup.neumorphism.internal.drawable.ShadowCoverage.Rectangle
+import soup.neumorphism.internal.drawable.ShadowCoverage.Rectangle.Sides.*
 import soup.neumorphism.internal.drawable.ShadowDrawable
-import soup.neumorphism.internal.drawable.ShadowDrawable.Coverage.*
 import soup.neumorphism.internal.util.onCanvas
 import soup.neumorphism.internal.util.withClip
 import soup.neumorphism.internal.util.withTranslation
@@ -59,27 +60,41 @@ internal class PressedPressableShape(
             )
         }
 
+        val lightShadowCoverage = Rectangle(cornerSize).apply {
+            setCoverage(
+                BOTTOM_RIGHT_CORNER,
+                BOTTOM_LINE,
+                RIGHT_LINE
+            )
+        }
+
         lightShadowBitmap = ShadowDrawable(
             drawableState.shadowElevation,
-            cornerSize,
-            drawableState.shadowColorLight
+            drawableState.shadowColorLight,
+            lightShadowCoverage
         ).apply {
             alpha = drawableState.alpha
             setBounds(shadowElevation, shadowElevation, width, height)
-            setCoverage(BOTTOM_RIGHT_CORNER, BOTTOM_LINE, RIGHT_LINE)
         }.toBlurredBitmap(
             width + shadowElevation,
             height + shadowElevation
         )
 
+        val darkShadowCoverage = Rectangle(cornerSize).apply {
+            setCoverage(
+                TOP_LEFT_CORNER,
+                TOP_LINE,
+                LEFT_LINE
+            )
+        }
+
         darkShadowBitmap = ShadowDrawable(
             drawableState.shadowElevation,
-            cornerSize,
-            drawableState.shadowColorDark
+            drawableState.shadowColorDark,
+            darkShadowCoverage
         ).apply {
             alpha = drawableState.alpha
             setBounds(shadowElevation, shadowElevation, width, height)
-            setCoverage(TOP_LEFT_CORNER, TOP_LINE, LEFT_LINE)
         }.toBlurredBitmap(
             width + shadowElevation,
             height + shadowElevation

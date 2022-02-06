@@ -4,6 +4,8 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
+import soup.neumorphism.internal.drawable.ShadowCoverage
+import soup.neumorphism.internal.drawable.ShadowCoverage.Rectangle.Sides.*
 import soup.neumorphism.internal.drawable.ShadowDrawable
 import soup.neumorphism.internal.util.onCanvas
 import soup.neumorphism.internal.util.withClipOut
@@ -56,34 +58,40 @@ internal class FlatShape(
             )
         }
 
+        val lightShadowCoverage = ShadowCoverage.Rectangle(cornerSize).apply {
+            setCoverage(
+                TOP_LEFT_CORNER,
+                BOTTOM_LEFT_CORNER,
+                TOP_RIGHT_CORNER,
+                TOP_LINE,
+                LEFT_LINE
+            )
+        }
+
         lightShadowBitmap = ShadowDrawable(
             drawableState.shadowElevation,
-            cornerSize,
-            drawableState.shadowColorLight
+            drawableState.shadowColorLight,
+            lightShadowCoverage
         ).apply {
             alpha = drawableState.alpha
-            setCoverage(
-                ShadowDrawable.Coverage.TOP_LEFT_CORNER,
-                ShadowDrawable.Coverage.BOTTOM_LEFT_CORNER,
-                ShadowDrawable.Coverage.TOP_RIGHT_CORNER,
-                ShadowDrawable.Coverage.TOP_LINE,
-                ShadowDrawable.Coverage.LEFT_LINE
-            )
         }.toBlurredBitmap(w, h)
+
+        val darkShadowCoverage = ShadowCoverage.Rectangle(cornerSize).apply {
+            setCoverage(
+                BOTTOM_RIGHT_CORNER,
+                BOTTOM_LEFT_CORNER,
+                TOP_RIGHT_CORNER,
+                RIGHT_LINE,
+                BOTTOM_LINE
+            )
+        }
 
         darkShadowBitmap = ShadowDrawable(
             drawableState.shadowElevation,
-            cornerSize,
-            drawableState.shadowColorDark
+            drawableState.shadowColorDark,
+            darkShadowCoverage
         ).apply {
             alpha = drawableState.alpha
-            setCoverage(
-                ShadowDrawable.Coverage.BOTTOM_RIGHT_CORNER,
-                ShadowDrawable.Coverage.BOTTOM_LEFT_CORNER,
-                ShadowDrawable.Coverage.TOP_RIGHT_CORNER,
-                ShadowDrawable.Coverage.RIGHT_LINE,
-                ShadowDrawable.Coverage.BOTTOM_LINE
-            )
         }.toBlurredBitmap(w, h)
     }
 
