@@ -5,8 +5,7 @@ import android.graphics.drawable.Drawable
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
 import soup.neumorphism.internal.drawable.ShadowCoverage
-import soup.neumorphism.internal.drawable.ShadowCoverage.Rectangle.Sides.*
-import soup.neumorphism.internal.drawable.ShadowDrawable
+import soup.neumorphism.internal.drawable.NeumorphShadowDrawable
 import soup.neumorphism.internal.util.onCanvas
 import soup.neumorphism.internal.util.withClipOut
 import kotlin.math.min
@@ -16,8 +15,7 @@ internal class FlatShape(
     private var drawableState: NeumorphShapeDrawableState
 ) : Shape {
 
-    private var lightShadowBitmap: Bitmap? = null
-    private var darkShadowBitmap: Bitmap? = null
+    private var shadowBitmap: Bitmap? = null
 
     override fun setDrawableState(newDrawableState: NeumorphShapeDrawableState) {
         this.drawableState = newDrawableState
@@ -33,11 +31,7 @@ internal class FlatShape(
             val pressPercentage = z / elevation
             shadowPaint.alpha = (255 * pressPercentage).toInt()
 
-            darkShadowBitmap?.let {
-                drawBitmap(it, elevation/4, elevation/4, shadowPaint)
-            }
-
-            lightShadowBitmap?.let {
+            shadowBitmap?.let {
                 drawBitmap(it, -elevation/4, -elevation/4, shadowPaint)
             }
         }
@@ -47,49 +41,26 @@ internal class FlatShape(
         val w = bounds.width()
         val h = bounds.height()
 
-        val minRadius = min(w / 2f, h / 2f)
-        val cornerSize = when(drawableState.shapeAppearanceModel.getCornerFamily()) {
+        val shadowCoverage = when(drawableState.shapeAppearanceModel.getCornerFamily()) {
             CornerFamily.OVAL -> {
-                minRadius
+                ShadowCoverage.Oval(135f)
             }
-            else -> min(
-                minRadius,
-                drawableState.shapeAppearanceModel.getCornerSize()
-            )
+            else -> {
+                val maxRadius = min(w / 2f, h / 2f)
+                val radius = min(
+                    maxRadius,
+                    drawableState.shapeAppearanceModel.getCornerSize()
+                )
+
+                ShadowCoverage.Rectangle(radius)
+            }
         }
 
-        val lightShadowCoverage = ShadowCoverage.Rectangle(cornerSize).apply {
-            setCoverage(
-                TOP_LEFT_CORNER,
-                BOTTOM_LEFT_CORNER,
-                TOP_RIGHT_CORNER,
-                TOP_LINE,
-                LEFT_LINE
-            )
-        }
-
-        lightShadowBitmap = ShadowDrawable(
+        shadowBitmap = NeumorphShadowDrawable(
             drawableState.shadowElevation,
             drawableState.shadowColorLight,
-            lightShadowCoverage
-        ).apply {
-            alpha = drawableState.alpha
-        }.toBlurredBitmap(w, h)
-
-        val darkShadowCoverage = ShadowCoverage.Rectangle(cornerSize).apply {
-            setCoverage(
-                BOTTOM_RIGHT_CORNER,
-                BOTTOM_LEFT_CORNER,
-                TOP_RIGHT_CORNER,
-                RIGHT_LINE,
-                BOTTOM_LINE
-            )
-        }
-
-        darkShadowBitmap = ShadowDrawable(
-            drawableState.shadowElevation,
             drawableState.shadowColorDark,
-            darkShadowCoverage
+            shadowCoverage
         ).apply {
             alpha = drawableState.alpha
         }.toBlurredBitmap(w, h)

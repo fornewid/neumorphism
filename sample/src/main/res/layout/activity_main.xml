@@ -97,7 +97,7 @@
 
     <soup.neumorphism.NeumorphImageButton
         android:id="@+id/flat_image_view"
-        style="@style/Widget.Neumorph.ImageButton"
+        style="@style/Widget.Neumorph.FloatingActionButton"
         android:layout_width="88dp"
         android:layout_height="88dp"
         android:layout_marginTop="48dp"

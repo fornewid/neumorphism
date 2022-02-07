@@ -5,8 +5,7 @@ import android.graphics.drawable.Drawable
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
 import soup.neumorphism.internal.drawable.ShadowCoverage.Rectangle
-import soup.neumorphism.internal.drawable.ShadowCoverage.Rectangle.Sides.*
-import soup.neumorphism.internal.drawable.ShadowDrawable
+import soup.neumorphism.internal.drawable.NeumorphShadowDrawable
 import soup.neumorphism.internal.util.onCanvas
 import soup.neumorphism.internal.util.withClip
 import soup.neumorphism.internal.util.withTranslation
@@ -17,8 +16,7 @@ internal class PressedPressableShape(
     private var drawableState: NeumorphShapeDrawableState
 ) : Shape {
 
-    private var lightShadowBitmap: Bitmap? = null
-    private var darkShadowBitmap: Bitmap? = null
+    private var shadowBitmap: Bitmap? = null
 
     override fun setDrawableState(newDrawableState: NeumorphShapeDrawableState) {
         this.drawableState = newDrawableState
@@ -34,11 +32,7 @@ internal class PressedPressableShape(
             val pressPercentage = 1 - (z / elevation)
             shadowPaint.alpha = (255 * pressPercentage).toInt()
 
-            lightShadowBitmap?.let {
-                drawBitmap(it, 0f, 0f, shadowPaint)
-            }
-
-            darkShadowBitmap?.let {
+            shadowBitmap?.let {
                 drawBitmap(it, 0f, 0f, shadowPaint)
             }
         }
@@ -60,38 +54,13 @@ internal class PressedPressableShape(
             )
         }
 
-        val lightShadowCoverage = Rectangle(cornerSize).apply {
-            setCoverage(
-                BOTTOM_RIGHT_CORNER,
-                BOTTOM_LINE,
-                RIGHT_LINE
-            )
-        }
+        val lightShadowCoverage = Rectangle(cornerSize)
 
-        lightShadowBitmap = ShadowDrawable(
+        shadowBitmap = NeumorphShadowDrawable(
             drawableState.shadowElevation,
             drawableState.shadowColorLight,
-            lightShadowCoverage
-        ).apply {
-            alpha = drawableState.alpha
-            setBounds(shadowElevation, shadowElevation, width, height)
-        }.toBlurredBitmap(
-            width + shadowElevation,
-            height + shadowElevation
-        )
-
-        val darkShadowCoverage = Rectangle(cornerSize).apply {
-            setCoverage(
-                TOP_LEFT_CORNER,
-                TOP_LINE,
-                LEFT_LINE
-            )
-        }
-
-        darkShadowBitmap = ShadowDrawable(
-            drawableState.shadowElevation,
             drawableState.shadowColorDark,
-            darkShadowCoverage
+            lightShadowCoverage
         ).apply {
             alpha = drawableState.alpha
             setBounds(shadowElevation, shadowElevation, width, height)
