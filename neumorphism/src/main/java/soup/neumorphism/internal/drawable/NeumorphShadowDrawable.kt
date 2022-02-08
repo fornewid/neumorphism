@@ -22,10 +22,10 @@ class NeumorphShadowDrawable(
 
     private val shadowBounds: RectF by lazy {
         RectF(
-            bounds.left + shadowOffset,
-            bounds.top + shadowOffset,
-            bounds.right + shadowOffset,
-            bounds.bottom + shadowOffset
+            bounds.left - shadowOffset,
+            bounds.top - shadowOffset,
+            bounds.right - shadowOffset,
+            bounds.bottom - shadowOffset
         )
     }
 
@@ -47,77 +47,73 @@ class NeumorphShadowDrawable(
     override fun getOpacity(): Int {
         return PixelFormat.TRANSPARENT
     }
-
     private fun Canvas.drawOvalShadow(coverage: Shape.Oval) {
-       drawRectangleShadow(Shape.Rectangle(shadowBounds.width() / 2))
+        drawRectangleShadow(Shape.Rectangle(
+            shadowBounds.width() / 2
+        ))
     }
 
     private fun Canvas.drawRectangleShadow(coverage: Shape.Rectangle) {
         val radius = coverage.radius
-        val forthRadius = radius / 4
+        val radiusOffset = radius * 2
+
+        val topLeftArcBound = RectF(
+            shadowBounds.left,
+            shadowBounds.top,
+            shadowBounds.left + radiusOffset,
+            shadowBounds.top + radiusOffset
+        )
+
+        val topRightArcBound = RectF(
+            shadowBounds.right - radiusOffset,
+            shadowBounds.top,
+            shadowBounds.right,
+            shadowBounds.top + radiusOffset
+        )
+
+        val bottomLeftArcBound = RectF(
+            shadowBounds.left,
+            shadowBounds.bottom - radiusOffset,
+            shadowBounds.left + radiusOffset,
+            shadowBounds.bottom
+        )
+
+        val bottomRightArcBound = RectF(
+            shadowBounds.right - radiusOffset,
+            shadowBounds.bottom - radiusOffset,
+            shadowBounds.right,
+            shadowBounds.bottom
+        )
+
         val startX = shadowBounds.left + radius
         val endX = shadowBounds.right - radius
         val startY = shadowBounds.top + radius
         val endY = shadowBounds.bottom - radius
 
-        //Light shadow drawing
-        paint.color = theme.lightColor
-
         withTranslation(
-            -shadowOffset,
-            -shadowOffset
+            shadowOffset,
+            shadowOffset
         ) {
-            drawLine(shadowBounds.left, startY, shadowBounds.left, endY, paint)
-            drawCurvedArc(shadowBounds.left, startY, startX, shadowBounds.top, radius - forthRadius, paint)
+            //Light shadow drawing
+            paint.color = theme.lightColor
             drawLine(startX, shadowBounds.top, endX, shadowBounds.top, paint)
-
-            drawCurvedArc(
-                shadowBounds.left + forthRadius,
-                shadowBounds.bottom - forthRadius,
-                shadowBounds.left,
-                endY,
-                0f,
-                paint
-            )
-
-            drawCurvedArc(
-                endX,
-                shadowBounds.top,
-                shadowBounds.right - forthRadius,
-                shadowBounds.top + forthRadius,
-                0f,
-                paint
-            )
+            drawArc(topRightArcBound, -90f, 45f, false, paint)
+            drawLine(shadowBounds.left, startY, shadowBounds.left, endY, paint)
+            drawArc(topLeftArcBound, 180f, 90f, false, paint)
+            drawArc(bottomLeftArcBound, 135f, 45f, false, paint)
         }
 
-        //Dark shadow
-        paint.color = theme.darkColor
-
         withTranslation(
-            -shadowOffset,
-            -shadowOffset
+            shadowOffset,
+            shadowOffset
         ) {
-            drawCurvedArc(shadowBounds.right, endY, endX, shadowBounds.bottom, radius, paint)
+            //Dark shadow
+            paint.color = theme.darkColor
+            drawArc(topRightArcBound, -45f, 45f, false, paint)
+            drawArc(bottomRightArcBound, 0f, 90f, false, paint)
             drawLine(startX, shadowBounds.bottom, endX, shadowBounds.bottom, paint)
+            drawArc(bottomLeftArcBound, 90f, 45f, false, paint)
             drawLine(shadowBounds.right, startY, shadowBounds.right, endY, paint)
-
-            drawCurvedArc(
-                shadowBounds.right - forthRadius,
-                shadowBounds.top + forthRadius,
-                shadowBounds.right,
-                startY,
-                0f,
-                paint
-            )
-
-            drawCurvedArc(
-                startX,
-                shadowBounds.bottom,
-                shadowBounds.left + forthRadius,
-                shadowBounds.bottom - forthRadius,
-                0f,
-                paint
-            )
         }
     }
 
