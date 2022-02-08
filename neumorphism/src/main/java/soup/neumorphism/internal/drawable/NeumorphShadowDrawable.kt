@@ -6,14 +6,12 @@ import soup.neumorphism.internal.util.CanvasCompat.drawCurvedArc
 import soup.neumorphism.internal.util.withTranslation
 
 class NeumorphShadowDrawable(
-    elevation: Float,
-    private val lightShadowColor: Int,
-    private val darkShadowColor: Int,
-    private val coverage: ShadowCoverage
+    private val style: Style,
+    private val theme: Theme,
+    private val shape: Shape
 ) : Drawable() {
 
-    private var ovalRectPath: RectF? = null
-    private val shadowOffset = elevation / 2
+    private val shadowOffset = style.elevation / 2
 
     private val paint by lazy {
         Paint().apply {
@@ -32,9 +30,9 @@ class NeumorphShadowDrawable(
     }
 
     override fun draw(canvas: Canvas) {
-        when(coverage) {
-            is ShadowCoverage.Oval -> canvas.drawOvalShadow(coverage)
-            is ShadowCoverage.Rectangle -> canvas.drawRectangleShadow(coverage)
+        when(shape) {
+            is Shape.Oval -> canvas.drawOvalShadow(shape)
+            is Shape.Rectangle -> canvas.drawRectangleShadow(shape)
         }
     }
 
@@ -50,21 +48,11 @@ class NeumorphShadowDrawable(
         return PixelFormat.TRANSPARENT
     }
 
-    private fun Canvas.drawOvalShadow(coverage: ShadowCoverage.Oval) {
-        if (ovalRectPath == null) {
-            ovalRectPath = RectF(bounds)
-        }
-
-        drawArc(
-            requireNotNull(ovalRectPath),
-            coverage.startAngle,
-            180f,
-            false,
-            paint
-        )
+    private fun Canvas.drawOvalShadow(coverage: Shape.Oval) {
+       drawRectangleShadow(Shape.Rectangle(shadowBounds.width() / 2))
     }
 
-    private fun Canvas.drawRectangleShadow(coverage: ShadowCoverage.Rectangle) {
+    private fun Canvas.drawRectangleShadow(coverage: Shape.Rectangle) {
         val radius = coverage.radius
         val forthRadius = radius / 4
         val startX = shadowBounds.left + radius
@@ -73,14 +61,14 @@ class NeumorphShadowDrawable(
         val endY = shadowBounds.bottom - radius
 
         //Light shadow drawing
-        paint.color = lightShadowColor
+        paint.color = theme.lightColor
 
         withTranslation(
             -shadowOffset,
             -shadowOffset
         ) {
             drawLine(shadowBounds.left, startY, shadowBounds.left, endY, paint)
-            drawCurvedArc(shadowBounds.left, startY, startX, shadowBounds.top, radius, paint)
+            drawCurvedArc(shadowBounds.left, startY, startX, shadowBounds.top, radius - forthRadius, paint)
             drawLine(startX, shadowBounds.top, endX, shadowBounds.top, paint)
 
             drawCurvedArc(
@@ -88,7 +76,7 @@ class NeumorphShadowDrawable(
                 shadowBounds.bottom - forthRadius,
                 shadowBounds.left,
                 endY,
-                -forthRadius,
+                0f,
                 paint
             )
 
@@ -97,19 +85,19 @@ class NeumorphShadowDrawable(
                 shadowBounds.top,
                 shadowBounds.right - forthRadius,
                 shadowBounds.top + forthRadius,
-                -forthRadius,
+                0f,
                 paint
             )
         }
 
         //Dark shadow
-        paint.color = darkShadowColor
+        paint.color = theme.darkColor
 
         withTranslation(
             -shadowOffset,
             -shadowOffset
         ) {
-            drawCurvedArc(shadowBounds.right, endX, endX, shadowBounds.bottom, radius, paint)
+            drawCurvedArc(shadowBounds.right, endY, endX, shadowBounds.bottom, radius, paint)
             drawLine(startX, shadowBounds.bottom, endX, shadowBounds.bottom, paint)
             drawLine(shadowBounds.right, startY, shadowBounds.right, endY, paint)
 
@@ -118,7 +106,7 @@ class NeumorphShadowDrawable(
                 shadowBounds.top + forthRadius,
                 shadowBounds.right,
                 startY,
-                -forthRadius,
+                0f,
                 paint
             )
 
@@ -127,9 +115,30 @@ class NeumorphShadowDrawable(
                 shadowBounds.bottom,
                 shadowBounds.left + forthRadius,
                 shadowBounds.bottom - forthRadius,
-                -forthRadius,
+                0f,
                 paint
             )
         }
     }
+
+    sealed class Shape {
+
+        class Oval(
+            val startAngle: Float
+        ) : Shape()
+
+        class Rectangle(
+            val radius: Float
+        ) : Shape()
+    }
+
+    data class Theme(
+        val lightColor: Int,
+        val darkColor: Int
+    )
+
+    data class Style(
+        val elevation: Float,
+        val margin: Float
+    )
 }

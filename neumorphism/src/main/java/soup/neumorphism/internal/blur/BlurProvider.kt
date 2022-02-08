@@ -17,7 +17,7 @@ import kotlin.math.roundToInt
 internal class BlurProvider(context: Context) {
 
     private val contextRef = WeakReference(context)
-    val defaultBlurRadius: Int
+    val defaultBlurRadius: Float
 
     init {
         val densityStable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -25,12 +25,12 @@ internal class BlurProvider(context: Context) {
         } else {
             context.resources.displayMetrics.density
         }
-        defaultBlurRadius = min(BlurFactor.MAX_RADIUS, (densityStable * 10).roundToInt())
+        defaultBlurRadius = min(BlurFactor.MAX_RADIUS, densityStable * 10)
     }
 
     fun blur(
         source: Bitmap,
-        radius: Int = defaultBlurRadius,
+        radius: Float = defaultBlurRadius,
         sampling: Int = BlurFactor.DEFAULT_SAMPLING
     ): Bitmap? {
         val factor = BlurFactor(
@@ -74,7 +74,7 @@ internal class BlurProvider(context: Context) {
     }
 
     @Throws(RSRuntimeException::class)
-    private fun rs(bitmap: Bitmap, radius: Int): Bitmap? {
+    private fun rs(bitmap: Bitmap, radius: Float): Bitmap? {
         val context = contextRef.get() ?: return null
         var rs: RenderScript? = null
         var input: Allocation? = null
@@ -90,7 +90,7 @@ internal class BlurProvider(context: Context) {
             output = Allocation.createTyped(rs, input.type)
             blur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
             blur.setInput(input)
-            blur.setRadius(radius.toFloat())
+            blur.setRadius(radius)
             blur.forEach(output)
             output.copyTo(bitmap)
         } finally {
@@ -102,7 +102,7 @@ internal class BlurProvider(context: Context) {
         return bitmap
     }
 
-    private fun stack(sentBitmap: Bitmap, radius: Int, canReuseInBitmap: Boolean): Bitmap? {
+    private fun stack(sentBitmap: Bitmap, radius: Float, canReuseInBitmap: Boolean): Bitmap? {
         // Stack Blur v1.0 from
         // http://www.quasimondo.com/StackBlurForCanvas/StackBlurDemo.html
         //
@@ -130,6 +130,8 @@ internal class BlurProvider(context: Context) {
         // the following line:
         //
         // Stack Blur Algorithm by Mario Klingemann <mario@quasimondo.com>
+        val radius = radius.roundToInt()
+
         if (radius < 1) {
             return null
         }
@@ -348,6 +350,6 @@ internal class BlurProvider(context: Context) {
     }
 
     override fun hashCode(): Int {
-        return defaultBlurRadius
+        return defaultBlurRadius.hashCode()
     }
 }

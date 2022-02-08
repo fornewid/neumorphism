@@ -26,7 +26,7 @@
 
     <style name="Widget.Neumorph.CardView" parent="android:Widget">
         <item name="android:padding">@dimen/design_default_padding</item>
-        <item name="neumorph_shadowElevation">16dp</item>
+        <item name="neumorph_shadowElevation">22dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
