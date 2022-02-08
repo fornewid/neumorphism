@@ -6,6 +6,7 @@ import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
 import soup.neumorphism.internal.drawable.ShadowCoverage.Rectangle
 import soup.neumorphism.internal.drawable.NeumorphShadowDrawable
+import soup.neumorphism.internal.drawable.ShadowCoverage
 import soup.neumorphism.internal.util.onCanvas
 import soup.neumorphism.internal.util.withClip
 import soup.neumorphism.internal.util.withTranslation
@@ -45,22 +46,26 @@ internal class PressedPressableShape(
         val width: Int = w + shadowElevation
         val height: Int = h + shadowElevation
 
-        val minRadius = min(w / 2f, h / 2f)
-        val cornerSize = when(drawableState.shapeAppearanceModel.getCornerFamily()) {
-            CornerFamily.OVAL -> minRadius
-            else -> min(
-                minRadius,
-                drawableState.shapeAppearanceModel.getCornerSize()
-            )
-        }
+        val shadowCoverage = when(drawableState.shapeAppearanceModel.getCornerFamily()) {
+            CornerFamily.OVAL -> {
+                ShadowCoverage.Oval(135f)
+            }
+            else -> {
+                val maxRadius = min(w / 2f, h / 2f)
+                val radius = min(
+                    maxRadius,
+                    drawableState.shapeAppearanceModel.getCornerSize()
+                )
 
-        val lightShadowCoverage = Rectangle(cornerSize)
+                Rectangle(radius)
+            }
+        }
 
         shadowBitmap = NeumorphShadowDrawable(
             drawableState.shadowElevation,
             drawableState.shadowColorLight,
             drawableState.shadowColorDark,
-            lightShadowCoverage
+            shadowCoverage
         ).apply {
             alpha = drawableState.alpha
             setBounds(shadowElevation, shadowElevation, width, height)
@@ -78,15 +83,9 @@ internal class PressedPressableShape(
             return drawableState.blurProvider.blur(this)
         }
 
-        val shadowElevation = drawableState.shadowElevation
-        val width = (w + shadowElevation * 2).roundToInt()
-        val height = (h + shadowElevation * 2).roundToInt()
-        return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        return Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
             .onCanvas {
-                withTranslation(shadowElevation, shadowElevation) {
-                    draw(this)
-                }
-            }
-            .blurred()
+                draw(this)
+            }.blurred()
     }
 }

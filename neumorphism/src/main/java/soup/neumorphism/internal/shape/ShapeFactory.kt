@@ -25,8 +25,8 @@ internal object ShapeFactory {
         bounds: Rect
     ): Shape {
         val shape = when (val shapeType = drawableState.shapeType) {
-            ShapeType.FLAT -> FlatPressableShape(drawableState)
-            ShapeType.PRESSED -> PressedShape(drawableState)
+            ShapeType.FLAT -> FlatShape(drawableState)
+            ShapeType.PRESSED -> FlatShape(drawableState, outerShadow = false)
             ShapeType.BASIN -> BasinShape(drawableState)
             else -> throw IllegalArgumentException("ShapeType($shapeType) is invalid.")
         }

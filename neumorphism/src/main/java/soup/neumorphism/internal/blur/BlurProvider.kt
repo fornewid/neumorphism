@@ -17,7 +17,7 @@ import kotlin.math.roundToInt
 internal class BlurProvider(context: Context) {
 
     private val contextRef = WeakReference(context)
-    private val defaultBlurRadius: Int
+    val defaultBlurRadius: Int
 
     init {
         val densityStable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

@@ -7,12 +7,13 @@ import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
 import soup.neumorphism.internal.drawable.ShadowCoverage
 import soup.neumorphism.internal.drawable.NeumorphShadowDrawable
 import soup.neumorphism.internal.util.onCanvas
-import soup.neumorphism.internal.util.withClipOut
+import soup.neumorphism.internal.util.withTranslation
 import kotlin.math.min
 
 
 internal class FlatShape(
-    private var drawableState: NeumorphShapeDrawableState
+    private var drawableState: NeumorphShapeDrawableState,
+    private val outerShadow: Boolean = true
 ) : Shape {
 
     private var shadowBitmap: Bitmap? = null
@@ -24,17 +25,18 @@ internal class FlatShape(
     private val shadowPaint = Paint()
 
     override fun draw(canvas: Canvas, outlinePath: Path) {
-        canvas.withClipOut(outlinePath) {
-            val elevation = drawableState.shadowElevation
-            val z = drawableState.shadowElevation + drawableState.translationZ
+        val shadow = shadowBitmap ?: return
 
-            val pressPercentage = z / elevation
-            shadowPaint.alpha = (255 * pressPercentage).toInt()
+        if (outerShadow) canvas.clipOutPath(outlinePath)
+        else canvas.clipPath(outlinePath)
 
-            shadowBitmap?.let {
-                drawBitmap(it, -elevation/4, -elevation/4, shadowPaint)
-            }
-        }
+        val elevation = drawableState.shadowElevation
+        val z = drawableState.shadowElevation + drawableState.translationZ
+
+        val pressPercentage = z / elevation
+        shadowPaint.alpha = (255 * pressPercentage).toInt()
+
+        canvas.drawBitmap(shadow, 0f, 0f, shadowPaint)
     }
 
     override fun updateShadowBitmap(bounds: Rect) {
@@ -77,17 +79,18 @@ internal class FlatShape(
             return drawableState.blurProvider.blur(this)
         }
 
-        val shadowOffset = drawableState.shadowElevation.toInt()
+        val shadowOffset = drawableState.shadowElevation.toInt() / 2
+
+        val width = w + (shadowOffset * 2)
+        val height = h + (shadowOffset * 2)
 
         setBounds(
             shadowOffset,
             shadowOffset,
-            w,
-            h
+            w + shadowOffset,
+            h + shadowOffset
         )
 
-        val width = w + shadowOffset
-        val height = h + shadowOffset
         return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             .onCanvas {
                 draw(this)

@@ -9,7 +9,7 @@ internal class BasinShape(drawableState: NeumorphShapeDrawableState) : Shape {
 
     private val shadows = listOf(
         FlatShape(drawableState),
-        PressedShape(drawableState)
+        FlatShape(drawableState, outerShadow = false)
     )
 
     override fun setDrawableState(newDrawableState: NeumorphShapeDrawableState) {
