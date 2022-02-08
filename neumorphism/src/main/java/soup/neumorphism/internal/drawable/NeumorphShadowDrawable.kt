@@ -64,17 +64,31 @@ class NeumorphShadowDrawable(
             shadowBounds.top + radiusOffset
         )
 
-        val topRightArcBound = RectF(
-            shadowBounds.right - radiusOffset,
+        val topRightStartArcBound = RectF(
+            shadowBounds.right - radiusOffset - radius/2,
             shadowBounds.top,
-            shadowBounds.right,
+            shadowBounds.right - radius/2,
             shadowBounds.top + radiusOffset
         )
 
-        val bottomLeftArcBound = RectF(
+        val topRightEndArcBound = RectF(
+            shadowBounds.right - radiusOffset,
+            shadowBounds.top + radius/2,
+            shadowBounds.right,
+            shadowBounds.top + radiusOffset + radius/2
+        )
+
+        val bottomLeftStartArcBound = RectF(
             shadowBounds.left,
-            shadowBounds.bottom - radiusOffset,
+            shadowBounds.bottom - radiusOffset - radius/2,
             shadowBounds.left + radiusOffset,
+            shadowBounds.bottom - radius/2
+        )
+
+        val bottomLeftEndArcBound = RectF(
+            shadowBounds.left + radius/2,
+            shadowBounds.bottom - radiusOffset,
+            shadowBounds.left + radiusOffset + radius/2,
             shadowBounds.bottom
         )
 
@@ -96,11 +110,11 @@ class NeumorphShadowDrawable(
         ) {
             //Light shadow drawing
             paint.color = theme.lightColor
-            drawLine(startX, shadowBounds.top, endX, shadowBounds.top, paint)
-            drawArc(topRightArcBound, -90f, 45f, false, paint)
-            drawLine(shadowBounds.left, startY, shadowBounds.left, endY, paint)
+            drawLine(startX, shadowBounds.top, endX - radius/2, shadowBounds.top, paint)
+            drawArc(topRightStartArcBound, -90f, 90f, false, paint)
+            drawLine(shadowBounds.left, startY, shadowBounds.left, endY - radius/2, paint)
             drawArc(topLeftArcBound, 180f, 90f, false, paint)
-            drawArc(bottomLeftArcBound, 135f, 45f, false, paint)
+            drawArc(bottomLeftStartArcBound, 90f, 90f, false, paint)
         }
 
         withTranslation(
@@ -109,11 +123,11 @@ class NeumorphShadowDrawable(
         ) {
             //Dark shadow
             paint.color = theme.darkColor
-            drawArc(topRightArcBound, -45f, 45f, false, paint)
+            drawArc(topRightEndArcBound, -90f, 90f, false, paint)
             drawArc(bottomRightArcBound, 0f, 90f, false, paint)
-            drawLine(startX, shadowBounds.bottom, endX, shadowBounds.bottom, paint)
-            drawArc(bottomLeftArcBound, 90f, 45f, false, paint)
-            drawLine(shadowBounds.right, startY, shadowBounds.right, endY, paint)
+            drawLine(startX + radius/2, shadowBounds.bottom, endX, shadowBounds.bottom, paint)
+            drawLine(shadowBounds.right, startY + radius/2, shadowBounds.right, endY, paint)
+            drawArc(bottomLeftEndArcBound, 90f, 90f, false, paint)
         }
     }
 
