@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
-import soup.neumorphism.internal.blur.BlurProvider
 import soup.neumorphism.internal.shape.Shape
 import soup.neumorphism.internal.shape.ShapeFactory
 
@@ -37,22 +36,17 @@ open class NeumorphShapeDrawable : Drawable {
     private var backgroundRect: RectF? = null
     private var backgroundBitmap: Bitmap? = null
 
-    constructor(context: Context) : this(NeumorphShapeAppearanceModel(), BlurProvider(context))
+    constructor(context: Context) : this(NeumorphShapeAppearanceModel())
 
     constructor(
         context: Context,
         attrs: AttributeSet?,
         @AttrRes defStyleAttr: Int,
         @StyleRes defStyleRes: Int
-    ) : this(
-        NeumorphShapeAppearanceModel.builder(context, attrs, defStyleAttr, defStyleRes).build(),
-        BlurProvider(context)
-    )
+    ) : this(NeumorphShapeAppearanceModel.builder(context, attrs, defStyleAttr, defStyleRes).build())
 
-    internal constructor(
-        shapeAppearanceModel: NeumorphShapeAppearanceModel,
-        blurProvider: BlurProvider
-    ) : this(NeumorphShapeDrawableState(shapeAppearanceModel, blurProvider))
+    internal constructor(shapeAppearanceModel: NeumorphShapeAppearanceModel)
+            : this(NeumorphShapeDrawableState(shapeAppearanceModel))
 
     private constructor(drawableState: NeumorphShapeDrawableState) : super() {
         this.drawableState = drawableState
@@ -65,7 +59,6 @@ open class NeumorphShapeDrawable : Drawable {
     override fun mutate(): Drawable {
         val newDrawableState = drawableState.copy()
         drawableState = newDrawableState
-        shadow?.setDrawableState(newDrawableState)
         return this
     }
 
@@ -147,7 +140,7 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun getBoundsInternal(): Rect {
-        val offset = drawableState.shadowElevation + drawableState.blurProvider.defaultBlurRadius
+        val offset = drawableState.shadowElevation + drawableState.blurRadius
         val bounds = super.getBounds()
         return Rect(
             bounds.left + offset,
@@ -339,7 +332,7 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun calculateOutlinePath(bounds: RectF, path: Path) {
-        val offset = drawableState.shadowElevation.toFloat() + drawableState.blurProvider.defaultBlurRadius
+        val offset = drawableState.shadowElevation.toFloat() + drawableState.blurRadius
         val right = offset + bounds.width()
         val bottom = offset + bounds.height()
         path.reset()
@@ -421,7 +414,6 @@ open class NeumorphShapeDrawable : Drawable {
 
     internal data class NeumorphShapeDrawableState(
         var shapeAppearanceModel: NeumorphShapeAppearanceModel,
-        val blurProvider: BlurProvider,
         var inEditMode: Boolean = false,
         var backgroundDrawable: Drawable? = null,
         var fillColor: ColorStateList? = null,
@@ -431,6 +423,7 @@ open class NeumorphShapeDrawable : Drawable {
         @ShapeType
         var shapeType: Int = ShapeType.DEFAULT,
         var shadowElevation: Int = 0,
+        var blurRadius: Int = 10,
         var shadowColorLight: Int = Color.WHITE,
         var shadowColorDark: Int = Color.BLACK,
         var translationZ: Float = 0f,

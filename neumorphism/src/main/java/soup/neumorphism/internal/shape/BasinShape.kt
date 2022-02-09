@@ -4,17 +4,28 @@ import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.Rect
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
+import soup.neumorphism.internal.drawable.NeumorphShadow
 import soup.neumorphism.internal.drawable.NeumorphShape
 
 internal class BasinShape(drawableState: NeumorphShapeDrawableState) : Shape {
 
-    private val shadows = listOf(
-        NeumorphShape(drawableState),
-        NeumorphShape(drawableState, outerShadow = false)
-    )
+    private val shadows by lazy {
+        val theme = NeumorphShadow.Theme(
+            drawableState.shadowColorLight,
+            drawableState.shadowColorDark
+        )
 
-    override fun setDrawableState(newDrawableState: NeumorphShapeDrawableState) {
-        shadows.forEach { it.setDrawableState(newDrawableState) }
+        val style = NeumorphShadow.Style(
+            drawableState.shadowElevation,
+            drawableState.blurRadius,
+            drawableState.shapeAppearanceModel.getCornerFamily(),
+            drawableState.shapeAppearanceModel.getCornerSize()
+        )
+
+        listOf(
+            NeumorphShape(style, theme, isOuterShadow = true),
+            NeumorphShape(style, theme, isOuterShadow = false)
+        )
     }
 
     override fun draw(canvas: Canvas, outlinePath: Path) {

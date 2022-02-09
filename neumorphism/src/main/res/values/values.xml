@@ -16,7 +16,7 @@
     <dimen name="design_btn_padding_bottom">12dp</dimen>
 
     <!-- Default corner radius -->
-    <dimen name="design_default_corner_radius">12dp</dimen>
+    <dimen name="design_default_corner_radius">16dp</dimen>
 
     <dimen name="edit_text_underline_height">5dp</dimen>
     <dimen name="edit_text_underline_corner_size">2dp</dimen>
