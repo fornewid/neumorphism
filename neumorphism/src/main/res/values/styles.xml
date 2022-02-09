@@ -17,7 +17,7 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="neumorph_shadowElevation">16dp</item>
+        <item name="neumorph_shadowElevation">4dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
@@ -26,7 +26,7 @@
 
     <style name="Widget.Neumorph.CardView" parent="android:Widget">
         <item name="android:padding">@dimen/design_default_padding</item>
-        <item name="neumorph_shadowElevation">22dp</item>
+        <item name="neumorph_shadowElevation">4dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
@@ -38,7 +38,7 @@
         <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
-        <item name="neumorph_shadowElevation">16dp</item>
+        <item name="neumorph_shadowElevation">4dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
@@ -51,7 +51,7 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:scaleType">center</item>
-        <item name="neumorph_shadowElevation">16dp</item>
+        <item name="neumorph_shadowElevation">4dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
@@ -60,7 +60,7 @@
 
     <style name="Widget.Neumorph.ImageView" parent="android:Widget">
         <item name="android:padding">@dimen/design_default_padding</item>
-        <item name="neumorph_shadowElevation">16dp</item>
+        <item name="neumorph_shadowElevation">4dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
@@ -68,7 +68,7 @@
     </style>
 
     <style name="Widget.Neumorph.TextView" parent="android:Widget">
-        <item name="neumorph_shadowElevation">16dp</item>
+        <item name="neumorph_shadowElevation">4dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
     </style>

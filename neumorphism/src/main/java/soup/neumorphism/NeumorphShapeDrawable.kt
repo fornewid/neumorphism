@@ -147,7 +147,7 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun getBoundsInternal(): Rect {
-        val offset = drawableState.shadowElevation
+        val offset = drawableState.shadowElevation + drawableState.blurProvider.defaultBlurRadius
         val bounds = super.getBounds()
         return Rect(
             bounds.left + offset,
@@ -339,7 +339,7 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun calculateOutlinePath(bounds: RectF, path: Path) {
-        val offset = drawableState.shadowElevation.toFloat()
+        val offset = drawableState.shadowElevation.toFloat() + drawableState.blurProvider.defaultBlurRadius
         val right = offset + bounds.width()
         val bottom = offset + bounds.height()
         path.reset()
@@ -356,8 +356,12 @@ open class NeumorphShapeDrawable : Drawable {
             CornerFamily.ROUNDED -> {
                 val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
                 path.addRoundRect(
-                    offset, offset, right, bottom,
-                    cornerSize, cornerSize,
+                    offset,
+                    offset,
+                    right,
+                    bottom,
+                    cornerSize,
+                    cornerSize,
                     Path.Direction.CW
                 )
             }

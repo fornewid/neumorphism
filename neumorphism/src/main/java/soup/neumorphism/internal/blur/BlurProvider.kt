@@ -17,20 +17,21 @@ import kotlin.math.roundToInt
 internal class BlurProvider(context: Context) {
 
     private val contextRef = WeakReference(context)
-    val defaultBlurRadius: Float
+    val defaultBlurRadius: Int
 
     init {
         val densityStable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            DisplayMetrics.DENSITY_DEVICE_STABLE / DisplayMetrics.DENSITY_DEFAULT.toFloat()
+            DisplayMetrics.DENSITY_DEVICE_STABLE / DisplayMetrics.DENSITY_DEFAULT
         } else {
-            context.resources.displayMetrics.density
+            context.resources.displayMetrics.density.roundToInt()
         }
+
         defaultBlurRadius = min(BlurFactor.MAX_RADIUS, densityStable * 10)
     }
 
     fun blur(
         source: Bitmap,
-        radius: Float = defaultBlurRadius,
+        radius: Int = defaultBlurRadius,
         sampling: Int = BlurFactor.DEFAULT_SAMPLING
     ): Bitmap? {
         val factor = BlurFactor(
@@ -57,10 +58,12 @@ internal class BlurProvider(context: Context) {
                 }
                 drawBitmap(source, 0f, 0f, paint)
             }
+
+        val blurRadius = factor.radius.toFloat()
         val blurBitmap: Bitmap? = try {
-            rs(bitmap, factor.radius)
+            rs(bitmap, blurRadius)
         } catch (e: RSRuntimeException) {
-            stack(bitmap, factor.radius, true)
+            stack(bitmap, blurRadius, true)
         }
         return blurBitmap?.let {
             if (factor.sampling == BlurFactor.DEFAULT_SAMPLING) {
