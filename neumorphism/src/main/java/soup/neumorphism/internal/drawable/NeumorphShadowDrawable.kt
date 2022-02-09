@@ -149,6 +149,6 @@ class NeumorphShadowDrawable(
 
     data class Style(
         val elevation: Int,
-        val margin: Int
+        val blurRadius: Int
     )
 }

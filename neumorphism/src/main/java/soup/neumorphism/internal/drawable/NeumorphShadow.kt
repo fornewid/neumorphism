@@ -8,7 +8,7 @@ import soup.neumorphism.internal.util.onCanvas
 
 internal abstract class NeumorphShadow(
     protected val state: NeumorphShapeDrawable.NeumorphShapeDrawableState,
-    protected val style: NeumorphShadowDrawable.Style,
+    protected val appearance: NeumorphShadowDrawable.Style,
     protected val theme: NeumorphShadowDrawable.Theme,
     protected val bounds: Rect
 ) {
@@ -18,29 +18,24 @@ internal abstract class NeumorphShadow(
     protected val paint by lazy {
         Paint().apply {
             style = Paint.Style.FILL
+            maskFilter = BlurMaskFilter(8f, BlurMaskFilter.Blur.NORMAL)
         }
     }
 
     protected val outlinePath = Path()
 
-    fun drawToBitmap(): Bitmap? {
-        val offset = (style.margin + style.elevation) * 2
+    fun drawToBitmap(): Bitmap = createBitmap {
+        draw(this)
+    }
+
+    protected fun createBitmap(onCanvas: Canvas.() -> Unit): Bitmap {
+        val offset = (appearance.blurRadius + appearance.elevation) * 2
 
         val width = bounds.width() + offset
         val height = bounds.height() + offset
 
-        fun Bitmap.blurred(): Bitmap? {
-            if (state.inEditMode) {
-                return this
-            }
-
-            return state.blurProvider.blur(this)
-        }
-
         return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-            .onCanvas {
-                draw(this)
-            }.blurred()
+            .onCanvas(onCanvas)
     }
 
     protected fun resetOutlinePath(extraOffset: Float = 0f) {

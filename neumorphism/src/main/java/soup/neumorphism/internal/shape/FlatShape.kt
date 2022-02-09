@@ -26,9 +26,7 @@ internal class FlatShape(
     override fun draw(canvas: Canvas, outlinePath: Path) {
         val shadow = shadowBitmap ?: return
 
-        if (outerShadow) canvas.withClipOut(outlinePath) {
-            canvas.drawShadow(shadow)
-        }
+        if (outerShadow) canvas.drawShadow(shadow)
 
         else canvas.withClip(outlinePath) {
             canvas.drawShadow(shadow)
