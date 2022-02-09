@@ -11,9 +11,6 @@ import androidx.annotation.StyleRes
 import soup.neumorphism.internal.blur.BlurProvider
 import soup.neumorphism.internal.shape.Shape
 import soup.neumorphism.internal.shape.ShapeFactory
-import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
-import soup.neumorphism.internal.util.BitmapUtils.toBitmap
-import kotlin.math.roundToInt
 
 
 open class NeumorphShapeDrawable : Drawable {
@@ -150,7 +147,7 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun getBoundsInternal(): Rect {
-        val offset = drawableState.shadowElevation.roundToInt() / 2
+        val offset = drawableState.shadowElevation
         val bounds = super.getBounds()
         return Rect(
             bounds.left + offset,
@@ -188,7 +185,7 @@ open class NeumorphShapeDrawable : Drawable {
         return drawableState.shapeType
     }
 
-    fun setShadowElevation(shadowElevation: Float) {
+    fun setShadowElevation(shadowElevation: Int) {
         if (drawableState.shadowElevation != shadowElevation) {
             drawableState.shadowElevation = shadowElevation
             updateShadowShape()
@@ -196,7 +193,7 @@ open class NeumorphShapeDrawable : Drawable {
         }
     }
 
-    fun getShadowElevation(): Float {
+    fun getShadowElevation(): Int {
         return drawableState.shadowElevation
     }
 
@@ -342,13 +339,19 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun calculateOutlinePath(bounds: RectF, path: Path) {
-        val offset = drawableState.shadowElevation / 2
+        val offset = drawableState.shadowElevation.toFloat()
         val right = offset + bounds.width()
         val bottom = offset + bounds.height()
         path.reset()
         when (drawableState.shapeAppearanceModel.getCornerFamily()) {
             CornerFamily.OVAL -> {
-                path.addOval(offset, offset, right, bottom, Path.Direction.CW)
+                path.addOval(
+                    offset,
+                    offset,
+                    right,
+                    bottom,
+                    Path.Direction.CW
+                )
             }
             CornerFamily.ROUNDED -> {
                 val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
@@ -423,7 +426,7 @@ open class NeumorphShapeDrawable : Drawable {
         var alpha: Int = 255,
         @ShapeType
         var shapeType: Int = ShapeType.DEFAULT,
-        var shadowElevation: Float = 0f,
+        var shadowElevation: Int = 0,
         var shadowColorLight: Int = Color.WHITE,
         var shadowColorDark: Int = Color.BLACK,
         var translationZ: Float = 0f,

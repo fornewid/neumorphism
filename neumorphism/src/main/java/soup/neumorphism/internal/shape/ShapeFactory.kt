@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphShapeDrawable
 import soup.neumorphism.ShapeType
+import soup.neumorphism.internal.drawable.NeumorphShape
 import soup.neumorphism.internal.shape.utils.SoftHashMap
 import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
 import soup.neumorphism.internal.util.BitmapUtils.toBitmap
@@ -25,8 +26,8 @@ internal object ShapeFactory {
         bounds: Rect
     ): Shape {
         val shape = when (val shapeType = drawableState.shapeType) {
-            ShapeType.FLAT -> FlatShape(drawableState)
-            ShapeType.PRESSED -> FlatShape(drawableState, outerShadow = false)
+            ShapeType.FLAT -> NeumorphShape(drawableState)
+            ShapeType.PRESSED -> NeumorphShape(drawableState, outerShadow = false)
             ShapeType.BASIN -> BasinShape(drawableState)
             else -> throw IllegalArgumentException("ShapeType($shapeType) is invalid.")
         }

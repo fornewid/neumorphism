@@ -11,7 +11,7 @@ class NeumorphShadowDrawable(
     private val shape: Shape
 ) : Drawable() {
 
-    private val shadowOffset = style.elevation / 2
+    private val shadowOffset = style.elevation.toFloat() / 2
 
     private val paint by lazy {
         Paint().apply {
@@ -148,7 +148,7 @@ class NeumorphShadowDrawable(
     )
 
     data class Style(
-        val elevation: Float,
+        val elevation: Int,
         val margin: Float
     )
 }

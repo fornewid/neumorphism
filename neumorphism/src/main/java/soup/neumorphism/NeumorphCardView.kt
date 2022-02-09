@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import soup.neumorphism.internal.util.NeumorphResources
+import kotlin.math.roundToInt
 
 open class NeumorphCardView @JvmOverloads constructor(
     context: Context,
@@ -32,7 +33,8 @@ open class NeumorphCardView @JvmOverloads constructor(
         val shapeType = a.getInt(R.styleable.NeumorphCardView_neumorph_shapeType, ShapeType.DEFAULT)
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphCardView_neumorph_shadowElevation, 0f
-        )
+        ).roundToInt()
+
         val shadowColorLight = NeumorphResources.getColor(
             context, a,
             R.styleable.NeumorphCardView_neumorph_shadowColorLight,
@@ -131,11 +133,11 @@ open class NeumorphCardView @JvmOverloads constructor(
         return shapeDrawable.getShapeType()
     }
 
-    fun setShadowElevation(shadowElevation: Float) {
+    fun setShadowElevation(shadowElevation: Int) {
         shapeDrawable.setShadowElevation(shadowElevation)
     }
 
-    fun getShadowElevation(): Float {
+    fun getShadowElevation(): Int {
         return shapeDrawable.getShadowElevation()
     }
 

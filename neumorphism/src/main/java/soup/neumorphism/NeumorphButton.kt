@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatButton
 import soup.neumorphism.internal.util.NeumorphResources
+import kotlin.math.roundToInt
 
 open class NeumorphButton @JvmOverloads constructor(
     context: Context,
@@ -31,7 +32,8 @@ open class NeumorphButton @JvmOverloads constructor(
 
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphButton_neumorph_shadowElevation, 0f
-        )
+        ).roundToInt()
+
         val shadowColorLight = NeumorphResources.getColor(
             context, a,
             R.styleable.NeumorphButton_neumorph_shadowColorLight,
@@ -121,11 +123,11 @@ open class NeumorphButton @JvmOverloads constructor(
         return shapeDrawable.getShapeType()
     }
 
-    fun setShadowElevation(shadowElevation: Float) {
+    fun setShadowElevation(shadowElevation: Int) {
         shapeDrawable.setShadowElevation(shadowElevation)
     }
 
-    fun getShadowElevation(): Float {
+    fun getShadowElevation(): Int {
         return shapeDrawable.getShadowElevation()
     }
 

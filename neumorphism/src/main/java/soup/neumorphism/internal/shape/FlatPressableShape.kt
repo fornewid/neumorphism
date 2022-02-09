@@ -4,11 +4,12 @@ import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.Rect
 import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
+import soup.neumorphism.internal.drawable.NeumorphShape
 import kotlin.math.abs
 
 internal class FlatPressableShape(drawableState: NeumorphShapeDrawableState) : Shape {
 
-    private val flatShape = FlatShape(drawableState)
+    private val flatShape = NeumorphShape(drawableState)
     private val pressedShape = PressedPressableShape(drawableState)
 
     override fun setDrawableState(newDrawableState: NeumorphShapeDrawableState) {
