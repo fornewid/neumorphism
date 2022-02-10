@@ -5,7 +5,7 @@
 
     <style name="Widget.Neumorph" />
 
-    <style name="Widget.Neumorph.Button" parent="Widget.AppCompat.Button">
+    <style name="Widget.Neumorph.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:textAppearance">?android:attr/textAppearanceButton</item>
         <item name="android:minHeight">72dip</item>
         <item name="android:minWidth">112dip</item>
@@ -25,7 +25,7 @@
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.Button</item>
     </style>
 
-    <style name="Widget.Neumorph.CardView" parent="android:Widget">
+    <style name="Widget.Neumorph.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="android:padding">@dimen/design_default_padding</item>
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowRadius">3dp</item>
@@ -35,7 +35,7 @@
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.CardView</item>
     </style>
 
-    <style name="Widget.Neumorph.FloatingActionButton" parent="android:Widget">
+    <style name="Widget.Neumorph.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="android:padding">@dimen/design_default_padding</item>
         <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="android:focusable">true</item>
@@ -72,7 +72,7 @@
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.ImageView</item>
     </style>
 
-    <style name="Widget.Neumorph.TextView" parent="android:Widget">
+    <style name="Widget.Neumorph.TextView" parent="Widget.MaterialComponents.TextView">
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>

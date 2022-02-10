@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ThemeOverlay.Neumorph" parent="ThemeOverlay.AppCompat" />
+    <style name="ThemeOverlay.Neumorph" parent="ThemeOverlay.MaterialComponents" />
 
-    <style name="ThemeOverlay.Neumorph.Light" parent="ThemeOverlay.AppCompat.Light">
+    <style name="ThemeOverlay.Neumorph.Light" parent="ThemeOverlay.MaterialComponents.Light">
         <item name="colorShadowLight">@color/design_default_color_shadow_light</item>
         <item name="colorShadowDark">@color/design_default_color_shadow_dark</item>
 
@@ -15,7 +15,7 @@
         <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
     </style>
 
-    <style name="ThemeOverlay.Neumorph.Dark" parent="ThemeOverlay.AppCompat.Dark">
+    <style name="ThemeOverlay.Neumorph.Dark" parent="ThemeOverlay.MaterialComponents.Dark">
         <item name="colorShadowLight">@color/design_dark_default_color_shadow_light</item>
         <item name="colorShadowDark">@color/design_dark_default_color_shadow_dark</item>
 
@@ -27,7 +27,7 @@
         <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
     </style>
 
-    <style name="ThemeOverlay.Neumorph.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+    <style name="ThemeOverlay.Neumorph.ActionBar" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="colorShadowLight">@color/design_default_color_shadow_light</item>
         <item name="colorShadowDark">@color/design_default_color_shadow_dark</item>
 
@@ -39,7 +39,7 @@
         <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
     </style>
 
-    <style name="ThemeOverlay.Neumorph.Dark.ActionBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="ThemeOverlay.Neumorph.Dark.ActionBar" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="colorShadowLight">@color/design_dark_default_color_shadow_light</item>
         <item name="colorShadowDark">@color/design_dark_default_color_shadow_dark</item>
 

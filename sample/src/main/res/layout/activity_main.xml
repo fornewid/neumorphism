@@ -52,8 +52,6 @@
         app:layout_constraintEnd_toStartOf="@id/pressed_card"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview" >
-
-
     </soup.neumorphism.NeumorphCardView>
 
     <soup.neumorphism.NeumorphCardView

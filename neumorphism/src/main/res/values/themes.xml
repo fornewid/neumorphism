@@ -7,15 +7,9 @@
 
     <style name="Theme.Neumorph.Light.DarkActionBar" parent="Base.Theme.Neumorph.Light.DarkActionBar" />
 
-    <style name="Theme.Neumorph.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+    <style name="Theme.Neumorph.NoActionBar" parent="Base.Theme.Neumorph.NoActionBar"/>
 
-    <style name="Theme.Neumorph.Light.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+    <style name="Theme.Neumorph.Light.NoActionBar" parent="Base.Theme.Neumorph.Light.NoActionBar"/>
 
     <style name="Theme.Neumorph.DialogWhenLarge" parent="Base.Theme.Neumorph.DialogWhenLarge" />
 

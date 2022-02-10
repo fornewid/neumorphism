@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
 import androidx.annotation.ColorInt
-import androidx.appcompat.widget.AppCompatButton
+import com.google.android.material.button.MaterialButton
 import soup.neumorphism.internal.util.NeumorphResources
 import kotlin.math.roundToInt
 
@@ -15,7 +15,7 @@ open class NeumorphButton @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.neumorphButtonStyle,
     defStyleRes: Int = R.style.Widget_Neumorph_Button
-) : AppCompatButton(context, attrs, defStyleAttr) {
+) : MaterialButton(context, attrs, defStyleAttr) {
 
     private var isInitialized: Boolean = false
     private val shapeDrawable: NeumorphShapeDrawable
@@ -71,11 +71,11 @@ open class NeumorphButton @JvmOverloads constructor(
         isInitialized = true
     }
 
-    override fun setBackground(drawable: Drawable?) {
+    override fun setBackground(drawable: Drawable) {
         setBackgroundDrawable(drawable)
     }
 
-    override fun setBackgroundDrawable(drawable: Drawable?) {
+    override fun setBackgroundDrawable(drawable: Drawable) {
         Log.i(LOG_TAG, "Setting a custom background is not supported.")
     }
 
@@ -83,7 +83,7 @@ open class NeumorphButton @JvmOverloads constructor(
         shapeDrawable.setBackgroundDrawable(drawable)
     }
 
-    private fun setBackgroundInternal(drawable: Drawable?) {
+    private fun setBackgroundInternal(drawable: Drawable) {
         super.setBackgroundDrawable(drawable)
     }
 
@@ -91,7 +91,7 @@ open class NeumorphButton @JvmOverloads constructor(
         shapeDrawable.setShapeAppearanceModel(shapeAppearanceModel)
     }
 
-    fun getShapeAppearanceModel(): NeumorphShapeAppearanceModel {
+    fun getNeumorphShapeAppearanceModel(): NeumorphShapeAppearanceModel {
         return shapeDrawable.getShapeAppearanceModel()
     }
 
@@ -128,11 +128,11 @@ open class NeumorphButton @JvmOverloads constructor(
         return shapeDrawable.getFillColor()
     }
 
-    fun setStrokeColor(strokeColor: ColorStateList?) {
+    fun setNeumorphStrokeColor(strokeColor: ColorStateList?) {
         shapeDrawable.setStrokeColor(strokeColor)
     }
 
-    fun getStrokeColor(): ColorStateList? {
+    fun getNeumorphStrokeColor(): ColorStateList? {
         return shapeDrawable.getStrokeColor()
     }
 
@@ -140,7 +140,7 @@ open class NeumorphButton @JvmOverloads constructor(
         shapeDrawable.setStrokeWidth(strokeWidth)
     }
 
-    fun getStrokeWidth(): Float {
+    fun getNeumorphStrokeWidth(): Float {
         return shapeDrawable.getStrokeWidth()
     }
 

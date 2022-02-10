@@ -8,6 +8,7 @@ import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
+import com.google.android.material.textview.MaterialTextView
 import soup.neumorphism.internal.util.NeumorphResources
 import kotlin.math.max
 
@@ -16,7 +17,7 @@ open class NeumorphTextView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.neumorphTextViewStyle,
     defStyleRes: Int = R.style.Widget_Neumorph_TextView
-) : AppCompatTextView(context, attrs, defStyleAttr) {
+) : MaterialTextView(context, attrs, defStyleAttr) {
 
     private val shadowElevation: Float
     private val shadowColorLight: Int

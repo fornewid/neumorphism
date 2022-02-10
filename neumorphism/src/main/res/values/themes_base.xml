@@ -27,7 +27,17 @@
 
     <style name="Base.Theme.Neumorph.Light.DarkActionBar" parent="Base.Theme.Neumorph.Light" />
 
-    <style name="Base.Theme.Neumorph.CompactMenu" parent="" />
+    <style name="Base.Theme.Neumorph.NoActionBar" parent="Base.Theme.Neumorph" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Base.Theme.Neumorph.Light.NoActionBar" parent="Base.Theme.Neumorph.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Base.Theme.Neumorph.CompactMenu" parent="Base.Theme.Neumorph" />
 
     <style name="Base.Theme.Neumorph.DialogWhenLarge" parent="Theme.Neumorph" />
 

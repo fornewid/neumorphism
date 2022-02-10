@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Platform.Neumorph" parent="Theme.AppCompat" />
+    <style name="Platform.Neumorph" parent="Theme.MaterialComponents" />
 
-    <style name="Platform.Neumorph.Light" parent="Theme.AppCompat.Light" />
+    <style name="Platform.Neumorph.Light" parent="Theme.MaterialComponents.Light" />
 
     <style name="Base.V21.Theme.Neumorph.Bridge" parent="Platform.Neumorph">
         <item name="colorShadowLight">@color/design_dark_default_color_shadow_light</item>
@@ -29,7 +29,7 @@
         <item name="neumorphTextViewStyle">@style/Widget.Neumorph.TextView</item>
     </style>
 
-    <style name="Base.V21.Theme.Neumorph.Light.DarkActionBar.Bridge" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Base.V21.Theme.Neumorph.Light.DarkActionBar.Bridge" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorShadowLight">@color/design_default_color_shadow_light</item>
         <item name="colorShadowDark">@color/design_default_color_shadow_dark</item>
 
