@@ -12,19 +12,18 @@ open class NeumorphShapeAppearanceModel {
 
     class Builder {
 
-        @CornerFamily
-        var cornerFamily: Int = CornerFamily.ROUNDED
+        var cornerFamily: CornerFamily = CornerFamily.ROUNDED
         var cornerSize: Float = 0f
 
         fun setAllCorners(
-            @CornerFamily cornerFamily: Int,
+            cornerFamily: CornerFamily,
             @Dimension cornerSize: Float
         ): Builder {
             return setAllCorners(cornerFamily)
                 .setAllCornerSizes(cornerSize)
         }
 
-        fun setAllCorners(@CornerFamily cornerFamily: Int): Builder {
+        fun setAllCorners(cornerFamily: CornerFamily): Builder {
             return apply {
                 this.cornerFamily = cornerFamily
             }
@@ -41,8 +40,7 @@ open class NeumorphShapeAppearanceModel {
         }
     }
 
-    @CornerFamily
-    private val cornerFamily: Int
+    private val cornerFamily: CornerFamily
     private val cornerSize: Float
 
     private constructor(builder: Builder) {
@@ -55,8 +53,7 @@ open class NeumorphShapeAppearanceModel {
         cornerSize = 0f
     }
 
-    @CornerFamily
-    fun getCornerFamily(): Int {
+    fun getCornerFamily(): CornerFamily {
         return cornerFamily
     }
 
@@ -77,7 +74,7 @@ open class NeumorphShapeAppearanceModel {
     }
 
     override fun hashCode(): Int {
-        var result = cornerFamily
+        var result = cornerFamily.hashCode()
         result = 31 * result + cornerSize.hashCode()
         return result
     }
@@ -121,8 +118,11 @@ open class NeumorphShapeAppearanceModel {
             try {
                 val cornerFamily = a.getInt(
                     R.styleable.NeumorphShapeAppearance_neumorph_cornerFamily,
-                    CornerFamily.ROUNDED
-                )
+                    CornerFamily.ROUNDED.ordinal
+                ).let { ordinal ->
+                    CornerFamily.values()[ordinal]
+                }
+
                 val cornerSize =
                     getCornerSize(
                         a,

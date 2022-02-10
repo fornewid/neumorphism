@@ -5,8 +5,8 @@
     <color name="design_default_color_shadow_dark">#d9d9d9</color>
 
     <!-- Dark theme colors. -->
-    <color name="design_dark_default_color_shadow_light">#2c2c2c</color>
-    <color name="design_dark_default_color_shadow_dark">#111111</color>
+    <color name="design_dark_default_color_shadow_light">#802C2C2C</color>
+    <color name="design_dark_default_color_shadow_dark">#80111111</color>
 
     <!-- Default padding and inset to avoid shadow clipping -->
     <dimen name="design_default_padding">12dp</dimen>
@@ -14,12 +14,10 @@
     <dimen name="design_btn_padding_right">32dp</dimen>
     <dimen name="design_btn_padding_top">12dp</dimen>
     <dimen name="design_btn_padding_bottom">12dp</dimen>
-    <dimen name="design_default_inset">12dp</dimen>
 
     <!-- Default corner radius -->
-    <dimen name="design_default_corner_radius">24dp</dimen>
+    <dimen name="design_default_corner_radius">16dp</dimen>
 
-    <dimen name="edit_text_underline_inset_bottom">4dp</dimen>
     <dimen name="edit_text_underline_height">5dp</dimen>
     <dimen name="edit_text_underline_corner_size">2dp</dimen>
     <dimen name="edit_text_underline_elevation">2dp</dimen>

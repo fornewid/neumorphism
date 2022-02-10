@@ -13,12 +13,8 @@
         <enum name="pressed" value="1" />
         <enum name="basin" value="2" />
     </attr>
-    <attr name="neumorph_inset" format="dimension" />
-    <attr name="neumorph_insetStart" format="dimension" />
-    <attr name="neumorph_insetEnd" format="dimension" />
-    <attr name="neumorph_insetTop" format="dimension" />
-    <attr name="neumorph_insetBottom" format="dimension" />
     <attr name="neumorph_shadowElevation" format="dimension" />
+    <attr name="neumorph_shadowRadius" format="dimension" />
     <attr name="neumorph_shadowColorLight" format="color" />
     <attr name="neumorph_shadowColorDark" format="color" />
     <attr name="neumorph_shapeAppearance" format="reference" />
@@ -29,12 +25,8 @@
         <attr name="neumorph_strokeColor" />
         <attr name="neumorph_strokeWidth" />
         <attr name="neumorph_shapeType" />
-        <attr name="neumorph_inset" />
-        <attr name="neumorph_insetStart" />
-        <attr name="neumorph_insetEnd" />
-        <attr name="neumorph_insetTop" />
-        <attr name="neumorph_insetBottom" />
         <attr name="neumorph_shadowElevation" />
+        <attr name="neumorph_shadowRadius" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
         <attr name="neumorph_shapeAppearance" />
@@ -47,12 +39,8 @@
         <attr name="neumorph_strokeColor" />
         <attr name="neumorph_strokeWidth" />
         <attr name="neumorph_shapeType" />
-        <attr name="neumorph_inset" />
-        <attr name="neumorph_insetStart" />
-        <attr name="neumorph_insetEnd" />
-        <attr name="neumorph_insetTop" />
-        <attr name="neumorph_insetBottom" />
         <attr name="neumorph_shadowElevation" />
+        <attr name="neumorph_shadowRadius" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
         <attr name="neumorph_shapeAppearance" />
@@ -65,12 +53,8 @@
         <attr name="neumorph_strokeColor" />
         <attr name="neumorph_strokeWidth" />
         <attr name="neumorph_shapeType" />
-        <attr name="neumorph_inset" />
-        <attr name="neumorph_insetStart" />
-        <attr name="neumorph_insetEnd" />
-        <attr name="neumorph_insetTop" />
-        <attr name="neumorph_insetBottom" />
         <attr name="neumorph_shadowElevation" />
+        <attr name="neumorph_shadowRadius" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
         <attr name="neumorph_shapeAppearance" />
@@ -83,12 +67,8 @@
         <attr name="neumorph_strokeColor" />
         <attr name="neumorph_strokeWidth" />
         <attr name="neumorph_shapeType" />
-        <attr name="neumorph_inset" />
-        <attr name="neumorph_insetStart" />
-        <attr name="neumorph_insetEnd" />
-        <attr name="neumorph_insetTop" />
-        <attr name="neumorph_insetBottom" />
         <attr name="neumorph_shadowElevation" />
+        <attr name="neumorph_shadowRadius" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
         <attr name="neumorph_shapeAppearance" />
@@ -101,12 +81,8 @@
         <attr name="neumorph_strokeColor" />
         <attr name="neumorph_strokeWidth" />
         <attr name="neumorph_shapeType" />
-        <attr name="neumorph_inset" />
-        <attr name="neumorph_insetStart" />
-        <attr name="neumorph_insetEnd" />
-        <attr name="neumorph_insetTop" />
-        <attr name="neumorph_insetBottom" />
         <attr name="neumorph_shadowElevation" />
+        <attr name="neumorph_shadowRadius" />
         <attr name="neumorph_shadowColorLight" />
         <attr name="neumorph_shadowColorDark" />
         <attr name="neumorph_shapeAppearance" />

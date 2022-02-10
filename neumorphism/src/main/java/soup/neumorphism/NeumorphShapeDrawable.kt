@@ -8,11 +8,9 @@ import android.util.AttributeSet
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
-import soup.neumorphism.internal.blur.BlurProvider
+import soup.neumorphism.internal.drawable.NeumorphShadow
 import soup.neumorphism.internal.shape.Shape
 import soup.neumorphism.internal.shape.ShapeFactory
-import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
-import soup.neumorphism.internal.util.BitmapUtils.toBitmap
 
 
 open class NeumorphShapeDrawable : Drawable {
@@ -39,22 +37,17 @@ open class NeumorphShapeDrawable : Drawable {
     private var backgroundRect: RectF? = null
     private var backgroundBitmap: Bitmap? = null
 
-    constructor(context: Context) : this(NeumorphShapeAppearanceModel(), BlurProvider(context))
+    private var shadowPaint = Paint()
 
     constructor(
         context: Context,
         attrs: AttributeSet?,
         @AttrRes defStyleAttr: Int,
         @StyleRes defStyleRes: Int
-    ) : this(
-        NeumorphShapeAppearanceModel.builder(context, attrs, defStyleAttr, defStyleRes).build(),
-        BlurProvider(context)
-    )
+    ) : this(NeumorphShapeAppearanceModel.builder(context, attrs, defStyleAttr, defStyleRes).build())
 
-    internal constructor(
-        shapeAppearanceModel: NeumorphShapeAppearanceModel,
-        blurProvider: BlurProvider
-    ) : this(NeumorphShapeDrawableState(shapeAppearanceModel, blurProvider))
+    internal constructor(shapeAppearanceModel: NeumorphShapeAppearanceModel)
+            : this(NeumorphShapeDrawableState(shapeAppearanceModel))
 
     private constructor(drawableState: NeumorphShapeDrawableState) : super() {
         this.drawableState = drawableState
@@ -67,7 +60,6 @@ open class NeumorphShapeDrawable : Drawable {
     override fun mutate(): Drawable {
         val newDrawableState = drawableState.copy()
         drawableState = newDrawableState
-        shadow?.setDrawableState(newDrawableState)
         return this
     }
 
@@ -149,15 +141,14 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun getBoundsInternal(): Rect {
-        return drawableState.inset.let { inset ->
-            val bounds = super.getBounds()
-            Rect(
-                bounds.left + inset.left,
-                bounds.top + inset.top,
-                bounds.right - inset.right,
-                bounds.bottom - inset.bottom
-            )
-        }
+        val offset = drawableState.shadowElevation + drawableState.shadowRadius
+        val bounds = super.getBounds()
+        return Rect(
+            bounds.left + offset,
+            bounds.top + offset,
+            bounds.right - offset,
+            bounds.bottom - offset
+        )
     }
 
     private fun getBoundsAsRectF(): RectF {
@@ -165,13 +156,7 @@ open class NeumorphShapeDrawable : Drawable {
         return rectF
     }
 
-    fun setInset(left: Int, top: Int, right: Int, bottom: Int) {
-        drawableState.inset.set(left, top, right, bottom)
-        updateShadowShape()
-        invalidateSelf()
-    }
-
-    fun setShapeType(@ShapeType shapeType: Int) {
+    fun setShapeType(shapeType: ShapeType) {
         if (drawableState.shapeType != shapeType) {
             drawableState.shapeType = shapeType
             updateShadowShape()
@@ -186,15 +171,31 @@ open class NeumorphShapeDrawable : Drawable {
             return
         }
 
-        shadow = ShapeFactory.createReusableShape(drawableState, internalBounds)
+        val appearance = NeumorphShadow.Style(
+            drawableState.shadowElevation,
+            drawableState.shadowRadius,
+            drawableState.shapeAppearanceModel.getCornerFamily(),
+            drawableState.shapeAppearanceModel.getCornerSize()
+        )
+
+        val theme = NeumorphShadow.Theme(
+            drawableState.shadowColorLight,
+            drawableState.shadowColorDark
+        )
+
+        shadow = ShapeFactory.createReusableShape(
+            appearance,
+            theme,
+            drawableState.shapeType,
+            internalBounds
+        )
     }
 
-    @ShapeType
-    fun getShapeType(): Int {
+    fun getShapeType(): ShapeType {
         return drawableState.shapeType
     }
 
-    fun setShadowElevation(shadowElevation: Float) {
+    fun setShadowElevation(shadowElevation: Int) {
         if (drawableState.shadowElevation != shadowElevation) {
             drawableState.shadowElevation = shadowElevation
             updateShadowShape()
@@ -202,8 +203,20 @@ open class NeumorphShapeDrawable : Drawable {
         }
     }
 
-    fun getShadowElevation(): Float {
+    fun getShadowElevation(): Int {
         return drawableState.shadowElevation
+    }
+
+    fun setShadowRadius(shadowRadius: Int) {
+        if (drawableState.shadowRadius != shadowRadius) {
+            drawableState.shadowRadius = shadowRadius
+            updateShadowShape()
+            invalidateSelf()
+        }
+    }
+
+    fun getShadowRadius(): Int {
+        return drawableState.shadowRadius
     }
 
     fun setShadowColorLight(@ColorInt shadowColor: Int) {
@@ -296,7 +309,13 @@ open class NeumorphShapeDrawable : Drawable {
             drawBackgroundBitmap(canvas)
         }
 
-        shadow?.draw(canvas, outlinePath)
+        val elevation = drawableState.shadowElevation
+        val z = drawableState.shadowElevation + drawableState.translationZ
+
+        val pressPercentage = z / elevation
+        shadowPaint.alpha = (255 * pressPercentage).toInt()
+
+        shadow?.draw(canvas, shadowPaint)
 
         if (hasStroke()) {
             drawStrokeShape(canvas)
@@ -310,7 +329,6 @@ open class NeumorphShapeDrawable : Drawable {
     private fun drawBackgroundBitmap(canvas: Canvas) {
         val rect = backgroundRect ?: return
         val bitmap = backgroundBitmap ?: return
-
 
         canvas.drawBitmap(bitmap, rect.left, rect.top, null)
     }
@@ -348,20 +366,29 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun calculateOutlinePath(bounds: RectF, path: Path) {
-        val left = drawableState.inset.left.toFloat()
-        val top = drawableState.inset.top.toFloat()
-        val right = left + bounds.width()
-        val bottom = top + bounds.height()
+        val offset = drawableState.shadowElevation.toFloat() + drawableState.shadowRadius
+        val right = offset + bounds.width()
+        val bottom = offset + bounds.height()
         path.reset()
         when (drawableState.shapeAppearanceModel.getCornerFamily()) {
             CornerFamily.OVAL -> {
-                path.addOval(left, top, right, bottom, Path.Direction.CW)
+                path.addOval(
+                    offset,
+                    offset,
+                    right,
+                    bottom,
+                    Path.Direction.CW
+                )
             }
             CornerFamily.ROUNDED -> {
                 val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
                 path.addRoundRect(
-                    left, top, right, bottom,
-                    cornerSize, cornerSize,
+                    offset,
+                    offset,
+                    right,
+                    bottom,
+                    cornerSize,
+                    cornerSize,
                     Path.Direction.CW
                 )
             }
@@ -421,17 +448,15 @@ open class NeumorphShapeDrawable : Drawable {
 
     internal data class NeumorphShapeDrawableState(
         var shapeAppearanceModel: NeumorphShapeAppearanceModel,
-        val blurProvider: BlurProvider,
         var inEditMode: Boolean = false,
-        var inset: Rect = Rect(),
         var backgroundDrawable: Drawable? = null,
         var fillColor: ColorStateList? = null,
         var strokeColor: ColorStateList? = null,
         var strokeWidth: Float = 0f,
         var alpha: Int = 255,
-        @ShapeType
-        var shapeType: Int = ShapeType.DEFAULT,
-        var shadowElevation: Float = 0f,
+        var shapeType: ShapeType = ShapeType.FLAT,
+        var shadowElevation: Int = 0,
+        var shadowRadius: Int = 10,
         var shadowColorLight: Int = Color.WHITE,
         var shadowColorDark: Int = Color.BLACK,
         var translationZ: Float = 0f,
