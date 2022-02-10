@@ -27,6 +27,7 @@
 
     <style name="Widget.Neumorph.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="android:padding">@dimen/design_default_padding</item>
+        <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowRadius">3dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
@@ -35,7 +36,7 @@
         <item name="neumorph_shapeAppearance">@style/ShapeAppearance.Neumorph.CardView</item>
     </style>
 
-    <style name="Widget.Neumorph.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+    <style name="Widget.Neumorph.FloatingActionButton" parent="android:Widget">
         <item name="android:padding">@dimen/design_default_padding</item>
         <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="android:focusable">true</item>
@@ -64,6 +65,7 @@
 
     <style name="Widget.Neumorph.ImageView" parent="android:Widget">
         <item name="android:padding">@dimen/design_default_padding</item>
+        <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowRadius">3dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
@@ -73,6 +75,7 @@
     </style>
 
     <style name="Widget.Neumorph.TextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:stateListAnimator">@animator/button_state_list_anim_neumorph</item>
         <item name="neumorph_shadowElevation">6dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
@@ -83,8 +86,8 @@
     <style name="ShapeAppearance.Neumorph" />
 
     <style name="ShapeAppearance.Neumorph.Button" parent="">
-        <item name="neumorph_cornerFamily">rounded</item>
-        <item name="neumorph_cornerSize">@dimen/design_default_corner_radius</item>
+        <item name="neumorph_cornerFamily">oval</item>
+        <item name="neumorph_cornerSize">0dp</item>
     </style>
 
     <style name="ShapeAppearance.Neumorph.CardView" parent="">
@@ -106,5 +109,4 @@
         <item name="neumorph_cornerFamily">rounded</item>
         <item name="neumorph_cornerSize">@dimen/design_default_corner_radius</item>
     </style>
-
 </resources>

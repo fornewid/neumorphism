@@ -1,8 +1,10 @@
 package soup.neumorphism.internal.drawable
 
 import android.graphics.Path
+import android.graphics.Path.Direction.CW
 import android.graphics.Rect
 import soup.neumorphism.CornerFamily
+import kotlin.math.min
 
 object ShadowUtils {
 
@@ -10,25 +12,22 @@ object ShadowUtils {
         appearance: NeumorphShadow.Appearance,
         bounds: Rect
     ): Path {
-        val path = Path()
-
         val offset = appearance.elevation.toFloat() + appearance.radius
         val right = offset + bounds.width()
         val bottom = offset + bounds.height()
 
-        when (appearance.cornerFamily) {
-            CornerFamily.OVAL -> {
-                path.addOval(offset, offset, right, bottom, Path.Direction.CW)
-            }
+        val maxCornerRadius = min(
+        bounds.width() / 2f,
+        bounds.height() / 2f
+        )
 
-            CornerFamily.ROUNDED -> {
-                val cornerSize = appearance.cornerSize
-                path.addRoundRect(offset, offset, right, bottom, cornerSize, cornerSize,
-                    Path.Direction.CW
-                )
-            }
+        val cornerRadius = when (appearance.cornerFamily) {
+            CornerFamily.ROUNDED -> min(maxCornerRadius, appearance.cornerSize)
+            CornerFamily.OVAL -> maxCornerRadius
         }
 
-        return path
+        return Path().apply {
+            addRoundRect(offset, offset, right, bottom, cornerRadius, cornerRadius, CW)
+        }
     }
 }
