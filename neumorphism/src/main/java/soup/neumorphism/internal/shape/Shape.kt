@@ -6,5 +6,5 @@ import android.graphics.Path
 import android.graphics.Rect
 
 interface Shape {
-    fun draw(canvas: Canvas, paint: Paint?)
+    fun draw(canvas: Canvas, pressPercentage: Float)
 }

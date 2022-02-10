@@ -11,6 +11,7 @@ import androidx.annotation.StyleRes
 import soup.neumorphism.internal.drawable.NeumorphShadow
 import soup.neumorphism.internal.shape.Shape
 import soup.neumorphism.internal.shape.ShapeFactory
+import kotlin.math.abs
 
 
 open class NeumorphShapeDrawable : Drawable {
@@ -309,13 +310,9 @@ open class NeumorphShapeDrawable : Drawable {
             drawBackgroundBitmap(canvas)
         }
 
-        val elevation = drawableState.shadowElevation
-        val z = drawableState.shadowElevation + drawableState.translationZ
-
-        val pressPercentage = z / elevation
-        shadowPaint.alpha = (255 * pressPercentage).toInt()
-
-        shadow?.draw(canvas, shadowPaint)
+        val minTranslationZ = -18.74f
+        val pressPercentage = abs(drawableState.translationZ) / abs(minTranslationZ)
+        shadow?.draw(canvas, pressPercentage)
 
         if (hasStroke()) {
             drawStrokeShape(canvas)

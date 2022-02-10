@@ -27,18 +27,16 @@ object ShapeFactory {
     ): Shape {
 
         val shape = when (shapeType) {
-            ShapeType.FLAT -> NeumorphShape(
+            ShapeType.FLAT -> NeumorphFlatShape(
                 appearance,
                 theme,
-                bounds,
-                isOuterShadow = true
+                bounds
             )
 
-            ShapeType.PRESSED -> NeumorphShape(
+            ShapeType.PRESSED -> NeumorphPressedShape(
                 appearance,
                 theme,
-                bounds,
-                isOuterShadow = false
+                bounds
             )
 
             ShapeType.BASIN -> NeumorphBasinShape(

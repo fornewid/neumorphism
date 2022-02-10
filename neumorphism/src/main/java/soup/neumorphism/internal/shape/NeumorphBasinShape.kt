@@ -26,8 +26,8 @@ class NeumorphBasinShape(
         bounds
     )
 
-    override fun draw(canvas: Canvas, paint: Paint?) {
-        outerShadow.draw(canvas, paint)
-        innerShadow.draw(canvas, null)
+    override fun draw(canvas: Canvas, pressPercentage: Float) {
+        outerShadow.draw(canvas, pressPercentage)
+        innerShadow.draw(canvas, pressPercentage)
     }
 }

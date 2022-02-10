@@ -156,6 +156,7 @@ open class NeumorphButton @JvmOverloads constructor(
 
     override fun setTranslationZ(translationZ: Float) {
         super.setTranslationZ(translationZ)
+        val elevation = elevation
         if (isInitialized) {
             shapeDrawable.setTranslationZ(translationZ)
         }
