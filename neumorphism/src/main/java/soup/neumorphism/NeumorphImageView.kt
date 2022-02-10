@@ -37,6 +37,11 @@ open class NeumorphImageView @JvmOverloads constructor(
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphImageView_neumorph_shadowElevation, 0f
         ).roundToInt()
+
+        val shadowRadius = a.getDimension(
+            R.styleable.NeumorphImageView_neumorph_shadowRadius, 15f
+        ).roundToInt()
+
         val shadowColorLight = NeumorphResources.getColor(
             context, a,
             R.styleable.NeumorphImageView_neumorph_shadowColorLight,
@@ -53,6 +58,7 @@ open class NeumorphImageView @JvmOverloads constructor(
             setInEditMode(isInEditMode)
             setShapeType(shapeType)
             setShadowElevation(shadowElevation)
+            setShadowRadius(shadowRadius)
             setShadowColorLight(shadowColorLight)
             setShadowColorDark(shadowColorDark)
             setBackgroundDrawable(backgroundDrawable)
@@ -128,8 +134,16 @@ open class NeumorphImageView @JvmOverloads constructor(
         shapeDrawable.setShadowElevation(shadowElevation)
     }
 
-    fun getShadowElevation(): Int {
+    fun getNeumorphShadowRadius(): Int {
         return shapeDrawable.getShadowElevation()
+    }
+
+    fun setNeumorphShadowRadius(shadowRadius: Int) {
+        shapeDrawable.setShadowRadius(shadowRadius)
+    }
+
+    fun getShadowRadius(): Int {
+        return shapeDrawable.getShadowRadius()
     }
 
     fun setShadowColorLight(@ColorInt shadowColor: Int) {

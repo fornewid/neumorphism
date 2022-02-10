@@ -13,7 +13,7 @@ class NeumorphInnerShadow(
         style = Paint.Style.STROKE
         strokeWidth = appearance.elevation.toFloat()
         maskFilter = BlurMaskFilter(
-            appearance.blurRadius.toFloat(),
+            appearance.radius.toFloat(),
             BlurMaskFilter.Blur.NORMAL
         )
     }

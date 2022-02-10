@@ -141,7 +141,7 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun getBoundsInternal(): Rect {
-        val offset = drawableState.shadowElevation + drawableState.blurRadius
+        val offset = drawableState.shadowElevation + drawableState.shadowRadius
         val bounds = super.getBounds()
         return Rect(
             bounds.left + offset,
@@ -173,7 +173,7 @@ open class NeumorphShapeDrawable : Drawable {
 
         val appearance = NeumorphShadow.Style(
             drawableState.shadowElevation,
-            drawableState.blurRadius,
+            drawableState.shadowRadius,
             drawableState.shapeAppearanceModel.getCornerFamily(),
             drawableState.shapeAppearanceModel.getCornerSize()
         )
@@ -205,6 +205,18 @@ open class NeumorphShapeDrawable : Drawable {
 
     fun getShadowElevation(): Int {
         return drawableState.shadowElevation
+    }
+
+    fun setShadowRadius(shadowRadius: Int) {
+        if (drawableState.shadowRadius != shadowRadius) {
+            drawableState.shadowRadius = shadowRadius
+            updateShadowShape()
+            invalidateSelf()
+        }
+    }
+
+    fun getShadowRadius(): Int {
+        return drawableState.shadowRadius
     }
 
     fun setShadowColorLight(@ColorInt shadowColor: Int) {
@@ -318,7 +330,6 @@ open class NeumorphShapeDrawable : Drawable {
         val rect = backgroundRect ?: return
         val bitmap = backgroundBitmap ?: return
 
-
         canvas.drawBitmap(bitmap, rect.left, rect.top, null)
     }
 
@@ -355,7 +366,7 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun calculateOutlinePath(bounds: RectF, path: Path) {
-        val offset = drawableState.shadowElevation.toFloat() + drawableState.blurRadius
+        val offset = drawableState.shadowElevation.toFloat() + drawableState.shadowRadius
         val right = offset + bounds.width()
         val bottom = offset + bounds.height()
         path.reset()
@@ -445,7 +456,7 @@ open class NeumorphShapeDrawable : Drawable {
         var alpha: Int = 255,
         var shapeType: ShapeType = ShapeType.FLAT,
         var shadowElevation: Int = 0,
-        var blurRadius: Int = 10,
+        var shadowRadius: Int = 10,
         var shadowColorLight: Int = Color.WHITE,
         var shadowColorDark: Int = Color.BLACK,
         var translationZ: Float = 0f,

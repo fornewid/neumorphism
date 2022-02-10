@@ -39,6 +39,10 @@ open class NeumorphCardView @JvmOverloads constructor(
             R.styleable.NeumorphCardView_neumorph_shadowElevation, 0f
         ).roundToInt()
 
+        val shadowRadius = a.getDimension(
+            R.styleable.NeumorphCardView_neumorph_shadowRadius, 15f
+        ).roundToInt()
+
         val shadowColorLight = NeumorphResources.getColor(
             context, a,
             R.styleable.NeumorphCardView_neumorph_shadowColorLight,
@@ -55,6 +59,7 @@ open class NeumorphCardView @JvmOverloads constructor(
             setInEditMode(isInEditMode)
             setShapeType(shapeType)
             setShadowElevation(shadowElevation)
+            setShadowRadius(shadowRadius)
             setShadowColorLight(shadowColorLight)
             setShadowColorDark(shadowColorDark)
             setBackgroundDrawable(backgroundDrawable)
@@ -142,6 +147,14 @@ open class NeumorphCardView @JvmOverloads constructor(
 
     fun getShadowElevation(): Int {
         return shapeDrawable.getShadowElevation()
+    }
+
+    fun setNeumorphShadowRadius(shadowRadius: Int) {
+        shapeDrawable.setShadowRadius(shadowRadius)
+    }
+
+    fun getNeumorphShadowRadius(): Int {
+        return shapeDrawable.getShadowRadius()
     }
 
     fun setShadowColorLight(@ColorInt shadowColor: Int) {

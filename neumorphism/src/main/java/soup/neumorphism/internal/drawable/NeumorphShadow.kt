@@ -4,7 +4,6 @@ import android.graphics.*
 import android.graphics.Path.Direction.CW
 import android.os.Build
 import soup.neumorphism.CornerFamily
-import soup.neumorphism.NeumorphShapeDrawable
 import soup.neumorphism.internal.util.onCanvas
 
 abstract class NeumorphShadow(
@@ -14,7 +13,7 @@ abstract class NeumorphShadow(
 ) {
 
     protected val outlinePath get() = Path().apply {
-        val offset = appearance.elevation.toFloat() + appearance.blurRadius
+        val offset = appearance.elevation.toFloat() + appearance.radius
         val right = offset + bounds.width()
         val bottom = offset + bounds.height()
 
@@ -42,7 +41,7 @@ abstract class NeumorphShadow(
     }
 
     private fun createBitmap(onCanvas: Canvas.() -> Unit): Bitmap {
-        val offset = (appearance.blurRadius + appearance.elevation) * 2
+        val offset = (appearance.radius + appearance.elevation) * 2
 
         val width = bounds.width() + offset
         val height = bounds.height() + offset
@@ -62,7 +61,7 @@ abstract class NeumorphShadow(
 
     data class Style(
         val elevation: Int,
-        val blurRadius: Int,
+        val radius: Int,
         val cornerFamily: CornerFamily,
         val cornerSize: Float
     )

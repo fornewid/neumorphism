@@ -18,6 +18,7 @@
         <item name="android:clickable">true</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="neumorph_shadowElevation">6dp</item>
+        <item name="neumorph_shadowRadius">3dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
@@ -27,6 +28,7 @@
     <style name="Widget.Neumorph.CardView" parent="android:Widget">
         <item name="android:padding">@dimen/design_default_padding</item>
         <item name="neumorph_shadowElevation">6dp</item>
+        <item name="neumorph_shadowRadius">3dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
@@ -39,6 +41,7 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="neumorph_shadowElevation">6dp</item>
+        <item name="neumorph_shadowRadius">3dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
@@ -52,6 +55,7 @@
         <item name="android:clickable">true</item>
         <item name="android:scaleType">center</item>
         <item name="neumorph_shadowElevation">6dp</item>
+        <item name="neumorph_shadowRadius">3dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>
@@ -61,6 +65,7 @@
     <style name="Widget.Neumorph.ImageView" parent="android:Widget">
         <item name="android:padding">@dimen/design_default_padding</item>
         <item name="neumorph_shadowElevation">6dp</item>
+        <item name="neumorph_shadowRadius">3dp</item>
         <item name="neumorph_shadowColorLight">?colorShadowLight</item>
         <item name="neumorph_shadowColorDark">?colorShadowDark</item>
         <item name="neumorph_shapeType">flat</item>

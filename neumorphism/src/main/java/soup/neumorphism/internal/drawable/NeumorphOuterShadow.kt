@@ -4,7 +4,6 @@ import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
-import soup.neumorphism.NeumorphShapeDrawable
 import soup.neumorphism.internal.util.withClipOut
 import soup.neumorphism.internal.util.withTranslation
 
@@ -17,7 +16,7 @@ class NeumorphOuterShadow(
     private val paint = Paint().apply {
         style = Paint.Style.FILL
         maskFilter = BlurMaskFilter(
-            appearance.blurRadius.toFloat(),
+            appearance.radius.toFloat(),
             BlurMaskFilter.Blur.NORMAL
         )
     }
@@ -26,7 +25,7 @@ class NeumorphOuterShadow(
         val margin = appearance.elevation.toFloat() / 2
 
         paint.maskFilter = BlurMaskFilter(
-            appearance.blurRadius.toFloat(),
+            appearance.radius.toFloat(),
             BlurMaskFilter.Blur.NORMAL
         )
 
