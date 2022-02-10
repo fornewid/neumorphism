@@ -161,6 +161,21 @@ open class NeumorphImageView @JvmOverloads constructor(
         }
     }
 
+    override fun drawableStateChanged() {
+        super.drawableStateChanged()
+        shapeDrawable.setBackgroundDrawableState(drawableState)
+    }
+
+    override fun refreshDrawableState() {
+        super.refreshDrawableState()
+        shapeDrawable.setBackgroundDrawableState(drawableState)
+    }
+
+    override fun jumpDrawablesToCurrentState() {
+        super.jumpDrawablesToCurrentState()
+        shapeDrawable.setBackgroundDrawableState(drawableState)
+    }
+
     companion object {
         private const val LOG_TAG = "NeumorphImageView"
     }

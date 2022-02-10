@@ -102,6 +102,21 @@ open class NeumorphButton @JvmOverloads constructor(
         shapeDrawable.setFillColor(backgroundColor)
     }
 
+    override fun drawableStateChanged() {
+        super.drawableStateChanged()
+        shapeDrawable.setBackgroundDrawableState(drawableState)
+    }
+
+    override fun refreshDrawableState() {
+        super.refreshDrawableState()
+        shapeDrawable.setBackgroundDrawableState(drawableState)
+    }
+
+    override fun jumpDrawablesToCurrentState() {
+        super.jumpDrawablesToCurrentState()
+        shapeDrawable.setBackgroundDrawableState(drawableState)
+    }
+
     fun getBackgroundColor(): ColorStateList? {
         return shapeDrawable.getFillColor()
     }
