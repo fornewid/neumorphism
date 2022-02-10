@@ -67,7 +67,9 @@ open class NeumorphCardView @JvmOverloads constructor(
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
             setTranslationZ(translationZ)
+            setBackgroundDrawableState(drawableState)
         }
+
         setBackgroundInternal(shapeDrawable)
         isInitialized = true
     }
@@ -175,17 +177,23 @@ open class NeumorphCardView @JvmOverloads constructor(
 
     override fun drawableStateChanged() {
         super.drawableStateChanged()
-        shapeDrawable.setBackgroundDrawableState(drawableState)
+        if (isInitialized) {
+            shapeDrawable.setBackgroundDrawableState(drawableState)
+        }
     }
 
     override fun refreshDrawableState() {
         super.refreshDrawableState()
-        shapeDrawable.setBackgroundDrawableState(drawableState)
+        if (isInitialized) {
+            shapeDrawable.setBackgroundDrawableState(drawableState)
+        }
     }
 
     override fun jumpDrawablesToCurrentState() {
         super.jumpDrawablesToCurrentState()
-        shapeDrawable.setBackgroundDrawableState(drawableState)
+        if (isInitialized) {
+            shapeDrawable.setBackgroundDrawableState(drawableState)
+        }
     }
 
     companion object {

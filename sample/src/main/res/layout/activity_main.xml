@@ -149,11 +149,12 @@
 
     <soup.neumorphism.NeumorphButton
         style="@style/Widget.Neumorph.Button"
+        android:enabled="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         android:text="Button"
-        app:neumorph_backgroundDrawable="@drawable/gradation"        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintHorizontal_bias="0.862"
         app:layout_constraintStart_toStartOf="parent" />

@@ -64,6 +64,7 @@ open class NeumorphButton @JvmOverloads constructor(
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
             setTranslationZ(translationZ)
+            setBackgroundDrawableState(drawableState)
         }
 
         setBackgroundInternal(shapeDrawable)
@@ -104,17 +105,23 @@ open class NeumorphButton @JvmOverloads constructor(
 
     override fun drawableStateChanged() {
         super.drawableStateChanged()
-        shapeDrawable.setBackgroundDrawableState(drawableState)
+        if (isInitialized) {
+            shapeDrawable.setBackgroundDrawableState(drawableState)
+        }
     }
 
     override fun refreshDrawableState() {
         super.refreshDrawableState()
-        shapeDrawable.setBackgroundDrawableState(drawableState)
+        if (isInitialized) {
+            shapeDrawable.setBackgroundDrawableState(drawableState)
+        }
     }
 
     override fun jumpDrawablesToCurrentState() {
         super.jumpDrawablesToCurrentState()
-        shapeDrawable.setBackgroundDrawableState(drawableState)
+        if (isInitialized) {
+            shapeDrawable.setBackgroundDrawableState(drawableState)
+        }
     }
 
     fun getBackgroundColor(): ColorStateList? {
