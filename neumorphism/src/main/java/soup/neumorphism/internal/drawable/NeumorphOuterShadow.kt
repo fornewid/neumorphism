@@ -8,7 +8,7 @@ import soup.neumorphism.NeumorphShapeDrawable
 import soup.neumorphism.internal.util.withClipOut
 import soup.neumorphism.internal.util.withTranslation
 
-internal class NeumorphOuterShadow(
+class NeumorphOuterShadow(
     appearance: Style,
     theme: Theme,
     bounds: Rect

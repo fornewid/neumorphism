@@ -7,7 +7,7 @@ import soup.neumorphism.CornerFamily
 import soup.neumorphism.NeumorphShapeDrawable
 import soup.neumorphism.internal.util.onCanvas
 
-internal abstract class NeumorphShadow(
+abstract class NeumorphShadow(
     protected val appearance: Style,
     protected val theme: Theme,
     protected val bounds: Rect

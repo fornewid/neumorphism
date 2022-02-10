@@ -16,7 +16,7 @@ class ColorSampleActivity : AppCompatActivity() {
         binding = ActivitySampleColorBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-        onBackgroundColorChanged(Color.RED)
+        onBackgroundColorChanged(Color.TRANSPARENT)
     }
 
     private fun onBackgroundColorChanged(backgroundColor: Int) {

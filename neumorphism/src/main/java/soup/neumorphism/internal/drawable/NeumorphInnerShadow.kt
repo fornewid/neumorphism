@@ -3,7 +3,7 @@ package soup.neumorphism.internal.drawable
 import android.graphics.*
 import soup.neumorphism.internal.util.withClip
 
-internal class NeumorphInnerShadow(
+class NeumorphInnerShadow(
     appearance: Style,
     theme: Theme,
     bounds: Rect

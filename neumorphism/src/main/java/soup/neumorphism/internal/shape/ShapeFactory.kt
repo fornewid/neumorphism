@@ -11,7 +11,7 @@ import soup.neumorphism.internal.util.SoftHashMap
 import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
 import soup.neumorphism.internal.util.BitmapUtils.toBitmap
 
-internal object ShapeFactory {
+object ShapeFactory {
 
     private const val MAX_CACHE_SIZE = 200
 
@@ -41,7 +41,7 @@ internal object ShapeFactory {
                 isOuterShadow = false
             )
 
-            ShapeType.BASIN -> BasinShape(
+            ShapeType.BASIN -> NeumorphBasinShape(
                 appearance,
                 theme,
                 bounds

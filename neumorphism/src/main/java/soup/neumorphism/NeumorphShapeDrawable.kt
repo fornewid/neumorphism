@@ -37,7 +37,7 @@ open class NeumorphShapeDrawable : Drawable {
     private var backgroundRect: RectF? = null
     private var backgroundBitmap: Bitmap? = null
 
-    constructor(context: Context) : this(NeumorphShapeAppearanceModel())
+    private var shadowPaint = Paint()
 
     constructor(
         context: Context,
@@ -297,7 +297,13 @@ open class NeumorphShapeDrawable : Drawable {
             drawBackgroundBitmap(canvas)
         }
 
-        shadow?.draw(canvas)
+        val elevation = drawableState.shadowElevation
+        val z = drawableState.shadowElevation + drawableState.translationZ
+
+        val pressPercentage = z / elevation
+        shadowPaint.alpha = (255 * pressPercentage).toInt()
+
+        shadow?.draw(canvas, shadowPaint)
 
         if (hasStroke()) {
             drawStrokeShape(canvas)
