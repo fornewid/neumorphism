@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
+import soup.neumorphism.internal.drawable.NeumorphShadow
 import soup.neumorphism.internal.shape.Shape
 import soup.neumorphism.internal.shape.ShapeFactory
 
@@ -155,7 +156,7 @@ open class NeumorphShapeDrawable : Drawable {
         return rectF
     }
 
-    fun setShapeType(@ShapeType shapeType: Int) {
+    fun setShapeType(shapeType: ShapeType) {
         if (drawableState.shapeType != shapeType) {
             drawableState.shapeType = shapeType
             updateShadowShape()
@@ -170,11 +171,27 @@ open class NeumorphShapeDrawable : Drawable {
             return
         }
 
-        shadow = ShapeFactory.createReusableShape(drawableState, internalBounds)
+        val appearance = NeumorphShadow.Style(
+            drawableState.shadowElevation,
+            drawableState.blurRadius,
+            drawableState.shapeAppearanceModel.getCornerFamily(),
+            drawableState.shapeAppearanceModel.getCornerSize()
+        )
+
+        val theme = NeumorphShadow.Theme(
+            drawableState.shadowColorLight,
+            drawableState.shadowColorDark
+        )
+
+        shadow = ShapeFactory.createReusableShape(
+            appearance,
+            theme,
+            drawableState.shapeType,
+            internalBounds
+        )
     }
 
-    @ShapeType
-    fun getShapeType(): Int {
+    fun getShapeType(): ShapeType {
         return drawableState.shapeType
     }
 
@@ -280,7 +297,7 @@ open class NeumorphShapeDrawable : Drawable {
             drawBackgroundBitmap(canvas)
         }
 
-        shadow?.draw(canvas, outlinePath)
+        shadow?.draw(canvas)
 
         if (hasStroke()) {
             drawStrokeShape(canvas)
@@ -420,8 +437,7 @@ open class NeumorphShapeDrawable : Drawable {
         var strokeColor: ColorStateList? = null,
         var strokeWidth: Float = 0f,
         var alpha: Int = 255,
-        @ShapeType
-        var shapeType: Int = ShapeType.DEFAULT,
+        var shapeType: ShapeType = ShapeType.FLAT,
         var shadowElevation: Int = 0,
         var blurRadius: Int = 10,
         var shadowColorLight: Int = Color.WHITE,

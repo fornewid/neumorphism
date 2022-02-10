@@ -5,6 +5,5 @@ import android.graphics.Path
 import android.graphics.Rect
 
 internal interface Shape {
-    fun draw(canvas: Canvas, outlinePath: Path)
-    fun updateShadowBitmap(bounds: Rect)
+    fun draw(canvas: Canvas)
 }

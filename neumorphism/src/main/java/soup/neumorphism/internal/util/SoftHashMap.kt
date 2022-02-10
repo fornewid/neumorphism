@@ -1,4 +1,4 @@
-package soup.neumorphism.internal.shape.utils
+package soup.neumorphism.internal.util
 
 import java.lang.ref.SoftReference
 import java.util.AbstractMap

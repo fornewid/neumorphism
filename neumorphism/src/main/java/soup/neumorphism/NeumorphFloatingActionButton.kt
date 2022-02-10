@@ -29,8 +29,11 @@ open class NeumorphFloatingActionButton @JvmOverloads constructor(
         val fillColor = a.getColorStateList(R.styleable.NeumorphFloatingActionButton_neumorph_backgroundColor)
         val strokeColor = a.getColorStateList(R.styleable.NeumorphFloatingActionButton_neumorph_strokeColor)
         val strokeWidth = a.getDimension(R.styleable.NeumorphFloatingActionButton_neumorph_strokeWidth, 0f)
-        val shapeType =
-            a.getInt(R.styleable.NeumorphFloatingActionButton_neumorph_shapeType, ShapeType.DEFAULT)
+        val shapeType = a.getInt(R.styleable.NeumorphFloatingActionButton_neumorph_shapeType, ShapeType.FLAT.ordinal)
+            .let { ordinal ->
+                ShapeType.values()[ordinal]
+            }
+
         val shadowElevation = a.getDimension(
             R.styleable.NeumorphFloatingActionButton_neumorph_shadowElevation, 0f
         ).roundToInt()
@@ -113,12 +116,11 @@ open class NeumorphFloatingActionButton @JvmOverloads constructor(
         return shapeDrawable.getStrokeWidth()
     }
 
-    fun setShapeType(@ShapeType shapeType: Int) {
+    fun setShapeType(shapeType: ShapeType) {
         shapeDrawable.setShapeType(shapeType)
     }
 
-    @ShapeType
-    fun getShapeType(): Int {
+    fun getShapeType(): ShapeType {
         return shapeDrawable.getShapeType()
     }
 

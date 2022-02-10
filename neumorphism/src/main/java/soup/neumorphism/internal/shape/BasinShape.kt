@@ -1,38 +1,35 @@
 package soup.neumorphism.internal.shape
 
 import android.graphics.Canvas
-import android.graphics.Path
 import android.graphics.Rect
-import soup.neumorphism.NeumorphShapeDrawable.NeumorphShapeDrawableState
+import soup.neumorphism.ShapeType
 import soup.neumorphism.internal.drawable.NeumorphShadow
-import soup.neumorphism.internal.drawable.NeumorphShape
 
-internal class BasinShape(drawableState: NeumorphShapeDrawableState) : Shape {
+internal class BasinShape(
+    appearance: NeumorphShadow.Style,
+    theme: NeumorphShadow.Theme,
+    bounds: Rect,
+) : Shape {
 
     private val shadows by lazy {
-        val theme = NeumorphShadow.Theme(
-            drawableState.shadowColorLight,
-            drawableState.shadowColorDark
+        val outerShadow = ShapeFactory.createReusableShape(
+            appearance,
+            theme,
+            ShapeType.FLAT,
+            bounds
         )
 
-        val style = NeumorphShadow.Style(
-            drawableState.shadowElevation,
-            drawableState.blurRadius,
-            drawableState.shapeAppearanceModel.getCornerFamily(),
-            drawableState.shapeAppearanceModel.getCornerSize()
+        val innerShadow = ShapeFactory.createReusableShape(
+            appearance,
+            theme,
+            ShapeType.PRESSED,
+            bounds
         )
 
-        listOf(
-            NeumorphShape(style, theme, isOuterShadow = true),
-            NeumorphShape(style, theme, isOuterShadow = false)
-        )
+        listOf(outerShadow, innerShadow)
     }
 
-    override fun draw(canvas: Canvas, outlinePath: Path) {
-        shadows.forEach { it.draw(canvas, outlinePath) }
-    }
-
-    override fun updateShadowBitmap(bounds: Rect) {
-        shadows.forEach { it.updateShadowBitmap(bounds) }
+    override fun draw(canvas: Canvas) {
+        shadows.forEach { it.draw(canvas) }
     }
 }

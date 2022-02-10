@@ -18,5 +18,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.flat_card).setOnClickListener {
             startActivity(Intent(this, CardSampleActivity::class.java))
         }
+
+        findViewById<View>(R.id.pressed_card).setOnClickListener {
+            startActivity(Intent(this, RepeatActivity::class.java))
+        }
     }
 }

@@ -5,60 +5,67 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import soup.neumorphism.CornerFamily
-import soup.neumorphism.NeumorphShapeDrawable
 import soup.neumorphism.ShapeType
 import soup.neumorphism.internal.drawable.NeumorphShadow
-import soup.neumorphism.internal.drawable.NeumorphShape
-import soup.neumorphism.internal.shape.utils.SoftHashMap
+import soup.neumorphism.internal.util.SoftHashMap
 import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
 import soup.neumorphism.internal.util.BitmapUtils.toBitmap
-import java.lang.ref.SoftReference
 
 internal object ShapeFactory {
 
-    private const val MAX_CACHE_SIZE = 100
+    private const val MAX_CACHE_SIZE = 200
 
     private val reusable_shapes by lazy {
         SoftHashMap<Int, Shape>(MAX_CACHE_SIZE)
     }
 
-    fun createNewShape(
-        drawableState: NeumorphShapeDrawable.NeumorphShapeDrawableState,
-        bounds: Rect
+    private fun createNewShape(
+        appearance: NeumorphShadow.Style,
+        theme: NeumorphShadow.Theme,
+        shapeType: ShapeType,
+        bounds: Rect,
     ): Shape {
-        val theme = NeumorphShadow.Theme(
-            drawableState.shadowColorLight,
-            drawableState.shadowColorDark
-        )
 
-        val style = NeumorphShadow.Style(
-            drawableState.shadowElevation,
-            drawableState.blurRadius,
-            drawableState.shapeAppearanceModel.getCornerFamily(),
-            drawableState.shapeAppearanceModel.getCornerSize()
-        )
+        val shape = when (shapeType) {
+            ShapeType.FLAT -> NeumorphShape(
+                appearance,
+                theme,
+                bounds,
+                isOuterShadow = true
+            )
 
-        val shape = when (val shapeType = drawableState.shapeType) {
+            ShapeType.PRESSED -> NeumorphShape(
+                appearance,
+                theme,
+                bounds,
+                isOuterShadow = false
+            )
 
-            ShapeType.FLAT -> NeumorphShape(style, theme, isOuterShadow = true)
-            ShapeType.PRESSED -> NeumorphShape(style, theme, isOuterShadow = false)
-            ShapeType.BASIN -> BasinShape(drawableState)
-            else -> throw IllegalArgumentException("ShapeType($shapeType) is invalid.")
+            ShapeType.BASIN -> BasinShape(
+                appearance,
+                theme,
+                bounds
+            )
         }
 
-        shape.updateShadowBitmap(bounds)
         return shape
     }
 
     fun createReusableShape(
-            drawableState: NeumorphShapeDrawable.NeumorphShapeDrawableState,
-            bounds: Rect
+        appearance: NeumorphShadow.Style,
+        theme: NeumorphShadow.Theme,
+        shapeType: ShapeType,
+        bounds: Rect
     ): Shape {
-        var hashCode = drawableState.hashCode()
+        var hashCode = appearance.hashCode()
         hashCode = 31 * hashCode + bounds.calculateHashCode()
+        hashCode = 31 * hashCode + theme.hashCode()
+        hashCode = 31 * hashCode + shapeType.hashCode()
 
         return reusable_shapes[hashCode] ?: createNewShape(
-            drawableState,
+            appearance,
+            theme,
+            shapeType,
             bounds
         ).also { newShape ->
             reusable_shapes.put(hashCode, newShape)
