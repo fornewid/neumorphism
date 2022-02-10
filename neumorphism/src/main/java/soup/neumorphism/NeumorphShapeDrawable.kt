@@ -10,7 +10,10 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import soup.neumorphism.internal.drawable.NeumorphShadow
 import soup.neumorphism.internal.shape.Shape
-import soup.neumorphism.internal.shape.ShapeFactory
+import soup.neumorphism.internal.drawable.ShadowFactory
+import soup.neumorphism.internal.shape.NeumorphBasinShape
+import soup.neumorphism.internal.shape.NeumorphFlatShape
+import soup.neumorphism.internal.shape.NeumorphPressedShape
 import kotlin.math.abs
 
 
@@ -184,12 +187,11 @@ open class NeumorphShapeDrawable : Drawable {
             drawableState.shadowColorDark
         )
 
-        shadow = ShapeFactory.createReusableShape(
-            appearance,
-            theme,
-            drawableState.shapeType,
-            internalBounds
-        )
+        shadow = when(drawableState.shapeType) {
+            ShapeType.FLAT -> NeumorphFlatShape(appearance, theme, internalBounds)
+            ShapeType.PRESSED -> NeumorphPressedShape(appearance, theme, internalBounds)
+            ShapeType.BASIN -> NeumorphBasinShape(appearance, theme, internalBounds)
+        }
     }
 
     fun getShapeType(): ShapeType {
@@ -342,7 +344,7 @@ open class NeumorphShapeDrawable : Drawable {
         }
         
         backgroundRect = rect
-        backgroundBitmap = ShapeFactory.createNewBitmap(
+        backgroundBitmap = ShadowFactory.createNewBitmap(
             rect,
             drawableState.shapeAppearanceModel.getCornerFamily(),
             drawableState.shapeAppearanceModel.getCornerSize(),

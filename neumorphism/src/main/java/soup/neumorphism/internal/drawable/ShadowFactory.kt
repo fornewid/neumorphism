@@ -1,4 +1,4 @@
-package soup.neumorphism.internal.shape
+package soup.neumorphism.internal.drawable
 
 import android.graphics.Bitmap
 import android.graphics.Rect
@@ -6,64 +6,49 @@ import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.ShapeType
-import soup.neumorphism.internal.drawable.NeumorphShadow
+import soup.neumorphism.internal.shape.NeumorphBasinShape
+import soup.neumorphism.internal.shape.NeumorphFlatShape
+import soup.neumorphism.internal.shape.NeumorphPressedShape
+import soup.neumorphism.internal.shape.Shape
 import soup.neumorphism.internal.util.SoftHashMap
 import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
 import soup.neumorphism.internal.util.BitmapUtils.toBitmap
 
-object ShapeFactory {
+object ShadowFactory {
 
     private const val MAX_CACHE_SIZE = 200
 
     private val reusable_shapes by lazy {
-        SoftHashMap<Int, Shape>(MAX_CACHE_SIZE)
+        SoftHashMap<Int, Bitmap>(MAX_CACHE_SIZE)
     }
 
-    private fun createNewShape(
+    private fun createNewShadow(
         appearance: NeumorphShadow.Style,
         theme: NeumorphShadow.Theme,
-        shapeType: ShapeType,
+        isOuter: Boolean,
         bounds: Rect,
-    ): Shape {
+    ): Bitmap {
+        val shape = if (isOuter) NeumorphOuterShadow(appearance, theme, bounds)
+        else NeumorphInnerShadow(appearance, theme, bounds)
 
-        val shape = when (shapeType) {
-            ShapeType.FLAT -> NeumorphFlatShape(
-                appearance,
-                theme,
-                bounds
-            )
-
-            ShapeType.PRESSED -> NeumorphPressedShape(
-                appearance,
-                theme,
-                bounds
-            )
-
-            ShapeType.BASIN -> NeumorphBasinShape(
-                appearance,
-                theme,
-                bounds
-            )
-        }
-
-        return shape
+        return shape.drawToBitmap()
     }
 
-    fun createReusableShape(
+    fun createReusableShadow(
         appearance: NeumorphShadow.Style,
         theme: NeumorphShadow.Theme,
-        shapeType: ShapeType,
+        isOuter: Boolean,
         bounds: Rect
-    ): Shape {
+    ): Bitmap {
         var hashCode = appearance.hashCode()
-        hashCode = 31 * hashCode + bounds.calculateHashCode()
         hashCode = 31 * hashCode + theme.hashCode()
-        hashCode = 31 * hashCode + shapeType.hashCode()
+        hashCode = 31 * hashCode + isOuter.hashCode()
+        hashCode = 31 * hashCode + bounds.calculateHashCode()
 
-        return reusable_shapes[hashCode] ?: createNewShape(
+        return reusable_shapes[hashCode] ?: createNewShadow(
             appearance,
             theme,
-            shapeType,
+            isOuter,
             bounds
         ).also { newShape ->
             reusable_shapes.put(hashCode, newShape)
