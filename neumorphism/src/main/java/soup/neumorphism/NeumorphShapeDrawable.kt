@@ -11,6 +11,7 @@ import androidx.annotation.StyleRes
 import soup.neumorphism.internal.drawable.NeumorphShadow
 import soup.neumorphism.internal.shape.Shape
 import soup.neumorphism.internal.drawable.ShadowFactory
+import soup.neumorphism.internal.drawable.ShadowUtils
 import soup.neumorphism.internal.shape.NeumorphBasinShape
 import soup.neumorphism.internal.shape.NeumorphFlatShape
 import soup.neumorphism.internal.shape.NeumorphPressedShape
@@ -33,15 +34,25 @@ open class NeumorphShapeDrawable : Drawable {
         color = Color.TRANSPARENT
     }
 
+    val outlinePath get() = ShadowUtils.createPath(
+        appearance,
+        getBoundsInternal()
+    )
+
+    private val appearance get() = NeumorphShadow.Appearance(
+        drawableState.shadowElevation,
+        drawableState.shadowRadius,
+        drawableState.shapeAppearanceModel.getCornerFamily(),
+        drawableState.shapeAppearanceModel.getCornerSize()
+    )
+
+    private val theme get() =  NeumorphShadow.Theme(
+        drawableState.shadowColorLight,
+        drawableState.shadowColorDark
+    )
+
     private val rectF = RectF()
-
-    private val outlinePath = Path()
     private var shadow: Shape? = null
-
-    private var backgroundRect: RectF? = null
-    private var backgroundBitmap: Bitmap? = null
-
-    private var shadowPaint = Paint()
 
     constructor(
         context: Context,
@@ -70,7 +81,6 @@ open class NeumorphShapeDrawable : Drawable {
     fun setShapeAppearanceModel(shapeAppearanceModel: NeumorphShapeAppearanceModel) {
         drawableState.shapeAppearanceModel = shapeAppearanceModel
         updateShadowShape()
-        updateBackgroundBitmap()
         invalidateSelf()
     }
 
@@ -80,12 +90,7 @@ open class NeumorphShapeDrawable : Drawable {
 
     fun setBackgroundDrawable(drawable: Drawable?) {
         this.drawableState.backgroundDrawable = drawable
-        updateBackgroundBitmap()
         invalidateSelf()
-    }
-
-    fun getBackgroundDrawable(): Drawable? {
-        return this.drawableState.backgroundDrawable
     }
 
     fun setFillColor(fillColor: ColorStateList?) {
@@ -175,18 +180,6 @@ open class NeumorphShapeDrawable : Drawable {
             return
         }
 
-        val appearance = NeumorphShadow.Style(
-            drawableState.shadowElevation,
-            drawableState.shadowRadius,
-            drawableState.shapeAppearanceModel.getCornerFamily(),
-            drawableState.shapeAppearanceModel.getCornerSize()
-        )
-
-        val theme = NeumorphShadow.Theme(
-            drawableState.shadowColorLight,
-            drawableState.shadowColorDark
-        )
-
         shadow = when(drawableState.shapeType) {
             ShapeType.FLAT -> NeumorphFlatShape(appearance, theme, internalBounds)
             ShapeType.PRESSED -> NeumorphPressedShape(appearance, theme, internalBounds)
@@ -226,6 +219,13 @@ open class NeumorphShapeDrawable : Drawable {
         if (drawableState.shadowColorLight != shadowColor) {
             drawableState.shadowColorLight = shadowColor
             updateShadowShape()
+            invalidateSelf()
+        }
+    }
+
+    fun setBackgroundDrawableState(state: IntArray) {
+        if (!drawableState.backgroundDrawable?.state.contentEquals(state)) {
+            drawableState.backgroundDrawable?.state = state
             invalidateSelf()
         }
     }
@@ -298,9 +298,7 @@ open class NeumorphShapeDrawable : Drawable {
         strokePaint.alpha = modulateAlpha(prevStrokeAlpha, drawableState.alpha)
 
         if (dirty) {
-            calculateOutlinePath(getBoundsAsRectF(), outlinePath)
             updateShadowShape()
-            updateBackgroundBitmap()
             dirty = false
         }
 
@@ -326,31 +324,15 @@ open class NeumorphShapeDrawable : Drawable {
     }
 
     private fun drawBackgroundBitmap(canvas: Canvas) {
-        val rect = backgroundRect ?: return
-        val bitmap = backgroundBitmap ?: return
-
-        canvas.drawBitmap(bitmap, rect.left, rect.top, null)
-    }
-
-    private fun updateBackgroundBitmap() {
         val drawable = drawableState.backgroundDrawable ?: return
-        val rect = RectF()
-        outlinePath.computeBounds(rect, true)
-
-        if (rect.width() <= 0 || rect.height() <= 0) {
-            backgroundRect = null
-            backgroundBitmap = null
-            return
-        }
-        
-        backgroundRect = rect
-        backgroundBitmap = ShadowFactory.createNewBitmap(
-            rect,
-            drawableState.shapeAppearanceModel.getCornerFamily(),
-            drawableState.shapeAppearanceModel.getCornerSize(),
+        ShadowFactory.drawBackground(
+            canvas,
+            appearance,
+            getBoundsInternal(),
             drawable
         )
     }
+
 
     private fun drawFillShape(canvas: Canvas) {
         canvas.drawPath(outlinePath, fillPaint)
@@ -358,41 +340,6 @@ open class NeumorphShapeDrawable : Drawable {
 
     private fun drawStrokeShape(canvas: Canvas) {
         canvas.drawPath(outlinePath, strokePaint)
-    }
-
-    fun getOutlinePath(): Path {
-        return outlinePath
-    }
-
-    private fun calculateOutlinePath(bounds: RectF, path: Path) {
-        val offset = drawableState.shadowElevation.toFloat() + drawableState.shadowRadius
-        val right = offset + bounds.width()
-        val bottom = offset + bounds.height()
-        path.reset()
-        when (drawableState.shapeAppearanceModel.getCornerFamily()) {
-            CornerFamily.OVAL -> {
-                path.addOval(
-                    offset,
-                    offset,
-                    right,
-                    bottom,
-                    Path.Direction.CW
-                )
-            }
-            CornerFamily.ROUNDED -> {
-                val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
-                path.addRoundRect(
-                    offset,
-                    offset,
-                    right,
-                    bottom,
-                    cornerSize,
-                    cornerSize,
-                    Path.Direction.CW
-                )
-            }
-        }
-        path.close()
     }
 
     override fun getOutline(outline: Outline) {

@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
+import soup.neumorphism.internal.drawable.ShadowUtils
 import soup.neumorphism.internal.util.NeumorphResources
 import kotlin.math.roundToInt
 
@@ -74,7 +75,7 @@ open class NeumorphCardView @JvmOverloads constructor(
     override fun drawChild(canvas: Canvas, child: View, drawingTime: Long): Boolean {
         //TODO: clip using Outline smoothly
         val checkpoint = canvas.save()
-        canvas.clipPath(shapeDrawable.getOutlinePath())
+        canvas.clipPath(shapeDrawable.outlinePath)
         try {
             return super.drawChild(canvas, child, drawingTime)
         } finally {
@@ -170,6 +171,21 @@ open class NeumorphCardView @JvmOverloads constructor(
         if (isInitialized) {
             shapeDrawable.setTranslationZ(translationZ)
         }
+    }
+
+    override fun drawableStateChanged() {
+        super.drawableStateChanged()
+        shapeDrawable.setBackgroundDrawableState(drawableState)
+    }
+
+    override fun refreshDrawableState() {
+        super.refreshDrawableState()
+        shapeDrawable.setBackgroundDrawableState(drawableState)
+    }
+
+    override fun jumpDrawablesToCurrentState() {
+        super.jumpDrawablesToCurrentState()
+        shapeDrawable.setBackgroundDrawableState(drawableState)
     }
 
     companion object {

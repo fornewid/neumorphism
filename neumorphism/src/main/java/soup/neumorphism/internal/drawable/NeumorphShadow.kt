@@ -5,33 +5,24 @@ import android.graphics.Path.Direction.CW
 import android.os.Build
 import soup.neumorphism.CornerFamily
 import soup.neumorphism.internal.util.onCanvas
+import kotlin.math.min
 
 abstract class NeumorphShadow(
-    protected val appearance: Style,
+    protected val appearance: Appearance,
     protected val theme: Theme,
     protected val bounds: Rect
 ) {
 
-    protected val outlinePath get() = Path().apply {
-        val offset = appearance.elevation.toFloat() + appearance.radius
-        val right = offset + bounds.width()
-        val bottom = offset + bounds.height()
+    protected val outlinePath get() = ShadowUtils.createPath(appearance, bounds)
 
-        when (appearance.cornerFamily) {
-            CornerFamily.OVAL -> {
-                addOval(offset, offset, right, bottom, CW)
-            }
-
-            CornerFamily.ROUNDED -> {
-                val cornerSize = appearance.cornerSize
-                addRoundRect(offset, offset, right, bottom, cornerSize, cornerSize, CW)
-            }
-        }
-    }
+    private val maxCornerRadius get() = min(
+        bounds.width() / 2f,
+        bounds.height() / 2f
+    )
 
     protected val cornerRadius get() = when (appearance.cornerFamily) {
-        CornerFamily.ROUNDED -> appearance.cornerSize
-        CornerFamily.OVAL -> bounds.width() / 2f
+        CornerFamily.ROUNDED -> min(maxCornerRadius, appearance.cornerSize)
+        CornerFamily.OVAL -> maxCornerRadius
     }
 
     protected abstract fun draw(canvas: Canvas)
@@ -59,7 +50,7 @@ abstract class NeumorphShadow(
         val darkColor: Int
     )
 
-    data class Style(
+    data class Appearance(
         val elevation: Int,
         val radius: Int,
         val cornerFamily: CornerFamily,

@@ -4,7 +4,7 @@ import android.graphics.*
 import soup.neumorphism.internal.util.withClip
 
 class NeumorphInnerShadow(
-    appearance: Style,
+    appearance: Appearance,
     theme: Theme,
     bounds: Rect
 ) : NeumorphShadow(appearance, theme, bounds) {

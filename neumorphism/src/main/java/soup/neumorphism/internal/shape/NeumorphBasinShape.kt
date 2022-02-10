@@ -2,12 +2,10 @@ package soup.neumorphism.internal.shape
 
 import android.graphics.Canvas
 import android.graphics.Rect
-import soup.neumorphism.ShapeType
 import soup.neumorphism.internal.drawable.NeumorphShadow
-import soup.neumorphism.internal.drawable.ShadowFactory
 
 class NeumorphBasinShape(
-    appearance: NeumorphShadow.Style,
+    appearance: NeumorphShadow.Appearance,
     theme: NeumorphShadow.Theme,
     bounds: Rect,
 ) : Shape {

@@ -6,7 +6,7 @@ import soup.neumorphism.internal.drawable.NeumorphShadow
 import soup.neumorphism.internal.drawable.ShadowFactory
 
 class NeumorphPressedShape(
-    private val appearance: NeumorphShadow.Style,
+    private val appearance: NeumorphShadow.Appearance,
     private val theme: NeumorphShadow.Theme,
     private val bounds: Rect
 ) : Shape {

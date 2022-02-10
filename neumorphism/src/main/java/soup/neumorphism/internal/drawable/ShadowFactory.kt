@@ -1,18 +1,11 @@
 package soup.neumorphism.internal.drawable
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Rect
-import android.graphics.RectF
 import android.graphics.drawable.Drawable
-import soup.neumorphism.CornerFamily
-import soup.neumorphism.ShapeType
-import soup.neumorphism.internal.shape.NeumorphBasinShape
-import soup.neumorphism.internal.shape.NeumorphFlatShape
-import soup.neumorphism.internal.shape.NeumorphPressedShape
-import soup.neumorphism.internal.shape.Shape
 import soup.neumorphism.internal.util.SoftHashMap
-import soup.neumorphism.internal.util.BitmapUtils.clipToRadius
-import soup.neumorphism.internal.util.BitmapUtils.toBitmap
+import soup.neumorphism.internal.util.withClip
 
 object ShadowFactory {
 
@@ -23,7 +16,7 @@ object ShadowFactory {
     }
 
     private fun createNewShadow(
-        appearance: NeumorphShadow.Style,
+        appearance: NeumorphShadow.Appearance,
         theme: NeumorphShadow.Theme,
         isOuter: Boolean,
         bounds: Rect,
@@ -35,7 +28,7 @@ object ShadowFactory {
     }
 
     fun createReusableShadow(
-        appearance: NeumorphShadow.Style,
+        appearance: NeumorphShadow.Appearance,
         theme: NeumorphShadow.Theme,
         isOuter: Boolean,
         bounds: Rect
@@ -55,20 +48,17 @@ object ShadowFactory {
         }
     }
 
-    fun createNewBitmap(
-        rect: RectF,
-        cornerFamily: CornerFamily,
-        cornerRadius: Float,
+    fun drawBackground(
+        canvas: Canvas,
+        appearance: NeumorphShadow.Appearance,
+        bounds: Rect,
         drawable: Drawable
-    ): Bitmap {
-        val rectWidth = rect.width().toInt()
-        val rectHeight = rect.height().toInt()
-        val bitmap = drawable.toBitmap(rectWidth, rectHeight)
-
-        val cornerSize = if (cornerFamily == CornerFamily.OVAL) bitmap.height / 2f
-        else cornerRadius
-
-        return bitmap.clipToRadius(cornerSize)
+    ) {
+        val path = ShadowUtils.createPath(appearance, bounds)
+        drawable.bounds = bounds
+        canvas.withClip(path) {
+            drawable.draw(this)
+        }
     }
 
     private fun Rect.calculateHashCode(): Int {
