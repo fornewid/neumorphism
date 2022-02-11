@@ -1,20 +1,36 @@
 package soup.neumorphism.internal.shape
 
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.Rect
 import soup.neumorphism.internal.drawable.NeumorphShadow
+import soup.neumorphism.internal.drawable.ShadowFactory
 
 class NeumorphBasinShape(
-    appearance: NeumorphShadow.Appearance,
-    theme: NeumorphShadow.Theme,
-    bounds: Rect,
+    private val appearance: NeumorphShadow.Appearance,
+    private val theme: NeumorphShadow.Theme,
+    private val bounds: Rect
 ) : Shape {
 
-    private val outerShadow = NeumorphFlatShape(appearance, theme, bounds)
-    private val innerShadow = NeumorphPressedShape(appearance, theme, bounds)
+    private val outerShadow get() = ShadowFactory.createReusableShadow(
+        appearance,
+        theme,
+        isOuter = true,
+        bounds
+    )
 
+    private val innerShadow get() = ShadowFactory.createReusableShadow(
+        appearance,
+        theme,
+        isOuter = false,
+        bounds
+    )
+
+    private val shadowPaint = Paint()
     override fun draw(canvas: Canvas, pressPercentage: Float) {
-        outerShadow.draw(canvas, pressPercentage)
-        innerShadow.draw(canvas, pressPercentage)
+        val pressOffset = 1 - pressPercentage
+        shadowPaint.alpha = (255 * pressOffset).toInt()
+        canvas.drawBitmap(outerShadow, 0f, 0f, shadowPaint)
+        canvas.drawBitmap(innerShadow, 0f, 0f, null)
     }
 }
