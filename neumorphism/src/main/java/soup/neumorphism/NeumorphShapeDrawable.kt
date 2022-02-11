@@ -10,11 +10,11 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StyleRes
 import soup.neumorphism.internal.drawable.NeumorphShadow
 import soup.neumorphism.internal.shape.Shape
-import soup.neumorphism.internal.drawable.ShadowFactory
 import soup.neumorphism.internal.drawable.ShadowUtils
 import soup.neumorphism.internal.shape.NeumorphBasinShape
 import soup.neumorphism.internal.shape.NeumorphFlatShape
 import soup.neumorphism.internal.shape.NeumorphPressedShape
+import soup.neumorphism.internal.util.withClip
 import kotlin.math.abs
 
 
@@ -325,15 +325,14 @@ open class NeumorphShapeDrawable : Drawable {
 
     private fun drawBackgroundBitmap(canvas: Canvas) {
         val drawable = drawableState.backgroundDrawable ?: return
-        ShadowFactory.drawBackground(
-            canvas,
-            appearance,
-            getBoundsInternal(),
-            drawable
-        )
+        val backgroundBounds = getBoundsInternal()
+        val outlinePath = ShadowUtils.createPath(appearance, backgroundBounds)
+        drawable.bounds = backgroundBounds
+        canvas.withClip(outlinePath) {
+            drawable.draw(this)
+        }
     }
-
-
+    
     private fun drawFillShape(canvas: Canvas) {
         canvas.drawPath(outlinePath, fillPaint)
     }

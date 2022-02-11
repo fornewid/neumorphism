@@ -1,18 +1,31 @@
 package soup.neumorphism.internal.drawable
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Rect
-import android.graphics.drawable.Drawable
-import soup.neumorphism.internal.util.SoftHashMap
-import soup.neumorphism.internal.util.withClip
+import android.util.LruCache
 
 object ShadowFactory {
 
-    private const val MAX_CACHE_SIZE = 200
+    private const val KILO_BYTE = 1024
+
+    // Use 1/6th of the available memory for this memory cache.
+    private const val CACHE_SIZE_DIVIDER = 6
 
     private val reusable_shapes by lazy {
-        SoftHashMap<Int, Bitmap>(MAX_CACHE_SIZE)
+        // Get max available VM memory, exceeding this amount will throw an
+        // OutOfMemory exception. Stored in kilobytes as LruCache takes an
+        // int in its constructor.
+        val maxMemory = Runtime.getRuntime().maxMemory() / KILO_BYTE
+
+        // Use 1/CACHE_SIZE_DIVIDER of the available memory for this memory cache.
+        val cacheSize = maxMemory.toInt() / CACHE_SIZE_DIVIDER
+
+        object : LruCache<Int, Bitmap>(cacheSize) {
+            // The cache size will be measured in kilobytes rather than
+            // number of items.
+            override fun sizeOf(key: Int, bitmap: Bitmap): Int
+                = bitmap.byteCount / KILO_BYTE
+        }
     }
 
     private fun createNewShadow(
@@ -45,19 +58,6 @@ object ShadowFactory {
             bounds
         ).also { newShape ->
             reusable_shapes.put(hashCode, newShape)
-        }
-    }
-
-    fun drawBackground(
-        canvas: Canvas,
-        appearance: NeumorphShadow.Appearance,
-        bounds: Rect,
-        drawable: Drawable
-    ) {
-        val path = ShadowUtils.createPath(appearance, bounds)
-        drawable.bounds = bounds
-        canvas.withClip(path) {
-            drawable.draw(this)
         }
     }
 
