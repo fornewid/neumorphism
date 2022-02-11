@@ -1,18 +1,15 @@
 package soup.neumorphism.internal.util
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Path
-import android.graphics.Region
+import android.graphics.*
 import android.os.Build
 
-internal inline fun Bitmap.onCanvas(
+inline fun Bitmap.onCanvas(
     block: Canvas.() -> Unit
 ): Bitmap = also {
     Canvas(it).run(block)
 }
 
-internal inline fun Canvas.withTranslation(
+inline fun Canvas.withTranslation(
     x: Float = 0f,
     y: Float = 0f,
     block: Canvas.() -> Unit
@@ -26,7 +23,7 @@ internal inline fun Canvas.withTranslation(
     }
 }
 
-internal inline fun Canvas.withClip(
+inline fun Canvas.withClip(
     clipPath: Path,
     block: Canvas.() -> Unit
 ) {
@@ -39,7 +36,7 @@ internal inline fun Canvas.withClip(
     }
 }
 
-internal inline fun Canvas.withClipOut(
+inline fun Canvas.withClipOut(
     clipPath: Path,
     block: Canvas.() -> Unit
 ) {
@@ -58,4 +55,10 @@ fun clipOutPath(canvas: Canvas, path: Path): Boolean {
     } else {
         canvas.clipPath(path, Region.Op.DIFFERENCE)
     }
+}
+
+fun Rect.calculateHashCode(): Int {
+    var result = width().hashCode()
+    result = 31 * result + height().hashCode()
+    return result
 }

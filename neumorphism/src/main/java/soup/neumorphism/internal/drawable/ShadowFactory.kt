@@ -3,6 +3,7 @@ package soup.neumorphism.internal.drawable
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.util.LruCache
+import soup.neumorphism.internal.util.calculateHashCode
 
 object ShadowFactory {
 
@@ -18,7 +19,7 @@ object ShadowFactory {
         val maxMemory = Runtime.getRuntime().maxMemory() / KILO_BYTE
 
         // Use 1/CACHE_SIZE_DIVIDER of the available memory for this memory cache.
-        val cacheSize = maxMemory.toInt() / CACHE_SIZE_DIVIDER
+        val cacheSize = (maxMemory / CACHE_SIZE_DIVIDER).toInt()
 
         object : LruCache<Int, Bitmap>(cacheSize) {
             // The cache size will be measured in kilobytes rather than
@@ -28,16 +29,19 @@ object ShadowFactory {
         }
     }
 
-    private fun createNewShadow(
-        appearance: NeumorphShadow.Appearance,
-        theme: NeumorphShadow.Theme,
-        isOuter: Boolean,
-        bounds: Rect,
-    ): Bitmap {
-        val shape = if (isOuter) NeumorphOuterShadow(appearance, theme, bounds)
-        else NeumorphInnerShadow(appearance, theme, bounds)
+    fun setCacheSizeInKiloBytes(cacheSize: Int) {
+        reusable_shapes.resize(cacheSize)
+    }
 
-        return shape.drawToBitmap()
+    fun setCacheSizeInBytes(cacheSize: Long) {
+        val sizeInKilos = (cacheSize / KILO_BYTE).toInt()
+        reusable_shapes.resize(sizeInKilos)
+    }
+
+    fun setCacheSizeDivider(divider: Int) {
+        val maxMemory = Runtime.getRuntime().maxMemory() / KILO_BYTE
+        val cacheSize = maxMemory.toInt() / divider
+        reusable_shapes.resize(cacheSize)
     }
 
     fun createReusableShadow(
@@ -61,9 +65,15 @@ object ShadowFactory {
         }
     }
 
-    private fun Rect.calculateHashCode(): Int {
-        var result = width().hashCode()
-        result = 31 * result + height().hashCode()
-        return result
+    private fun createNewShadow(
+        appearance: NeumorphShadow.Appearance,
+        theme: NeumorphShadow.Theme,
+        isOuter: Boolean,
+        bounds: Rect,
+    ): Bitmap {
+        val shape = if (isOuter) NeumorphOuterShadow(appearance, theme, bounds)
+        else NeumorphInnerShadow(appearance, theme, bounds)
+
+        return shape.drawToBitmap()
     }
 }

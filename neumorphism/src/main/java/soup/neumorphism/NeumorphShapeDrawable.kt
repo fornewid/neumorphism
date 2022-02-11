@@ -332,7 +332,7 @@ open class NeumorphShapeDrawable : Drawable {
             drawable.draw(this)
         }
     }
-    
+
     private fun drawFillShape(canvas: Canvas) {
         canvas.drawPath(outlinePath, fillPaint)
     }
