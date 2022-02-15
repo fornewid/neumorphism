@@ -4,11 +4,10 @@ object Versions {
     const val minSdk = 21
     const val targetSdk = 30
     const val compileSdk = 30
-    const val buildTools = "30.0.2"
 }
 
 object Libs {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:4.1.0"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.1.0"
 
     object Kotlin {
         private const val version = "1.3.72"
