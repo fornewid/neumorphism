@@ -1,5 +1,8 @@
-rootProject.name='Neumorphism'
 include ':neumorphism'
 include ':sample-app'
 include ':sample-benchmark'
 include ':sample-ui'
+
+// Enable Gradle's version catalog support
+// https://docs.gradle.org/current/userguide/platforms.html
+enableFeaturePreview("VERSION_CATALOGS")

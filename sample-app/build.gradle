@@ -1,22 +1,19 @@
-import dependencies.Libs
-import dependencies.Versions
-
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
 }
 
 android {
-    compileSdkVersion Versions.compileSdk
+    compileSdkVersion buildConfig.compileSdk
     defaultConfig {
         applicationId "soup.neumorphism.sample"
-        minSdkVersion Versions.minSdk
-        targetSdkVersion Versions.targetSdk
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
         versionCode 1
         versionName "1.0"
     }
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -30,9 +27,9 @@ android {
 dependencies {
     implementation project(":neumorphism")
     implementation project(":sample-ui")
-    implementation Libs.Kotlin.stdlib
-    implementation Libs.AndroidX.appcompat
-    implementation Libs.AndroidX.constraintlayout
-    implementation Libs.AndroidX.core_ktx
-    implementation Libs.AndroidX.recyclerview
+    implementation libs.kotlin.stdlib
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.core
+    implementation libs.androidx.recyclerview
 }

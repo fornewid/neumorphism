@@ -1,14 +1,17 @@
-import dependencies.Libs
-
 buildscript {
+    ext.buildConfig = [
+            'minSdk'    : 21,
+            'targetSdk' : 30,
+            'compileSdk': 30
+    ]
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath Libs.androidGradlePlugin
-        classpath Libs.Kotlin.plugin
-        classpath Libs.AndroidX.Benchmark.plugin
+        classpath libs.android.pluginGradle
+        classpath libs.kotlin.pluginGradle
+        classpath libs.androidx.benchmark.pluginGradle
     }
 }
 

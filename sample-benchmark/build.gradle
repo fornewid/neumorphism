@@ -1,6 +1,3 @@
-import dependencies.Libs
-import dependencies.Versions
-
 plugins {
     id 'com.android.library'
     id 'androidx.benchmark'
@@ -8,11 +5,10 @@ plugins {
 }
 
 android {
-    compileSdkVersion Versions.compileSdk
-
+    compileSdkVersion buildConfig.compileSdk
     defaultConfig {
-        minSdkVersion Versions.minSdk
-        targetSdkVersion Versions.targetSdk
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
         versionCode 1
         versionName "1.0"
 
@@ -43,14 +39,14 @@ android {
 dependencies {
     implementation project(":neumorphism")
     implementation project(":sample-ui")
-    implementation Libs.Kotlin.stdlib
-    androidTestImplementation Libs.Test.junit
-    androidTestImplementation Libs.AndroidX.Test.runner
-    androidTestImplementation Libs.AndroidX.Test.junit
-    androidTestImplementation Libs.AndroidX.Benchmark.junit4
+    implementation libs.kotlin.stdlib
+    androidTestImplementation libs.test.junit
+    androidTestImplementation libs.androidx.test.runner
+    androidTestImplementation libs.androidx.test.junit
+    androidTestImplementation libs.androidx.benchmark.junit4
 
-    androidTestImplementation Libs.AndroidX.appcompat
-    androidTestImplementation Libs.AndroidX.constraintlayout
-    androidTestImplementation Libs.AndroidX.core_ktx
-    androidTestImplementation Libs.AndroidX.recyclerview
+    androidTestImplementation libs.androidx.appcompat
+    androidTestImplementation libs.androidx.constraintlayout
+    androidTestImplementation libs.androidx.core
+    androidTestImplementation libs.androidx.recyclerview
 }

@@ -1,15 +1,12 @@
-import dependencies.Libs
-import dependencies.Versions
-
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
 android {
-    compileSdkVersion Versions.compileSdk
+    compileSdkVersion buildConfig.compileSdk
     defaultConfig {
-        minSdkVersion Versions.minSdk
-        targetSdkVersion Versions.targetSdk
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
         consumerProguardFiles 'consumer-rules.pro'
     }
     compileOptions {
@@ -22,8 +19,8 @@ android {
 }
 
 dependencies {
-    implementation Libs.Kotlin.stdlib
-    implementation Libs.AndroidX.appcompat
+    implementation libs.kotlin.stdlib
+    implementation libs.androidx.appcompat
 }
 
 afterEvaluate {
