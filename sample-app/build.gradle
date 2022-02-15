@@ -8,7 +8,6 @@ plugins {
 
 android {
     compileSdkVersion Versions.compileSdk
-    buildToolsVersion Versions.buildTools
     defaultConfig {
         applicationId "soup.neumorphism.sample"
         minSdkVersion Versions.minSdk
