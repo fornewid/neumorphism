@@ -1,6 +1,6 @@
 
 <p align="center">
-<img height="200" src='https://github.com/fornewid/Neumorphism/blob/master/art/preview.png'/>
+<img height="200" src='https://github.com/fornewid/Neumorphism/blob/main/art/preview.png'/>
 </p>
 
 <h1 align="center">Neumorphism in Android</h1><br/>
@@ -21,7 +21,7 @@
 <h2 align="center">Preview</h2>
 <h4 align="center">Light    |    Dark</h4>
 <p align="center">
-<img width="300" src="https://github.com/fornewid/Neumorphism/blob/master/art/preview_light.gif"/> <img width="300" src="https://github.com/fornewid/Neumorphism/blob/master/art/preview_dark.gif"/>
+<img width="300" src="https://github.com/fornewid/Neumorphism/blob/main/art/preview_light.gif"/> <img width="300" src="https://github.com/fornewid/Neumorphism/blob/main/art/preview_dark.gif"/>
 </p>
 
 ## Dependency
@@ -53,7 +53,7 @@ dependencies {
 > If you want more features or want to fix bugs, please click [new issue](https://github.com/fornewid/neumorphism/issues/new/choose) and report to me!
 
 ## Usage
-There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) provided which shows how to use the library:
+There is a [sample](https://github.com/fornewid/neumorphism/tree/main/sample) provided which shows how to use the library:
 
 ```xml
 <soup.neumorphism.NeumorphCardView
@@ -106,12 +106,12 @@ There is a [sample](https://github.com/fornewid/neumorphism/tree/master/sample) 
 - #### LightSource
 | LEFT_TOP | LEFT_BOTTOM | RIGHT_TOP | RIGHT_BOTTOM |
 | :--: | :-----: | :---: | :---: |
-| <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/lightSource_leftTop.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/lightSource_leftBottom.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/lightSource_rightTop.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/lightSource_rightBottom.png"/> |
+| <img width="100" src="https://github.com/fornewid/Neumorphism/blob/main/art/lightSource_leftTop.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/main/art/lightSource_leftBottom.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/main/art/lightSource_rightTop.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/main/art/lightSource_rightBottom.png"/> |
 
 - #### ShapeType
 | FLAT | PRESSED | BASIN |
 | :--: | :-----: | :---: |
-| <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/shape_flat.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/shape_pressed.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/master/art/shape_basin.png"/> |
+| <img width="100" src="https://github.com/fornewid/Neumorphism/blob/main/art/shape_flat.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/main/art/shape_pressed.png"/> | <img width="100" src="https://github.com/fornewid/Neumorphism/blob/main/art/shape_basin.png"/> |
 
 ## License
 
