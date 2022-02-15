@@ -1,23 +1,19 @@
-import dependencies.Libs
-import dependencies.Versions
-
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
 }
 
 android {
-    compileSdkVersion Versions.compileSdk
-
+    compileSdkVersion buildConfig.compileSdk
     defaultConfig {
-        minSdkVersion Versions.minSdk
-        targetSdkVersion Versions.targetSdk
+        minSdkVersion buildConfig.minSdk
+        targetSdkVersion buildConfig.targetSdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -30,9 +26,9 @@ android {
 
 dependencies {
     implementation project(":neumorphism")
-    implementation Libs.Kotlin.stdlib
-    implementation Libs.AndroidX.appcompat
-    implementation Libs.AndroidX.constraintlayout
-    implementation Libs.AndroidX.core_ktx
-    implementation Libs.AndroidX.recyclerview
+    implementation libs.kotlin.stdlib
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.core
+    implementation libs.androidx.recyclerview
 }
