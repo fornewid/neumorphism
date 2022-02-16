@@ -1,6 +1,6 @@
 [versions]
 
-kotlin = "1.4.32"
+kotlin = "1.5.32"
 benchmark = "1.0.0"
 
 [libraries]
