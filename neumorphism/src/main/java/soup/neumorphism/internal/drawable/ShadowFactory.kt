@@ -9,39 +9,24 @@ object ShadowFactory {
 
     private const val KILO_BYTE = 1024
 
-    // Use 1/6th of the available memory for this memory cache.
-    private const val CACHE_SIZE_DIVIDER = 6
+    // Use 100 MB for cache by default
+    const val DEFAULT_CACHE_SIZE = 100 * KILO_BYTE
 
-    private val reusable_shapes by lazy {
-        // Get max available VM memory, exceeding this amount will throw an
-        // OutOfMemory exception. Stored in kilobytes as LruCache takes an
-        // int in its constructor.
-        val maxMemory = Runtime.getRuntime().maxMemory() / KILO_BYTE
-
-        // Use 1/CACHE_SIZE_DIVIDER of the available memory for this memory cache.
-        val cacheSize = (maxMemory / CACHE_SIZE_DIVIDER).toInt()
-
-        object : LruCache<Int, Bitmap>(cacheSize) {
-            // The cache size will be measured in kilobytes rather than
-            // number of items.
+    private val reusableShapes by lazy {
+        object : LruCache<Int, Bitmap>(DEFAULT_CACHE_SIZE) {
+            // The cache size will be measured in kilobytes rather than number of items
             override fun sizeOf(key: Int, bitmap: Bitmap): Int
                 = bitmap.byteCount / KILO_BYTE
         }
     }
 
     fun setCacheSizeInKiloBytes(cacheSize: Int) {
-        reusable_shapes.resize(cacheSize)
+        reusableShapes.resize(cacheSize)
     }
 
     fun setCacheSizeInBytes(cacheSize: Long) {
         val sizeInKilos = (cacheSize / KILO_BYTE).toInt()
-        reusable_shapes.resize(sizeInKilos)
-    }
-
-    fun setCacheSizeDivider(divider: Int) {
-        val maxMemory = Runtime.getRuntime().maxMemory() / KILO_BYTE
-        val cacheSize = maxMemory.toInt() / divider
-        reusable_shapes.resize(cacheSize)
+        reusableShapes.resize(sizeInKilos)
     }
 
     fun createReusableShadow(
@@ -55,13 +40,13 @@ object ShadowFactory {
         hashCode = 31 * hashCode + isOuter.hashCode()
         hashCode = 31 * hashCode + bounds.calculateHashCode()
 
-        return reusable_shapes[hashCode] ?: createNewShadow(
+        return reusableShapes[hashCode] ?: createNewShadow(
             appearance,
             theme,
             isOuter,
             bounds
         ).also { newShape ->
-            reusable_shapes.put(hashCode, newShape)
+            reusableShapes.put(hashCode, newShape)
         }
     }
 
